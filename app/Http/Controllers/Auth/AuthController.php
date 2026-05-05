@@ -1,0 +1,221 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
+use App\Http\Controllers\Controller;
+
+class AuthController extends Controller
+{
+    /**
+     * Show login form
+     */
+    public function showLogin(): View
+    {
+        return view('auth.login');
+    }
+
+    /**
+     * Handle login
+     */
+    public function login(Request $request): RedirectResponse
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+
+        // Check if user exists and is admin
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user || !$user->is_admin) {
+            return back()->withErrors([
+                'email' => 'Admin access not available for this email.',
+            ])->onlyInput('email');
+        }
+
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+            return redirect()->intended('/admin/projects')->with('success', 'Logged in successfully!');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+    }
+
+    /**
+     * Show forgot password form
+     */
+    public function showForgotPassword(): View
+    {
+        return view('auth.forgot-password');
+    }
+
+    /**
+     * Send password reset link
+     */
+    public function sendResetLink(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $user = User::where('email', $request->email)
+            ->where('is_admin', true)
+            ->first();
+
+        if (! $user) {
+            return back()->withErrors([
+                'email' => 'No admin account found with this email address.',
+            ])->onlyInput('email');
+        }
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return back()->with($status === Password::RESET_LINK_SENT
+            ? ['status' => 'Password reset link sent to your email!']
+            : ['email' => __($status)]
+        );
+    }
+
+    /**
+     * Show reset password form
+     */
+    public function showResetPassword(Request $request): View
+    {
+        return view('auth.reset-password', ['request' => $request]);
+    }
+
+    /**
+     * Handle password reset
+     */
+    public function resetPassword(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user, string $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->saveQuietly();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? redirect('/admin/login')->with('status', 'Password reset successfully!')
+            : back()->withInput($request->only('email'))
+                ->with('email', __($status));
+    }
+
+    /**
+     * Handle logout
+     */
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/admin/login')->with('success', 'Logged out successfully!');
+    }
+
+    /**
+     * Show profile form
+     */
+    public function showProfile(): View
+    {
+        return view('admin.profile', ['user' => Auth::user()]);
+    }
+
+    /**
+     * Update profile settings and password
+     */
+    public function updateProfile(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'recovery_email' => 'nullable|email',
+            'current_password' => 'nullable|required_with:password|min:6',
+            'password' => 'nullable|min:8|confirmed',
+        ]);
+
+        $user->email = $request->email;
+        $user->recovery_email = $request->recovery_email;
+
+        if ($request->filled('password')) {
+            if (! Hash::check($request->input('current_password'), $user->password)) {
+                return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+            }
+
+            $user->password = Hash::make($request->input('password'));
+        }
+
+        $user->save();
+
+        return back()->with('success', 'Account updated successfully.');
+    }
+
+    /**
+     * Account recovery via email or phone
+     */
+    public function showRecovery(): View
+    {
+        return view('auth.recovery');
+    }
+
+    /**
+     * Send recovery link via email or phone
+     */
+    public function sendRecoveryLink(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'recovery_method' => 'required|in:email,phone,recovery_email',
+            'recovery_value' => 'required',
+        ]);
+
+        $method = $request->input('recovery_method');
+        $value = $request->input('recovery_value');
+
+        $user = null;
+
+        if ($method === 'email') {
+            $user = User::where('email', $value)->where('is_admin', true)->first();
+        } elseif ($method === 'phone') {
+            $user = User::where('phone', $value)->where('is_admin', true)->first();
+        } elseif ($method === 'recovery_email') {
+            $user = User::where('recovery_email', $value)->where('is_admin', true)->first();
+        }
+
+        if (!$user) {
+            return back()->withErrors([
+                'recovery_value' => 'No admin account found with this ' . $method . '.'
+            ]);
+        }
+
+        // Send password reset link to their recovery email
+        Password::sendResetLink(['email' => $user->email]);
+
+        return back()->with('status', 'Recovery link sent to your email!');
+    }
+}

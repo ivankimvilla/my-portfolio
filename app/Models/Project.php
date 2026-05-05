@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Project extends Model
+{
+    protected $fillable = [
+        'title',
+        'slug',
+        'description',
+        'problem_solution',
+        'image_url',
+        'live_url',
+        'github_url',
+        'technologies',
+        'role',
+        'display_order',
+        'is_featured',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'technologies' => 'array',
+        'is_featured' => 'boolean',
+        'is_active' => 'boolean',
+    ];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+}

@@ -1,0 +1,52 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
+use App\Http\Controllers\Admin\InquiryController;
+
+// Frontend Routes
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/about', fn() => view('pages.about'))->name('about');
+Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio.index');
+Route::get('/portfolio/{project}', [PortfolioController::class, 'show'])->name('portfolio.show');
+Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+Route::get('/services/{service}', [ServiceController::class, 'show'])->name('services.show');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+// Admin Routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', function () {
+        return auth()->check()
+            ? redirect()->route('admin.projects.index')
+            : redirect()->route('admin.login');
+    })->name('dashboard');
+
+    Route::get('login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('login', [AuthController::class, 'login'])->name('login.perform');
+
+    Route::get('forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
+    Route::post('forgot-password', [AuthController::class, 'sendResetLink'])->name('send-reset-link');
+
+    Route::get('reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('reset-password');
+    Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('reset-password.perform');
+
+    Route::get('recovery', [AuthController::class, 'showRecovery'])->name('recovery');
+    Route::post('recovery', [AuthController::class, 'sendRecoveryLink'])->name('send-recovery-link');
+
+    Route::middleware('auth')->group(function () {
+        Route::get('profile', [AuthController::class, 'showProfile'])->name('profile');
+        Route::put('profile', [AuthController::class, 'updateProfile'])->name('profile.update');
+        Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+        Route::resource('projects', ProjectController::class);
+        Route::resource('services', AdminServiceController::class);
+        Route::resource('inquiries', InquiryController::class)->only(['index', 'show', 'destroy']);
+        Route::put('inquiries/{inquiry}/mark-responded', [InquiryController::class, 'markResponded'])->name('inquiries.mark-responded');
+    });
+});
