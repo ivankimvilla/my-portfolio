@@ -51,7 +51,7 @@
         border: 1px solid var(--border);
         border-radius: 20px;
         padding: 40px;
-        margin-bottom: 8px;
+        margin-bottom: 40px;
         position: relative;
         overflow: hidden;
         box-shadow: 0 8px 32px rgba(0,0,0,.35);
@@ -232,6 +232,13 @@
     }
     .pf-btn-primary:hover::before { opacity: 1; }
     .pf-btn-primary span { position: relative; z-index: 1; }
+
+    .profile-wrap {
+        font-family: 'Outfit', sans-serif;
+        max-width: 760px;
+        margin: 0 auto;
+        padding-bottom: 40px;
+    }
 </style>
 
 <div class="profile-wrap">
@@ -264,37 +271,38 @@
             @csrf
             @method('PUT')
 
-            {{-- Primary Email --}}
-            <div class="pf-form-group">
-                <label for="email" class="pf-label">Primary Email</label>
-                <div class="pf-input-wrap">
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        value="{{ old('email', $user->email) }}"
-                        required
-                        class="pf-input"
-                    />
+            <div class="pf-subcard">
+                <h4 class="pf-subcard-title">Account Settings</h4>
+
+                <div class="pf-form-group">
+                    <label for="email" class="pf-label">Primary Email</label>
+                    <div class="pf-input-wrap">
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            value="{{ old('email', $user->email) }}"
+                            required
+                            class="pf-input"
+                        />
+                    </div>
+                </div>
+
+                <div class="pf-form-group">
+                    <label for="recovery_email" class="pf-label">Recovery Email</label>
+                    <div class="pf-input-wrap">
+                        <input
+                            type="email"
+                            name="recovery_email"
+                            id="recovery_email"
+                            value="{{ old('recovery_email', $user->recovery_email) }}"
+                            class="pf-input"
+                        />
+                    </div>
+                    <p class="pf-input-hint">This email is used for account recovery.</p>
                 </div>
             </div>
 
-            {{-- Recovery Email --}}
-            <div class="pf-form-group">
-                <label for="recovery_email" class="pf-label">Recovery Email</label>
-                <div class="pf-input-wrap">
-                    <input
-                        type="email"
-                        name="recovery_email"
-                        id="recovery_email"
-                        value="{{ old('recovery_email', $user->recovery_email) }}"
-                        class="pf-input"
-                    />
-                </div>
-                <p class="pf-input-hint">This email is used for account recovery.</p>
-            </div>
-
-            {{-- Change Password Sub-card --}}
             <div class="pf-subcard">
                 <h4 class="pf-subcard-title">Change <em>Password</em></h4>
 
@@ -367,6 +375,10 @@
             icon.classList.replace('fa-eye-slash', 'fa-eye');
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // No tab logic on the original account page.
+    });
 </script>
 
 @endsection

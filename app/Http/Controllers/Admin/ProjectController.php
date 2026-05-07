@@ -40,6 +40,13 @@ class ProjectController extends Controller
         if ($request->hasFile('image_file')) {
             $path = $request->file('image_file')->store('projects', 'public');
             $validated['image_url'] = 'storage/' . $path;
+            // Copy to public/storage for accessibility
+            $source = storage_path('app/public/' . $path);
+            $destination = public_path('storage/' . $path);
+            if (!file_exists(dirname($destination))) {
+                mkdir(dirname($destination), 0755, true);
+            }
+            copy($source, $destination);
         }
 
         $validated['technologies'] = $request->has('technologies') && trim($request->technologies) !== ''
@@ -76,9 +83,21 @@ class ProjectController extends Controller
         if ($request->hasFile('image_file')) {
             if ($project->image_url && str_starts_with($project->image_url, 'storage/')) {
                 Storage::disk('public')->delete(str_replace('storage/', '', $project->image_url));
+                // Also delete from public/storage
+                $oldPath = public_path($project->image_url);
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
             }
             $path = $request->file('image_file')->store('projects', 'public');
             $validated['image_url'] = 'storage/' . $path;
+            // Copy to public/storage
+            $source = storage_path('app/public/' . $path);
+            $destination = public_path('storage/' . $path);
+            if (!file_exists(dirname($destination))) {
+                mkdir(dirname($destination), 0755, true);
+            }
+            copy($source, $destination);
         }
 
         $validated['technologies'] = $request->has('technologies') && trim($request->technologies) !== ''
@@ -92,6 +111,14 @@ class ProjectController extends Controller
 
     public function destroy(Project $project)
     {
+        if ($project->image_url && str_starts_with($project->image_url, 'storage/')) {
+            Storage::disk('public')->delete(str_replace('storage/', '', $project->image_url));
+            // Also delete from public/storage
+            $filePath = public_path($project->image_url);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
         $project->delete();
         return redirect()->route('admin.projects.index')->with('success', 'Project deleted successfully!');
     }

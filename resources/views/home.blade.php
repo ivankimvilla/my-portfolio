@@ -160,6 +160,7 @@
     }
     .pf-btn-primary:hover {
         border-color: var(--accent2);
+        color: var(--accent2);
         box-shadow: 0 0 24px rgba(200,169,110,.18);
         transform: translateY(-1px);
     }
@@ -680,7 +681,7 @@
                     <a href="#contact" class="pf-btn-primary">
                         <span><i class="fas fa-arrow-right" style="margin-right:7px;"></i>Start a Project</span>
                     </a>
-                    <a href="/portfolio" class="pf-btn-ghost">
+                    <a href="/portfolio" class="pf-btn-primary">
                         View My Work
                     </a>
                 </div>
@@ -890,9 +891,9 @@
                     <div>
                         <div class="pf-contact-card-title">Social</div>
                         <div class="pf-social-links">
-                            <a href="#" class="pf-social-link"><i class="fab fa-github"></i>GitHub</a>
-                            <a href="#" class="pf-social-link"><i class="fab fa-linkedin"></i>LinkedIn</a>
-                            <a href="#" class="pf-social-link"><i class="fab fa-twitter"></i>Twitter</a>
+                            <a href="https://github.com/ivankimvilla" target="_blank" rel="noopener" class="pf-social-link"><i class="fab fa-github"></i>GitHub</a>
+                            <a href="https://www.linkedin.com/in/ivan-kim-almadin-483b16408/" target="_blank" rel="noopener" class="pf-social-link"><i class="fab fa-linkedin"></i>LinkedIn</a>
+                            <a href="https://x.com/AlmadinIvan" target="_blank" rel="noopener" class="pf-social-link"><i class="fab fa-twitter"></i>Twitter</a>
                         </div>
                     </div>
                 </div>

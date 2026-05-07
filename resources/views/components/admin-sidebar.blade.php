@@ -3,14 +3,14 @@
         width: 280px;
         height: 100vh;
         background: rgba(10, 14, 22, 0.96);
-        padding: 32px 24px;
+        padding: 32px 24px 48px;
         display: flex;
         flex-direction: column;
         gap: 2rem;
         position: fixed;
         top: 0;
         left: 0;
-        overflow: hidden;
+        overflow-y: auto;
         backdrop-filter: blur(18px);
         z-index: 40;
     }
@@ -95,6 +95,10 @@
         color: #f8fafc;
         border-color: rgba(200, 169, 110, 0.22);
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .sidebar-link:last-child {
+        margin-bottom: 1rem;
     }
 
     .sidebar-link {
@@ -194,6 +198,18 @@
            class="sidebar-link {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
             <span class="sidebar-link-icon"><i class="fas fa-user-circle"></i></span>
             <span>Account</span>
+        </a>
+
+        <a href="{{ route('admin.profile.skills') }}"
+           class="sidebar-link {{ request()->routeIs('admin.profile.skills') ? 'active' : '' }}">
+            <span class="sidebar-link-icon"><i class="fas fa-brain"></i></span>
+            <span>Skills</span>
+        </a>
+
+        <a href="{{ route('admin.profile.stats') }}"
+           class="sidebar-link {{ request()->routeIs('admin.profile.stats') ? 'active' : '' }}">
+            <span class="sidebar-link-icon"><i class="fas fa-chart-line"></i></span>
+            <span>Stats</span>
         </a>
     </nav>
 </aside>

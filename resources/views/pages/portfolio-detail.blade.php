@@ -3,74 +3,567 @@
 @section('title', $project->title)
 
 @section('content')
-<div class="max-w-6xl mx-auto px-6 py-20">
-    <!-- Header -->
-    <a href="/portfolio" class="text-blue-600 hover:text-blue-700 font-semibold mb-6 inline-block">← Back to Portfolio</a>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap');
 
-    <div class="mb-12">
-        <h1 class="text-5xl font-bold mb-4">{{ $project->title }}</h1>
-        <p class="text-xl text-gray-600 dark:text-gray-400">{{ $project->description }}</p>
-    </div>
+    *, *::before, *::after { box-sizing: border-box; }
 
-    <!-- Featured Image -->
-    <div class="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl h-96 mb-12 flex items-center justify-center">
-        <div class="text-6xl">📸</div>
-    </div>
+    :root {
+        --bg:       #0b0c0e;
+        --surface:  #111316;
+        --surface2: #161820;
+        --border:   rgba(255,255,255,.07);
+        --accent:   #c8a96e;
+        --accent2:  #e8c98a;
+        --text:     #f0ece4;
+        --muted:    rgba(240,236,228,.7);
+    }
 
-    <!-- Content -->
-    <div class="grid md:grid-cols-3 gap-12 mb-12">
-        <div class="md:col-span-2">
-            <h2 class="text-3xl font-bold mb-6">Project Overview</h2>
-            @if($project->problem_solution)
-            <div class="prose dark:prose-invert max-w-none mb-8">
-                {!! nl2br(e($project->problem_solution)) !!}
+    .pd-page {
+        font-family: 'Outfit', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+    }
+
+    /* ── SHARED ── */
+    .pd-eyebrow {
+        display: inline-flex; align-items: center; gap: 10px;
+        font-size: 11px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 2.5px;
+        color: var(--accent); margin-bottom: 20px;
+    }
+    .pd-eyebrow::before {
+        content: ''; display: block;
+        width: 28px; height: 1px; background: var(--accent); opacity: .7;
+    }
+
+    .pd-container {
+        max-width: 1200px; margin: 0 auto;
+        padding: 0 48px;
+    }
+    @media (max-width: 768px) { .pd-container { padding: 0 24px; } }
+
+    .pd-divider {
+        display: flex; align-items: center; gap: 14px;
+        margin: 48px 0;
+    }
+    .pd-divider-line { flex: 1; height: 1px; background: var(--border); }
+    .pd-divider-dot {
+        width: 5px; height: 5px; border-radius: 50%;
+        background: var(--accent); opacity: .4;
+    }
+
+    /* ══════════════════════════════
+       HERO HEADER
+    ══════════════════════════════ */
+    .pd-hero {
+        position: relative; overflow: hidden;
+        padding: 72px 0 80px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .pd-hero::before {
+        content: '';
+        position: absolute; inset: 0;
+        background:
+            radial-gradient(ellipse 60% 50% at 10% 30%, rgba(200,169,110,.08) 0%, transparent 60%),
+            radial-gradient(ellipse 40% 60% at 85% 70%, rgba(200,169,110,.05) 0%, transparent 60%);
+        pointer-events: none;
+    }
+
+    .pd-hero-rule {
+        position: absolute; left: 0; right: 0; height: 1px;
+        background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+        opacity: .12;
+    }
+    .pd-hero-rule-top    { top: 0; }
+    .pd-hero-rule-bottom { bottom: 0; }
+
+    .pd-hero-inner {
+        position: relative; z-index: 1;
+    }
+
+    .pd-back-link {
+        display: inline-flex; align-items: center; gap: 8px;
+        font-size: 12px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 1.8px;
+        color: var(--muted); text-decoration: none;
+        border: 1px solid var(--border);
+        padding: 8px 16px; border-radius: 8px;
+        margin-bottom: 40px;
+        transition: border-color .25s, color .25s, transform .15s;
+    }
+    .pd-back-link:hover {
+        border-color: rgba(200,169,110,.3);
+        color: var(--accent);
+        transform: translateX(-2px);
+    }
+    .pd-back-link i { font-size: 11px; }
+
+    .pd-hero-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(44px, 6vw, 72px);
+        font-weight: 300; line-height: 1.05;
+        letter-spacing: -2px; color: var(--text);
+        margin-bottom: 20px;
+    }
+    .pd-hero-title em { font-style: italic; color: var(--accent); }
+
+    .pd-hero-desc {
+        font-size: 15px; color: var(--muted);
+        line-height: 1.8; max-width: 620px;
+        margin-bottom: 36px;
+    }
+
+    .pd-hero-meta {
+        display: flex; flex-wrap: wrap; gap: 12px;
+    }
+
+    .pd-meta-tag {
+        display: inline-flex; align-items: center; gap: 7px;
+        font-size: 11px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 1.5px;
+        color: var(--accent);
+        border: 1px solid rgba(200,169,110,.2);
+        background: rgba(200,169,110,.06);
+        border-radius: 99px; padding: 6px 14px;
+    }
+    .pd-meta-tag i { font-size: 10px; opacity: .8; }
+
+    /* ══════════════════════════════
+       FEATURED IMAGE
+    ══════════════════════════════ */
+    .pd-image-section {
+        padding: 64px 0 0;
+    }
+
+    .pd-image-frame {
+        position: relative;
+        border-radius: 20px; overflow: hidden;
+        border: 1px solid rgba(200,169,110,.18);
+        background: var(--surface);
+        aspect-ratio: 16/7;
+    }
+
+    .pd-image-frame img {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+
+    .pd-image-placeholder {
+        width: 100%; height: 100%;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 16px;
+        background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+    }
+
+    .pd-image-placeholder i {
+        font-size: 48px; color: var(--accent); opacity: .25;
+    }
+
+    .pd-image-placeholder span {
+        font-size: 12px; color: var(--muted); letter-spacing: 1.5px;
+        text-transform: uppercase;
+    }
+
+    /* Corner deco */
+    .pd-image-frame::before {
+        content: '';
+        position: absolute; top: -1px; right: -1px;
+        width: 60px; height: 60px;
+        border-top: 1px solid rgba(200,169,110,.4);
+        border-right: 1px solid rgba(200,169,110,.4);
+        border-radius: 0 20px 0 0;
+        pointer-events: none; z-index: 2;
+    }
+    .pd-image-frame::after {
+        content: '';
+        position: absolute; bottom: -1px; left: -1px;
+        width: 60px; height: 60px;
+        border-bottom: 1px solid rgba(200,169,110,.4);
+        border-left: 1px solid rgba(200,169,110,.4);
+        border-radius: 0 0 0 20px;
+        pointer-events: none; z-index: 2;
+    }
+
+    /* ══════════════════════════════
+       CONTENT GRID
+    ══════════════════════════════ */
+    .pd-content-section {
+        padding: 80px 0;
+        border-top: 1px solid var(--border);
+        position: relative;
+    }
+
+    .pd-content-section::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: radial-gradient(ellipse 50% 60% at 80% 50%, rgba(200,169,110,.04), transparent 60%);
+        pointer-events: none;
+    }
+
+    .pd-content-grid {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 56px;
+        align-items: start;
+        position: relative; z-index: 1;
+    }
+
+    /* Overview */
+    .pd-section-heading {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(28px, 3vw, 40px);
+        font-weight: 300; line-height: 1.1;
+        letter-spacing: -1px; color: var(--text);
+        margin-bottom: 24px;
+    }
+    .pd-section-heading em { font-style: italic; color: var(--accent); }
+
+    .pd-body-text {
+        font-size: 14.5px; color: var(--muted);
+        line-height: 1.9; margin-bottom: 40px;
+    }
+
+    .pd-role-block {
+        border-left: 2px solid rgba(200,169,110,.3);
+        padding-left: 24px;
+        margin-bottom: 40px;
+    }
+
+    .pd-role-block h3 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 26px; font-weight: 400;
+        color: var(--text); margin-bottom: 12px;
+        letter-spacing: -0.5px;
+    }
+
+    .pd-role-block p {
+        font-size: 14px; color: var(--muted);
+        line-height: 1.8;
+    }
+
+    /* Sidebar card */
+    .pd-sidebar-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 36px 28px;
+        position: relative; overflow: hidden;
+        position: sticky; top: 32px;
+    }
+
+    .pd-sidebar-card::before {
+        content: '';
+        position: absolute; top: 0; left: 0; right: 0; height: 1px;
+        background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        opacity: .2;
+        pointer-events: none;
+    }
+
+    .pd-sidebar-section-title {
+        font-size: 10px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 2.5px;
+        color: var(--accent);
+        margin-bottom: 18px;
+        display: flex; align-items: center; gap: 10px;
+    }
+    .pd-sidebar-section-title::before {
+        content: ''; display: block;
+        width: 16px; height: 1px;
+        background: var(--accent); opacity: .6;
+    }
+
+    .pd-tech-tags {
+        display: flex; flex-wrap: wrap; gap: 8px;
+        margin-bottom: 36px;
+    }
+
+    .pd-tech-tag {
+        font-size: 12px; font-weight: 500;
+        color: var(--accent);
+        border: 1px solid rgba(200,169,110,.2);
+        background: rgba(200,169,110,.06);
+        padding: 5px 12px; border-radius: 6px;
+        letter-spacing: 0.3px;
+        transition: border-color .2s, background .2s;
+    }
+    .pd-tech-tag:hover {
+        border-color: rgba(200,169,110,.4);
+        background: rgba(200,169,110,.12);
+    }
+
+    .pd-sidebar-divider {
+        height: 1px; background: var(--border);
+        margin-bottom: 28px;
+    }
+
+    /* Buttons */
+    .pd-btn-primary {
+        display: flex; align-items: center; justify-content: center; gap: 9px;
+        width: 100%;
+        padding: 14px 24px;
+        background: transparent;
+        border: 1px solid rgba(200,169,110,.5);
+        border-radius: 10px; color: var(--accent2);
+        font-family: 'Outfit', sans-serif;
+        font-size: 12px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 1.8px;
+        text-decoration: none;
+        position: relative; overflow: hidden;
+        transition: border-color .25s, box-shadow .25s, transform .15s;
+        margin-bottom: 12px;
+    }
+    .pd-btn-primary::before {
+        content: ''; position: absolute; inset: 0;
+        background: linear-gradient(135deg, rgba(200,169,110,.18), rgba(200,169,110,.06));
+        opacity: 0; transition: opacity .25s;
+        pointer-events: none;
+    }
+    .pd-btn-primary:hover {
+        border-color: var(--accent2);
+        box-shadow: 0 0 24px rgba(200,169,110,.18);
+        transform: translateY(-1px);
+    }
+    .pd-btn-primary:hover::before { opacity: 1; }
+    .pd-btn-primary span { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; }
+
+    .pd-btn-ghost {
+        display: flex; align-items: center; justify-content: center; gap: 9px;
+        width: 100%;
+        padding: 14px 24px;
+        border: 1px solid var(--border);
+        border-radius: 10px; color: var(--muted);
+        font-family: 'Outfit', sans-serif;
+        font-size: 12px; font-weight: 500;
+        text-transform: uppercase; letter-spacing: 1.5px;
+        text-decoration: none;
+        transition: border-color .25s, color .25s, transform .15s;
+    }
+    .pd-btn-ghost:hover {
+        border-color: rgba(200,169,110,.3);
+        color: var(--accent);
+        transform: translateY(-1px);
+    }
+
+    /* ══════════════════════════════
+       CTA SECTION
+    ══════════════════════════════ */
+    .pd-cta {
+        padding: 80px 0 100px;
+        border-top: 1px solid var(--border);
+    }
+
+    .pd-cta-inner {
+        position: relative; overflow: hidden;
+        border: 1px solid rgba(200,169,110,.18);
+        border-radius: 24px;
+        padding: 72px 64px;
+        text-align: center;
+        background: var(--surface);
+    }
+
+    .pd-cta-inner::before {
+        content: '';
+        position: absolute; inset: 0;
+        background:
+            radial-gradient(ellipse 70% 60% at 50% 0%, rgba(200,169,110,.1), transparent 60%),
+            radial-gradient(ellipse 50% 40% at 50% 100%, rgba(200,169,110,.06), transparent 60%);
+        pointer-events: none;
+    }
+
+    .pd-cta-inner::after {
+        content: '';
+        position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
+        background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        opacity: .18;
+    }
+
+    .pd-cta-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(36px, 4vw, 56px);
+        font-weight: 300; line-height: 1.08;
+        letter-spacing: -1.5px; color: var(--text);
+        margin-bottom: 16px;
+        position: relative; z-index: 1;
+    }
+    .pd-cta-title em { font-style: italic; color: var(--accent); }
+
+    .pd-cta-desc {
+        font-size: 15px; color: var(--muted);
+        line-height: 1.8; max-width: 480px;
+        margin: 0 auto 40px;
+        position: relative; z-index: 1;
+    }
+
+    .pd-cta-btn {
+        display: inline-flex; align-items: center; gap: 9px;
+        padding: 15px 32px;
+        background: transparent;
+        border: 1px solid rgba(200,169,110,.5);
+        border-radius: 10px; color: var(--accent2);
+        font-family: 'Outfit', sans-serif;
+        font-size: 13px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 1.8px;
+        text-decoration: none;
+        position: relative; overflow: hidden; z-index: 1;
+        transition: border-color .25s, box-shadow .25s, transform .15s;
+    }
+    .pd-cta-btn::before {
+        content: ''; position: absolute; inset: 0;
+        background: linear-gradient(135deg, rgba(200,169,110,.18), rgba(200,169,110,.06));
+        opacity: 0; transition: opacity .25s;
+        pointer-events: none;
+    }
+    .pd-cta-btn:hover {
+        border-color: var(--accent2);
+        box-shadow: 0 0 28px rgba(200,169,110,.2);
+        transform: translateY(-1px);
+    }
+    .pd-cta-btn:hover::before { opacity: 1; }
+    .pd-cta-btn span { position: relative; z-index: 1; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+        .pd-content-grid { grid-template-columns: 1fr; }
+        .pd-sidebar-card { position: static; }
+    }
+
+    @media (max-width: 640px) {
+        .pd-hero { padding: 48px 0 60px; }
+        .pd-cta-inner { padding: 48px 28px; }
+    }
+</style>
+
+<div class="pd-page">
+<div class="pd-container">
+
+    {{-- ══ HERO HEADER ══ --}}
+    <section class="pd-hero">
+        <div class="pd-hero-rule pd-hero-rule-top"></div>
+        <div class="pd-hero-rule pd-hero-rule-bottom"></div>
+
+        <div class="pd-hero-inner">
+            <a href="/portfolio" class="pd-back-link">
+                <i class="fas fa-arrow-left"></i> Back to Portfolio
+            </a>
+
+            <div class="pd-eyebrow">Project Detail</div>
+
+            <h1 class="pd-hero-title">{{ $project->title }}</h1>
+            <p class="pd-hero-desc">{{ $project->description }}</p>
+
+            <div class="pd-hero-meta">
+                @if($project->live_url)
+                <span class="pd-meta-tag"><i class="fas fa-globe"></i> Live Project</span>
+                @endif
+                @if($project->github_url)
+                <span class="pd-meta-tag"><i class="fab fa-github"></i> Open Source</span>
+                @endif
+                @if($project->technologies && count($project->technologies))
+                <span class="pd-meta-tag"><i class="fas fa-layer-group"></i> {{ count($project->technologies) }} Technologies</span>
+                @endif
             </div>
-            @else
-            <p class="text-gray-600 dark:text-gray-400 mb-8">{{ $project->description }}</p>
-            @endif
+        </div>
+    </section>
 
-            @if($project->role)
-            <h3 class="text-2xl font-bold mb-4">My Role</h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-8">{!! nl2br(e($project->role)) !!}</p>
+    {{-- ══ FEATURED IMAGE ══ --}}
+    <div class="pd-image-section">
+        <div class="pd-image-frame">
+            @if($project->image_url)
+                <img src="{{ asset($project->image_url) }}" alt="{{ $project->title }}">
+            @else
+                <div class="pd-image-placeholder">
+                    <i class="fas fa-image"></i>
+                    <span>Project Preview</span>
+                </div>
             @endif
         </div>
+    </div>
 
-        <!-- Sidebar -->
-        <div>
-            <div class="bg-gray-50 dark:bg-gray-900 rounded-xl p-6">
-                @if($project->technologies)
-                <h3 class="font-bold text-lg mb-4">Technologies</h3>
-                <div class="flex flex-wrap gap-2 mb-8">
-                    @foreach($project->technologies as $tech)
-                    <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-full text-sm">{{ $tech }}</span>
-                    @endforeach
+    {{-- ══ MAIN CONTENT ══ --}}
+    <section class="pd-content-section">
+        <div class="pd-content-grid">
+
+            {{-- Left: Overview + Role --}}
+            <div>
+                <div class="pd-eyebrow">Overview</div>
+                <h2 class="pd-section-heading">Project <em>Breakdown.</em></h2>
+
+                @if($project->problem_solution)
+                <div class="pd-body-text">
+                    {!! nl2br(e($project->problem_solution)) !!}
+                </div>
+                @else
+                <p class="pd-body-text">{{ $project->description }}</p>
+                @endif
+
+                @if($project->role)
+                <div class="pd-role-block">
+                    <h3>My Role</h3>
+                    <p>{!! nl2br(e($project->role)) !!}</p>
                 </div>
                 @endif
 
-                <div class="space-y-4">
+                <div class="pd-divider">
+                    <div class="pd-divider-line"></div>
+                    <div class="pd-divider-dot"></div>
+                    <div class="pd-divider-line"></div>
+                </div>
+            </div>
+
+            {{-- Right: Sidebar --}}
+            <div>
+                <div class="pd-sidebar-card">
+
+                    @if($project->technologies && count($project->technologies))
+                    <div class="pd-sidebar-section-title">Technologies</div>
+                    <div class="pd-tech-tags">
+                        @foreach($project->technologies as $tech)
+                        <span class="pd-tech-tag">{{ $tech }}</span>
+                        @endforeach
+                    </div>
+                    <div class="pd-sidebar-divider"></div>
+                    @endif
+
+                    <div class="pd-sidebar-section-title">Links</div>
+
                     @if($project->live_url)
-                    <a href="{{ $project->live_url }}" target="_blank" class="block w-full px-4 py-3 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700 transition">
-                        View Live Demo
+                    <a href="{{ $project->live_url }}" target="_blank" rel="noopener" class="pd-btn-primary">
+                        <span><i class="fas fa-external-link-alt"></i> View Live Demo</span>
                     </a>
                     @endif
 
                     @if($project->github_url)
-                    <a href="{{ $project->github_url }}" target="_blank" class="block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 text-center font-semibold rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-                        View Code on GitHub
+                    <a href="{{ $project->github_url }}" target="_blank" rel="noopener" class="pd-btn-ghost">
+                        <i class="fab fa-github"></i> View Code on GitHub
                     </a>
                     @endif
+
+                    @if(!$project->live_url && !$project->github_url)
+                    <p style="font-size:13px; color:var(--muted); text-align:center; padding: 12px 0;">No links available yet.</p>
+                    @endif
+
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- CTA -->
-    <section class="bg-blue-600 text-white rounded-2xl p-12 text-center">
-        <h2 class="text-3xl font-bold mb-4">Like what you see?</h2>
-        <p class="text-lg mb-8">Let's discuss how I can help with your next project</p>
-        <a href="/contact" class="inline-block px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition">
-            Get In Touch
-        </a>
+        </div>
     </section>
+
+    {{-- ══ CTA ══ --}}
+    <section class="pd-cta">
+        <div class="pd-cta-inner">
+            <div class="pd-eyebrow" style="justify-content:center;">Let's Build Together</div>
+            <h2 class="pd-cta-title">Like what you <em>see?</em></h2>
+            <p class="pd-cta-desc">
+                Let's discuss how I can help bring your next project to life with elegant, scalable solutions.
+            </p>
+            <a href="/#contact" class="pd-cta-btn">
+                <span><i class="fas fa-arrow-right" style="margin-right:6px;"></i>Start a Conversation</span>
+            </a>
+        </div>
+    </section>
+
+</div>
 </div>
 @endsection

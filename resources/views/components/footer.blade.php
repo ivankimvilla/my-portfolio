@@ -152,7 +152,7 @@
         border-top: 1px solid rgba(255,255,255,.07);
         padding-top: 32px;
         display: flex; align-items: center;
-        justify-content: space-between; flex-wrap: wrap; gap: 16px;
+        justify-content: center; flex-wrap: wrap; gap: 16px;
     }
 
     .pf-footer-copy {
@@ -212,9 +212,9 @@
                     Building elegant, scalable digital experiences that solve real problems and drive meaningful impact.
                 </p>
                 <div class="pf-footer-socials">
-                    <a href="#" class="pf-footer-social"><i class="fab fa-github"></i></a>
-                    <a href="#" class="pf-footer-social"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" class="pf-footer-social"><i class="fab fa-twitter"></i></a>
+                    <a href="https://github.com/ivankimvilla" target="_blank" rel="noopener" class="pf-footer-social"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/ivan-kim-almadin-483b16408/" target="_blank" rel="noopener" class="pf-footer-social"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://x.com/AlmadinIvan" target="_blank" rel="noopener" class="pf-footer-social"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
 
@@ -225,6 +225,7 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/portfolio">Projects</a></li>
+                    <li><a href="/services">Services</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
@@ -235,8 +236,9 @@
                 <ul class="pf-footer-links">
                     <li><a href="/services">Web Development</a></li>
                     <li><a href="/services">UI/UX Design</a></li>
-                    <li><a href="/services">Consulting</a></li>
+                    <li><a href="/services">Responsive Website Design</a></li>
                     <li><a href="/services">API Development</a></li>
+                    <li><a href="/services">E-Commerce Website Development</a></li>
                 </ul>
             </div>
 
@@ -258,6 +260,13 @@
                             <div class="pf-footer-contact-value">+63 (953) 578-6765</div>
                         </div>
                     </li>
+                    <li class="pf-footer-contact-item">
+                        <div class="pf-footer-contact-icon"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <div class="pf-footer-contact-label">Availability</div>
+                            <div class="pf-footer-contact-value">Monday–Friday, 8:00 AM–6:00 PM PHT</div>
+                        </div>
+                    </li>
                 </ul>
             </div>
 
@@ -266,17 +275,9 @@
         {{-- ── BOTTOM BAR ── --}}
         <div class="pf-footer-bottom">
             <span class="pf-footer-copy">
-                &copy; {{ date('Y') }} <em>Ivan Kim Almadin.</em> All rights reserved.
+                <span style="color: var(--accent, #c8a96e);">&copy;</span> 2026 <span style="color: var(--accent, #c8a96e);">Ivan Kim Almadin</span>. All rights reserved.
             </span>
-            <div class="pf-footer-dots">
-                <div class="pf-footer-dot"></div>
-                <div class="pf-footer-dot"></div>
-                <div class="pf-footer-dot"></div>
-            </div>
-            <div class="pf-footer-legal">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-            </div>
+
         </div>
 
     </div>

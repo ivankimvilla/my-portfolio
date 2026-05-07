@@ -26,6 +26,8 @@ class User extends Authenticatable
         'recovery_email',
         'password',
         'is_admin',
+        'skills',
+        'stats',
     ];
 
     /**
@@ -48,6 +50,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'skills' => 'array',
+            'stats' => 'array',
         ];
     }
 

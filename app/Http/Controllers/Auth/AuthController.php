@@ -147,6 +147,22 @@ class AuthController extends Controller
     }
 
     /**
+     * Show skills form
+     */
+    public function showSkills(): View
+    {
+        return view('admin.profile-skills', ['user' => Auth::user()]);
+    }
+
+    /**
+     * Show stats form
+     */
+    public function showStats(): View
+    {
+        return view('admin.profile-stats', ['user' => Auth::user()]);
+    }
+
+    /**
      * Update profile settings and password
      */
     public function updateProfile(Request $request): RedirectResponse
@@ -174,6 +190,83 @@ class AuthController extends Controller
         $user->save();
 
         return back()->with('success', 'Account updated successfully.');
+    }
+
+    /**
+     * Update skills
+     */
+    public function updateSkills(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'skill_1_label' => 'nullable|string|max:255',
+            'skill_1_pct' => 'nullable|string|max:10',
+            'skill_2_label' => 'nullable|string|max:255',
+            'skill_2_pct' => 'nullable|string|max:10',
+            'skill_3_label' => 'nullable|string|max:255',
+            'skill_3_pct' => 'nullable|string|max:10',
+            'skill_4_label' => 'nullable|string|max:255',
+            'skill_4_pct' => 'nullable|string|max:10',
+        ]);
+
+        $skills = [];
+        for ($i = 1; $i <= 4; $i++) {
+            $label = $request->input("skill_{$i}_label");
+            $pct = $request->input("skill_{$i}_pct");
+
+            if ($label || $pct) {
+                $skills[] = [
+                    'label' => $label,
+                    'pct' => $pct,
+                ];
+            }
+        }
+
+        $user->skills = $skills ?: null;
+        $user->save();
+
+        return back()->with('success', 'Skills updated successfully.');
+    }
+
+    /**
+     * Update stats
+     */
+    public function updateStats(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'stat_1_number' => 'nullable|string|max:20',
+            'stat_1_label' => 'nullable|string|max:255',
+            'stat_1_desc' => 'nullable|string|max:255',
+            'stat_2_number' => 'nullable|string|max:20',
+            'stat_2_label' => 'nullable|string|max:255',
+            'stat_2_desc' => 'nullable|string|max:255',
+            'stat_3_number' => 'nullable|string|max:20',
+            'stat_3_label' => 'nullable|string|max:255',
+            'stat_3_desc' => 'nullable|string|max:255',
+        ]);
+
+        $stats = [];
+        for ($i = 1; $i <= 3; $i++) {
+            $number = $request->input("stat_{$i}_number");
+            $label = $request->input("stat_{$i}_label");
+            $desc = $request->input("stat_{$i}_desc");
+
+            if ($number || $label || $desc) {
+                $stats[] = [
+                    'number' => $number,
+                    'label' => $label,
+                    'desc' => $desc,
+                ];
+            }
+        }
+
+        $user->stats = $stats ?: null;
+        $user->save();
+
+        return back()->with('success', 'Stats updated successfully.');
     }
 
     /**

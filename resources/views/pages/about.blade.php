@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'About Me — Ivan Kim Almadin')
+@section('title', 'About Me - Ivan Kim Almadin')
 
 @section('content')
 <style>
@@ -26,6 +26,9 @@
         color: var(--text);
         min-height: 100vh;
     }
+    /* Suppress global blue link color from layouts.app */
+    .ab-page a { color: inherit; }
+    .ab-page a:hover { color: var(--accent2); text-decoration: none; }
 
     /* ── SHARED ── */
     .ab-container {
@@ -128,13 +131,13 @@
         padding: 14px 28px;
         background: transparent;
         border: 1px solid rgba(200,169,110,.5);
-        border-radius: 10px; color: var(--accent2);
+        border-radius: 10px; color: var(--accent2) !important;
         font-family: 'Outfit', sans-serif;
         font-size: 13px; font-weight: 600;
         text-transform: uppercase; letter-spacing: 1.8px;
         text-decoration: none; cursor: pointer;
         position: relative; overflow: hidden;
-        transition: border-color .25s, box-shadow .25s, transform .15s;
+        transition: border-color .25s, box-shadow .25s, transform .15s, color .25s;
     }
     .ab-btn-primary::before {
         content: ''; position: absolute; inset: 0;
@@ -143,11 +146,13 @@
     }
     .ab-btn-primary:hover {
         border-color: var(--accent2);
-        box-shadow: 0 0 24px rgba(200,169,110,.18);
+        box-shadow: 0 0 24px rgba(200,169,110,.22);
         transform: translateY(-1px);
+        color: #f5dfa0 !important;
     }
     .ab-btn-primary:hover::before { opacity: 1; }
-    .ab-btn-primary span { position: relative; z-index: 1; }
+    .ab-btn-primary span { position: relative; z-index: 1; color: inherit !important; }
+    .ab-btn-primary i { color: inherit !important; }
 
     /* Photo card */
     .ab-photo {
@@ -496,46 +501,36 @@
 
         <div class="ab-skills-inner">
 
-            {{-- Skill Bars --}}
+                @php
+                $defaultSkills = [
+                    ['label' => 'Backend Development', 'pct' => '95%'],
+                    ['label' => 'Frontend Development', 'pct' => '85%'],
+                    ['label' => 'Database Design', 'pct' => '90%'],
+                    ['label' => 'DevOps & Deployment', 'pct' => '80%'],
+                ];
+                $skills = $admin?->skills ?: $defaultSkills;
+            @endphp
+
             <div>
                 <div class="ab-eyebrow" style="margin-bottom:28px;">Professional Skills</div>
                 <div class="ab-skill-bars">
-                    <div>
-                        <div class="ab-skill-bar-header">
-                            <span class="ab-skill-bar-label">Backend Development</span>
-                            <span class="ab-skill-bar-pct">95%</span>
-                        </div>
-                        <div class="ab-skill-bar-track">
-                            <div class="ab-skill-bar-fill" style="width:95%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="ab-skill-bar-header">
-                            <span class="ab-skill-bar-label">Frontend Development</span>
-                            <span class="ab-skill-bar-pct">85%</span>
-                        </div>
-                        <div class="ab-skill-bar-track">
-                            <div class="ab-skill-bar-fill" style="width:85%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="ab-skill-bar-header">
-                            <span class="ab-skill-bar-label">Database Design</span>
-                            <span class="ab-skill-bar-pct">90%</span>
-                        </div>
-                        <div class="ab-skill-bar-track">
-                            <div class="ab-skill-bar-fill" style="width:90%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="ab-skill-bar-header">
-                            <span class="ab-skill-bar-label">DevOps & Deployment</span>
-                            <span class="ab-skill-bar-pct">80%</span>
-                        </div>
-                        <div class="ab-skill-bar-track">
-                            <div class="ab-skill-bar-fill" style="width:80%"></div>
-                        </div>
-                    </div>
+                    @foreach ($skills as $skill)
+                        @if (! empty($skill['label']))
+                            @php
+                                $pct = trim((string) ($skill['pct'] ?? ''));
+                                $pctValue = rtrim($pct, '%');
+                            @endphp
+                            <div>
+                                <div class="ab-skill-bar-header">
+                                    <span class="ab-skill-bar-label">{{ $skill['label'] }}</span>
+                                    <span class="ab-skill-bar-pct">{{ $pct ?: '0%' }}</span>
+                                </div>
+                                <div class="ab-skill-bar-track">
+                                    <div class="ab-skill-bar-fill" style="width:{{ $pctValue ?: 0 }}%"></div>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
             </div>
 
@@ -586,25 +581,31 @@
             <div class="ab-divider-line"></div>
         </div>
 
+        @php
+            $defaultIcons = ['fas fa-trophy', 'fas fa-layer-group', 'fas fa-star'];
+            $defaultStats = [
+                ['number' => '5+', 'label' => 'Years Experience', 'desc' => 'Building professional web solutions across industries.'],
+                ['number' => '50+', 'label' => 'Projects Delivered', 'desc' => 'Across startups, agencies, and enterprise clients.'],
+                ['number' => '100%', 'label' => 'Client Satisfaction', 'desc' => 'Consistent positive reviews and long-term retention.'],
+            ];
+            $stats = $admin?->stats ?: $defaultStats;
+        @endphp
+
         <div class="ab-stats-grid">
-            <div class="ab-stat-card">
-                <div class="ab-stat-icon"><i class="fas fa-trophy"></i></div>
-                <div class="ab-stat-number">5<em>+</em></div>
-                <div class="ab-stat-label">Years Experience</div>
-                <div class="ab-stat-desc">Building professional web solutions across industries.</div>
-            </div>
-            <div class="ab-stat-card">
-                <div class="ab-stat-icon"><i class="fas fa-layer-group"></i></div>
-                <div class="ab-stat-number">50<em>+</em></div>
-                <div class="ab-stat-label">Projects Delivered</div>
-                <div class="ab-stat-desc">Across startups, agencies, and enterprise clients.</div>
-            </div>
-            <div class="ab-stat-card">
-                <div class="ab-stat-icon"><i class="fas fa-star"></i></div>
-                <div class="ab-stat-number">100<em>%</em></div>
-                <div class="ab-stat-label">Client Satisfaction</div>
-                <div class="ab-stat-desc">Consistent positive reviews and long-term retention.</div>
-            </div>
+            @foreach ($stats as $index => $stat)
+                @if (! empty($stat['number']) || ! empty($stat['label']))
+                    @php
+                        $number = trim((string) ($stat['number'] ?? ''));
+                        $icon = $stat['icon'] ?? $defaultIcons[$index] ?? 'fas fa-award';
+                    @endphp
+                    <div class="ab-stat-card">
+                        <div class="ab-stat-icon"><i class="{{ $icon }}"></i></div>
+                        <div class="ab-stat-number">{{ $number }}</div>
+                        <div class="ab-stat-label">{{ $stat['label'] ?? '' }}</div>
+                        <div class="ab-stat-desc">{{ $stat['desc'] ?? '' }}</div>
+                    </div>
+                @endif
+            @endforeach
         </div>
     </section>
 

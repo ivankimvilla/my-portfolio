@@ -10,13 +10,17 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\Admin\InquiryController;
+use App\Models\User;
 
 // Redirect /login to admin login
 Route::get('/login', fn() => redirect()->route('admin.login'))->name('login');
 
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/about', fn() => view('pages.about'))->name('about');
+Route::get('/about', function () {
+    $admin = User::where('is_admin', true)->first();
+    return view('pages.about', ['admin' => $admin]);
+})->name('about');
 Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio.index');
 Route::get('/portfolio/{project}', [PortfolioController::class, 'show'])->name('portfolio.show');
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
@@ -46,7 +50,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::get('profile', [AuthController::class, 'showProfile'])->name('profile');
+        Route::get('profile/skills', [AuthController::class, 'showSkills'])->name('profile.skills');
+        Route::get('profile/stats', [AuthController::class, 'showStats'])->name('profile.stats');
         Route::put('profile', [AuthController::class, 'updateProfile'])->name('profile.update');
+        Route::put('profile/skills', [AuthController::class, 'updateSkills'])->name('profile.skills.update');
+        Route::put('profile/stats', [AuthController::class, 'updateStats'])->name('profile.stats.update');
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
         Route::resource('projects', ProjectController::class);
         Route::resource('services', AdminServiceController::class);

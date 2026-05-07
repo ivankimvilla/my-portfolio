@@ -26,6 +26,9 @@
         color: var(--text);
         min-height: 100vh;
     }
+    /* Suppress global blue link color from layouts.app */
+    .sv-page a { color: inherit; }
+    .sv-page a:hover { color: var(--accent2); text-decoration: none; }
 
     /* ── CONTAINER ── */
     .sv-container {
@@ -72,13 +75,13 @@
         padding: 14px 28px;
         background: transparent;
         border: 1px solid rgba(200,169,110,.5);
-        border-radius: 10px; color: var(--accent2);
+        border-radius: 10px; color: var(--accent2) !important;
         font-family: 'Outfit', sans-serif;
         font-size: 13px; font-weight: 600;
         text-transform: uppercase; letter-spacing: 1.8px;
         text-decoration: none; cursor: pointer;
         position: relative; overflow: hidden;
-        transition: border-color .25s, box-shadow .25s, transform .15s;
+        transition: border-color .25s, box-shadow .25s, transform .15s, color .25s;
     }
     .sv-btn-primary::before {
         content: ''; position: absolute; inset: 0;
@@ -87,11 +90,13 @@
     }
     .sv-btn-primary:hover {
         border-color: var(--accent2);
-        box-shadow: 0 0 24px rgba(200,169,110,.18);
+        box-shadow: 0 0 24px rgba(200,169,110,.22);
         transform: translateY(-1px);
+        color: #f5dfa0 !important;
     }
     .sv-btn-primary:hover::before { opacity: 1; }
-    .sv-btn-primary span { position: relative; z-index: 1; }
+    .sv-btn-primary span { position: relative; z-index: 1; color: inherit !important; }
+    .sv-btn-primary i { color: inherit !important; }
 
     /* ══════════════════════════════
        HERO HEADER
