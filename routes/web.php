@@ -8,7 +8,11 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
+use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\Admin\InquiryController;
+
+// Redirect /login to admin login
+Route::get('/login', fn() => redirect()->route('admin.login'))->name('login');
 
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -46,6 +50,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('logout', [AuthController::class, 'logout'])->name('logout');
         Route::resource('projects', ProjectController::class);
         Route::resource('services', AdminServiceController::class);
+        Route::resource('certificates', CertificateController::class);
         Route::resource('inquiries', InquiryController::class)->only(['index', 'show', 'destroy']);
         Route::put('inquiries/{inquiry}/mark-responded', [InquiryController::class, 'markResponded'])->name('inquiries.mark-responded');
     });

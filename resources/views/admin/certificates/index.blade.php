@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('header', 'Services Management')
+@section('header', 'Certificates Management')
 
 @section('content')
 <style>
@@ -19,37 +19,37 @@
         --muted2:  rgba(240,236,228,.32);
     }
 
-    .svc-wrap { font-family: 'Outfit', sans-serif; }
+    .cert-wrap { font-family: 'Outfit', sans-serif; }
 
     /* ── HEADER ROW ── */
-    .svc-header {
+    .cert-header {
         display: flex; align-items: center;
         justify-content: space-between;
         margin-bottom: 32px;
     }
 
-    .svc-eyebrow {
+    .cert-eyebrow {
         display: inline-flex; align-items: center; gap: 8px;
         font-size: 10px; font-weight: 600;
         text-transform: uppercase; letter-spacing: 2.5px;
         color: var(--accent); margin-bottom: 6px;
     }
-    .svc-eyebrow::before {
+    .cert-eyebrow::before {
         content: ''; display: block;
         width: 20px; height: 1px;
         background: var(--accent); opacity: .7;
     }
 
-    .svc-title {
+    .cert-title {
         font-family: 'Cormorant Garamond', serif;
         font-size: 32px; font-weight: 300;
         letter-spacing: -0.5px; color: var(--text);
         line-height: 1.1;
     }
-    .svc-title em { font-style: italic; color: var(--accent); }
+    .cert-title em { font-style: italic; color: var(--accent); }
 
     /* Add button */
-    .svc-add-btn {
+    .cert-add-btn {
         display: inline-flex; align-items: center; gap: 8px;
         padding: 12px 24px;
         background: transparent;
@@ -63,21 +63,21 @@
         position: relative; overflow: hidden;
         transition: border-color .25s, box-shadow .25s, transform .15s;
     }
-    .svc-add-btn::before {
+    .cert-add-btn::before {
         content: ''; position: absolute; inset: 0;
         background: linear-gradient(135deg, rgba(200,169,110,.18), rgba(200,169,110,.06));
         opacity: 0; transition: opacity .25s;
     }
-    .svc-add-btn:hover {
+    .cert-add-btn:hover {
         border-color: var(--accent2);
         box-shadow: 0 0 24px rgba(200,169,110,.15);
         transform: translateY(-1px);
     }
-    .svc-add-btn:hover::before { opacity: 1; }
-    .svc-add-btn span { position: relative; z-index: 1; }
+    .cert-add-btn:hover::before { opacity: 1; }
+    .cert-add-btn span { position: relative; z-index: 1; }
 
     /* ── TABLE CARD ── */
-    .svc-table-wrap {
+    .cert-table-wrap {
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 20px;
@@ -86,86 +86,75 @@
         box-shadow: 0 8px 32px rgba(0,0,0,.35);
     }
 
-    .svc-table-wrap::before {
+    /* Top accent rule */
+    .cert-table-wrap::before {
         content: '';
         position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
         background: linear-gradient(90deg, transparent, var(--accent), transparent);
         opacity: .18; z-index: 1;
     }
 
-    .svc-table { width: 100%; border-collapse: collapse; }
+    .cert-table { width: 100%; border-collapse: collapse; }
 
-    .svc-table thead tr {
+    .cert-table thead tr {
         border-bottom: 1px solid var(--border);
         background: var(--surface2);
     }
 
-    .svc-table th {
+    .cert-table th {
         padding: 14px 24px;
         text-align: left;
         font-size: 10px; font-weight: 600;
         text-transform: uppercase; letter-spacing: 2px;
         color: var(--accent);
     }
-    .svc-table th:last-child { text-align: right; }
+    .cert-table th:last-child { text-align: right; }
 
-    .svc-table tbody tr {
+    .cert-table tbody tr {
         border-bottom: 1px solid var(--border);
         transition: background .2s;
     }
-    .svc-table tbody tr:last-child { border-bottom: none; }
-    .svc-table tbody tr:hover { background: rgba(200,169,110,.03); }
+    .cert-table tbody tr:last-child { border-bottom: none; }
+    .cert-table tbody tr:hover { background: rgba(200,169,110,.03); }
 
-    .svc-table td { padding: 18px 24px; font-size: 14px; color: var(--text); }
-    .svc-table td:last-child { text-align: right; }
+    .cert-table td { padding: 18px 24px; font-size: 14px; color: var(--text); }
+    .cert-table td:last-child { text-align: right; }
 
-    .svc-td-title { font-weight: 600; color: var(--text); margin-bottom: 3px; }
-    .svc-td-slug  { font-size: 12px; color: var(--muted2); }
-
-    /* Certificate link */
-    .svc-cert-link {
-        color: var(--accent2);
-        font-size: 12px; font-weight: 500;
-        text-decoration: none;
-        display: inline-flex; align-items: center; gap: 5px;
-        transition: opacity .2s;
-    }
-    .svc-cert-link:hover { opacity: .75; text-decoration: underline; }
-    .svc-cert-none { font-size: 12px; color: var(--muted2); }
+    .cert-td-title { font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .cert-td-issuer { font-size: 12px; color: var(--muted2); }
 
     /* Status badges */
-    .svc-badge {
+    .cert-badge {
         display: inline-flex; align-items: center; gap: 6px;
         padding: 4px 12px;
         border-radius: 99px;
         font-size: 11px; font-weight: 600;
         text-transform: uppercase; letter-spacing: 0.8px;
     }
-    .svc-badge::before {
+    .cert-badge::before {
         content: ''; display: block;
         width: 5px; height: 5px; border-radius: 50%;
     }
-    .svc-badge-active {
+    .cert-badge-active {
         background: rgba(34,197,94,.1);
         border: 1px solid rgba(34,197,94,.25);
         color: #86efac;
     }
-    .svc-badge-active::before { background: #4ade80; }
+    .cert-badge-active::before { background: #4ade80; }
 
-    .svc-badge-inactive {
+    .cert-badge-inactive {
         background: rgba(255,255,255,.04);
         border: 1px solid var(--border);
         color: var(--muted2);
     }
-    .svc-badge-inactive::before { background: var(--muted2); }
+    .cert-badge-inactive::before { background: var(--muted2); }
 
-    .svc-price { font-size: 13px; color: var(--muted); }
-    .svc-date  { font-size: 12px; color: var(--muted2); }
+    .cert-date { font-size: 12px; color: var(--muted2); }
 
     /* Action buttons */
-    .svc-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .cert-actions { display: flex; gap: 8px; justify-content: flex-end; }
 
-    .svc-btn-edit {
+    .cert-btn-edit {
         display: inline-flex; align-items: center; gap: 6px;
         padding: 7px 14px;
         background: rgba(200,169,110,.08);
@@ -176,13 +165,13 @@
         text-decoration: none;
         transition: background .2s, border-color .2s, transform .15s;
     }
-    .svc-btn-edit:hover {
+    .cert-btn-edit:hover {
         background: rgba(200,169,110,.15);
         border-color: rgba(200,169,110,.45);
         transform: translateY(-1px);
     }
 
-    .svc-btn-delete {
+    .cert-btn-delete {
         display: inline-flex; align-items: center; gap: 6px;
         padding: 7px 14px;
         background: rgba(239,68,68,.08);
@@ -194,14 +183,14 @@
         font-family: 'Outfit', sans-serif;
         transition: background .2s, border-color .2s, transform .15s;
     }
-    .svc-btn-delete:hover {
+    .cert-btn-delete:hover {
         background: rgba(239,68,68,.15);
         border-color: rgba(239,68,68,.4);
         transform: translateY(-1px);
     }
 
     /* Empty state */
-    .svc-empty {
+    .cert-empty {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -212,8 +201,9 @@
         color: var(--muted2);
         font-size: 15px;
         letter-spacing: 0.02em;
+        margin: 0 auto;
     }
-    .svc-empty i {
+    .cert-empty i {
         font-size: 36px;
         color: var(--accent);
         opacity: .28;
@@ -221,67 +211,57 @@
     }
 
     /* Pagination */
-    .svc-pagination { margin-top: 28px; }
+    .cert-pagination { margin-top: 28px; }
 </style>
 
-<div class="svc-wrap">
+<div class="cert-wrap">
 
-    <div class="svc-header">
+    <div class="cert-header">
         <div>
-            <div class="svc-eyebrow">Management</div>
-            <h1 class="svc-title">Featured <em>Services</em></h1>
+            <div class="cert-eyebrow">Management</div>
+            <h1 class="cert-title">Professional <em>Certificates</em></h1>
         </div>
-        <a href="{{ route('admin.services.create') }}" class="svc-add-btn">
-            <span><i class="fas fa-plus" style="margin-right:4px;"></i> Add Service</span>
+        <a href="{{ route('admin.certificates.create') }}" class="cert-add-btn">
+            <span><i class="fas fa-plus" style="margin-right:4px;"></i> Add Certificate</span>
         </a>
     </div>
 
-    <div class="svc-table-wrap">
-        <table class="svc-table">
+    <div class="cert-table-wrap">
+        <table class="cert-table">
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Certificate</th>
+                    <th>Issuer</th>
                     <th>Status</th>
-                    <th>Price Range</th>
-                    <th>Created</th>
+                    <th>Issue Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($services as $service)
+                @forelse($certificates as $certificate)
                 <tr>
                     <td>
-                        <div class="svc-td-title">{{ $service->title }}</div>
-                        <div class="svc-td-slug">{{ $service->slug }}</div>
+                        <div class="cert-td-title">{{ $certificate->title }}</div>
+                        <div class="cert-td-issuer">{{ $certificate->issuer }}</div>
                     </td>
+                    <td>{{ $certificate->issuer }}</td>
                     <td>
-                        @if($service->certificate_path)
-                            <a href="{{ asset('storage/' . $service->certificate_path) }}" target="_blank" class="svc-cert-link">
-                                <i class="fas fa-file-alt"></i> View
-                            </a>
+                        @if($certificate->is_active)
+                            <span class="cert-badge cert-badge-active">Active</span>
                         @else
-                            <span class="svc-cert-none">— None</span>
+                            <span class="cert-badge cert-badge-inactive">Inactive</span>
                         @endif
                     </td>
+                    <td class="cert-date">{{ $certificate->issue_date->format('M d, Y') }}</td>
                     <td>
-                        @if($service->is_active)
-                            <span class="svc-badge svc-badge-active">Active</span>
-                        @else
-                            <span class="svc-badge svc-badge-inactive">Inactive</span>
-                        @endif
-                    </td>
-                    <td class="svc-price">{{ $service->price_range ?? '—' }}</td>
-                    <td class="svc-date">{{ $service->created_at->format('M d, Y') }}</td>
-                    <td>
-                        <div class="svc-actions">
-                            <a href="{{ route('admin.services.edit', $service) }}" class="svc-btn-edit">
+                        <div class="cert-actions">
+                            <a href="{{ route('admin.certificates.edit', $certificate) }}" class="cert-btn-edit">
                                 <i class="fas fa-pen"></i> Edit
                             </a>
-                            <form method="POST" action="{{ route('admin.services.destroy', $service) }}" style="display:inline;" onsubmit="return confirm('Are you sure?')">
+                            <form method="POST" action="{{ route('admin.certificates.destroy', $certificate) }}" style="display:inline;" onsubmit="return confirm('Are you sure?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="svc-btn-delete">
+                                <button type="submit" class="cert-btn-delete">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
                             </form>
@@ -290,10 +270,10 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" style="padding: 0; border-bottom: none;">
-                        <div class="svc-empty">
-                            <i class="fas fa-concierge-bell"></i>
-                            No services yet. Create one to get started!
+                    <td colspan="5" style="padding: 0; border-bottom: none;">
+                        <div class="cert-empty">
+                            <i class="fas fa-certificate"></i>
+                            No certificates yet. Create one to get started!
                         </div>
                     </td>
                 </tr>
@@ -302,8 +282,8 @@
         </table>
     </div>
 
-    <div class="svc-pagination">
-        {{ $services->links() }}
+    <div class="cert-pagination">
+        {{ $certificates->links() }}
     </div>
 
 </div>

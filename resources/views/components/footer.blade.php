@@ -1,80 +1,283 @@
-<footer class="border-t border-gray-200 dark:border-gray-800 bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950 mt-40">
-    <div class="max-w-7xl mx-auto px-6 py-16">
-        <!-- Main Footer Grid -->
-        <div class="grid md:grid-cols-4 gap-12 mb-12">
-            <!-- Brand -->
-            <div class="space-y-4 col-span-1 md:col-span-1">
-                <h3 class="text-2xl font-black bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Portfolio</h3>
-                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                    Building elegant, scalable digital experiences that solve real problems and drive impact.
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap');
+
+    .pf-footer {
+        font-family: 'Outfit', sans-serif;
+        background: var(--bg, #0b0c0e);
+        border-top: 1px solid rgba(255,255,255,.07);
+        position: relative;
+        overflow: hidden;
+        margin-top: 0;
+    }
+
+    .pf-footer::before {
+        content: '';
+        position: absolute; inset: 0;
+        background:
+            radial-gradient(ellipse 60% 80% at 15% 0%, rgba(200,169,110,.06) 0%, transparent 60%),
+            radial-gradient(ellipse 40% 60% at 85% 100%, rgba(200,169,110,.04) 0%, transparent 60%);
+        pointer-events: none;
+    }
+
+    /* Top accent rule */
+    .pf-footer-rule {
+        position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+        background: linear-gradient(90deg, transparent, var(--accent, #c8a96e), transparent);
+        opacity: .18;
+    }
+
+    .pf-footer-inner {
+        max-width: 1200px; margin: 0 auto;
+        padding: 80px 48px 56px;
+        position: relative; z-index: 1;
+    }
+
+    /* ── MAIN GRID ── */
+    .pf-footer-grid {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr 1fr 1fr;
+        gap: 56px;
+        margin-bottom: 64px;
+    }
+
+    /* Brand column */
+    .pf-footer-brand-monogram {
+        width: 46px; height: 46px;
+        border: 1px solid rgba(200,169,110,.4);
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 16px; font-weight: 600;
+        color: var(--accent, #c8a96e);
+        letter-spacing: -1px;
+        background: rgba(200,169,110,.06);
+        margin-bottom: 20px;
+    }
+
+    .pf-footer-brand-name {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 600; font-size: 15px;
+        color: var(--text, #f0ece4);
+        letter-spacing: 0.3px;
+        margin-bottom: 4px;
+    }
+
+    .pf-footer-brand-role {
+        font-size: 11px; color: rgba(200,169,110,.7);
+        letter-spacing: 1.2px; text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+
+    .pf-footer-brand-desc {
+        font-size: 13px; color: #f0ece4;
+        line-height: 1.8; max-width: 260px;
+        margin-bottom: 28px;
+    }
+
+    /* Social icons */
+    .pf-footer-socials { display: flex; gap: 10px; }
+
+    .pf-footer-social {
+        width: 36px; height: 36px;
+        border: 1px solid rgba(200,169,110,.2);
+        border-radius: 8px;
+        background: rgba(200,169,110,.05);
+        display: flex; align-items: center; justify-content: center;
+        color: rgba(200,169,110,.6);
+        font-size: 14px; text-decoration: none;
+        transition: border-color .25s, color .25s, background .25s, transform .2s;
+    }
+
+    .pf-footer-social:hover {
+        border-color: rgba(200,169,110,.5);
+        color: var(--accent, #c8a96e);
+        background: rgba(200,169,110,.1);
+        transform: translateY(-2px);
+    }
+
+    /* Column headings */
+    .pf-footer-col-title {
+        font-size: 10px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 2.5px;
+        color: var(--accent, #c8a96e);
+        margin-bottom: 24px;
+        display: flex; align-items: center; gap: 10px;
+    }
+
+    .pf-footer-col-title::before {
+        content: ''; display: block;
+        width: 20px; height: 1px;
+        background: var(--accent, #c8a96e); opacity: .6;
+    }
+
+    /* Nav links */
+    .pf-footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+
+    .pf-footer-links a {
+        font-size: 13px; color: #f0ece4;
+        text-decoration: none; letter-spacing: 0.3px;
+        transition: color .2s, padding-left .2s;
+        display: inline-block;
+    }
+
+    .pf-footer-links a:hover { color: var(--accent, #c8a96e); padding-left: 4px; }
+
+    /* Contact items */
+    .pf-footer-contact-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+
+    .pf-footer-contact-item { display: flex; align-items: flex-start; gap: 12px; }
+
+    .pf-footer-contact-icon {
+        width: 32px; height: 32px; flex-shrink: 0;
+        border: 1px solid rgba(200,169,110,.25);
+        border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 12px; color: var(--accent, #c8a96e);
+        background: rgba(200,169,110,.06);
+        margin-top: 1px;
+    }
+
+    .pf-footer-contact-label {
+        font-size: 10px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 1.5px;
+        color: rgba(200,169,110,.7); margin-bottom: 3px;
+    }
+
+    .pf-footer-contact-value {
+        font-size: 13px; color: #f0ece4;
+    }
+
+    /* ── BOTTOM BAR ── */
+    .pf-footer-bottom {
+        border-top: 1px solid rgba(255,255,255,.07);
+        padding-top: 32px;
+        display: flex; align-items: center;
+        justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+
+    .pf-footer-copy {
+        font-size: 11px; color: rgba(255,255,255,.18);
+        letter-spacing: 0.5px;
+    }
+
+    .pf-footer-copy em {
+        font-style: normal;
+        color: rgba(200,169,110,.5);
+    }
+
+    .pf-footer-legal { display: flex; gap: 24px; }
+
+    .pf-footer-legal a {
+        font-size: 11px; color: rgba(255,255,255,.18);
+        text-decoration: none; letter-spacing: 0.5px;
+        transition: color .2s;
+    }
+    .pf-footer-legal a:hover { color: var(--accent, #c8a96e); }
+
+    /* Decorative dots */
+    .pf-footer-dots { display: flex; gap: 14px; align-items: center; }
+    .pf-footer-dot {
+        width: 5px; height: 5px; border-radius: 50%;
+        background: var(--accent, #c8a96e);
+    }
+    .pf-footer-dot:nth-child(1) { opacity: .2; }
+    .pf-footer-dot:nth-child(2) { opacity: .4; }
+    .pf-footer-dot:nth-child(3) { opacity: .65; }
+
+    @media (max-width: 1024px) {
+        .pf-footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+
+    @media (max-width: 640px) {
+        .pf-footer-grid { grid-template-columns: 1fr; gap: 36px; }
+        .pf-footer-inner { padding: 60px 24px 40px; }
+        .pf-footer-bottom { flex-direction: column; align-items: flex-start; gap: 20px; }
+    }
+</style>
+
+<footer class="pf-footer">
+    <div class="pf-footer-rule"></div>
+
+    <div class="pf-footer-inner">
+
+        {{-- ── MAIN GRID ── --}}
+        <div class="pf-footer-grid">
+
+            {{-- Brand --}}
+            <div>
+                <div class="pf-footer-brand-monogram">IKA</div>
+                <div class="pf-footer-brand-name">Ivan Kim Almadin</div>
+                <div class="pf-footer-brand-role">Full-Stack Developer</div>
+                <p class="pf-footer-brand-desc">
+                    Building elegant, scalable digital experiences that solve real problems and drive meaningful impact.
                 </p>
-                <!-- Social Links -->
-                <div class="flex gap-4 pt-4">
-                    <a href="#" class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-all duration-300 transform hover:scale-110">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.834 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.559 8.179-6.086 8.179-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-all duration-300 transform hover:scale-110">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.475-2.236-1.986-2.236-1.081 0-1.722.722-2.004 1.418-.103.249-.129.597-.129.946v5.441h-3.554s.05-8.736 0-9.646h3.554v1.348c-.009.015-.021.029-.03.042h.03v-.042c.418-.645 1.162-1.571 2.828-1.571 2.065 0 3.612 1.347 3.612 4.246v5.623zM5.337 9.433c-1.144 0-1.915-.758-1.915-1.707 0-.968.771-1.708 1.96-1.708 1.188 0 1.914.739 1.939 1.708 0 .949-.75 1.707-1.984 1.707zm1.582 11.019H3.771V9.807h3.148v10.645zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-all duration-300 transform hover:scale-110">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 002.856-9.51a6.006 6.006 0 01-1.897.516a2.996 2.996 0 001.311-1.653a5.973 5.973 0 01-1.905.727a2.992 2.992 0 00-5.493 2.73c-2.488-.141-4.704-1.319-6.187-3.13a2.995 2.995 0 00-.408 3.78 2.987 2.987 0 001.359 2.48c-.6-.02-1.17-.184-1.666-.511v.039a3.002 3.002 0 002.404 2.942 3.002 3.002 0 01-1.351.129 3.007 3.007 0 002.797 2.084A6.005 6.005 0 010 14.658a6 6 0 008.945 5.656 6.001 6.001 0 009.322-5.64c0-.091-.002-.182-.006-.272a4.28 4.28 0 001.05-1.095z"/></svg>
-                    </a>
+                <div class="pf-footer-socials">
+                    <a href="#" class="pf-footer-social"><i class="fab fa-github"></i></a>
+                    <a href="#" class="pf-footer-social"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="pf-footer-social"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
 
-            <!-- Links -->
+            {{-- Pages --}}
             <div>
-                <h4 class="font-black text-lg mb-6 text-gray-900 dark:text-white">Pages</h4>
-                <ul class="space-y-3">
-                    <li><a href="/" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition duration-300">Home</a></li>
-                    <li><a href="/about" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition duration-300">About</a></li>
-                    <li><a href="/portfolio" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition duration-300">Portfolio</a></li>
-                    <li><a href="#contact" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition duration-300">Contact</a></li>
+                <div class="pf-footer-col-title">Pages</div>
+                <ul class="pf-footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/portfolio">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
 
-            <!-- Services -->
+            {{-- Services --}}
             <div>
-                <h4 class="font-black text-lg mb-6 text-gray-900 dark:text-white">Services</h4>
-                <ul class="space-y-3">
-                    <li><a href="/services" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition duration-300">Web Development</a></li>
-                    <li><a href="/services" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition duration-300">UI/UX Design</a></li>
-                    <li><a href="/services" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition duration-300">Consulting</a></li>
-                    <li><a href="/services" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition duration-300">API Development</a></li>
+                <div class="pf-footer-col-title">Services</div>
+                <ul class="pf-footer-links">
+                    <li><a href="/services">Web Development</a></li>
+                    <li><a href="/services">UI/UX Design</a></li>
+                    <li><a href="/services">Consulting</a></li>
+                    <li><a href="/services">API Development</a></li>
                 </ul>
             </div>
 
-            <!-- Contact in Footer -->
+            {{-- Contact --}}
             <div>
-                <h4 class="font-black text-lg mb-6 text-gray-900 dark:text-white">Get In Touch</h4>
-                <ul class="space-y-3">
-                    <li class="flex items-start gap-3">
-                        <span class="text-blue-600 dark:text-blue-400 mt-1">✉️</span>
+                <div class="pf-footer-col-title">Get In Touch</div>
+                <ul class="pf-footer-contact-list">
+                    <li class="pf-footer-contact-item">
+                        <div class="pf-footer-contact-icon"><i class="fas fa-envelope"></i></div>
                         <div>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm">hello@example.com</p>
+                            <div class="pf-footer-contact-label">Email</div>
+                            <div class="pf-footer-contact-value">ivanalmadin0@gmail.com</div>
                         </div>
                     </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-blue-600 dark:text-blue-400 mt-1">📞</span>
+                    <li class="pf-footer-contact-item">
+                        <div class="pf-footer-contact-icon"><i class="fas fa-phone"></i></div>
                         <div>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm">+1 (555) 123-4567</p>
+                            <div class="pf-footer-contact-label">Phone</div>
+                            <div class="pf-footer-contact-value">+63 (953) 578-6765</div>
                         </div>
                     </li>
                 </ul>
+            </div>
+
+        </div>
+
+        {{-- ── BOTTOM BAR ── --}}
+        <div class="pf-footer-bottom">
+            <span class="pf-footer-copy">
+                &copy; {{ date('Y') }} <em>Ivan Kim Almadin.</em> All rights reserved.
+            </span>
+            <div class="pf-footer-dots">
+                <div class="pf-footer-dot"></div>
+                <div class="pf-footer-dot"></div>
+                <div class="pf-footer-dot"></div>
+            </div>
+            <div class="pf-footer-legal">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
             </div>
         </div>
 
-        <!-- Divider -->
-        <div class="border-t border-gray-200 dark:border-gray-800 pt-8">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <p class="text-gray-600 dark:text-gray-400 text-sm font-medium">
-                    &copy; 2026 My Portfolio. All rights reserved. Built with <span class="text-blue-600">❤️</span>
-                </p>
-                <div class="flex gap-6">
-                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition">Privacy Policy</a>
-                    <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-medium transition">Terms of Service</a>
-                </div>
-            </div>
-        </div>
     </div>
 </footer>

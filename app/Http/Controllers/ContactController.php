@@ -24,6 +24,6 @@ class ContactController extends Controller
 
         Inquiry::create($validated);
 
-        return redirect()->back()->with('success', 'Message sent successfully! I\'ll get back to you soon.');
+        return back()->with('success', 'Message sent successfully! I\'ll get back to you soon.');
     }
-}
+} 

@@ -1,141 +1,551 @@
 @extends('layouts.admin-auth')
 
-@section('title', 'Admin Login')
+@section('title', 'Portfolio Login')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="w-full max-w-md space-y-8">
-        <!-- Logo -->
-        <div class="text-center">
-            <h1 class="text-4xl font-black tracking-tight">
-                <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Portfolio</span>
-            </h1>
-            <h2 class="mt-6 text-3xl font-black text-gray-900 dark:text-white">Admin Login</h2>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Access your portfolio management panel</p>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+        --bg:        #0b0c0e;
+        --surface:   #111316;
+        --border:    rgba(255,255,255,.07);
+        --accent:    #c8a96e;
+        --accent2:   #e8c98a;
+        --text:      #f0ece4;
+        --muted:     rgba(240,236,228,.38);
+        --input-bg:  rgba(255,255,255,.035);
+    }
+
+    html, body { height: 100%; background: var(--bg); }
+
+    /* PAGE WRAPPER */
+    .pf-login {
+        font-family: 'Outfit', sans-serif;
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 520px;
+    }
+
+    /* LEFT — PORTFOLIO SHOWCASE */
+    .pf-left {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 52px 64px;
+        background: var(--bg);
+    }
+
+    .pf-left::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(ellipse 65% 55% at 25% 20%, rgba(200,169,110,.1) 0%, transparent 60%),
+            radial-gradient(ellipse 55% 65% at 75% 85%, rgba(200,169,110,.06) 0%, transparent 60%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .pf-rule {
+        position: absolute;
+        left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        opacity: .18;
+        z-index: 1;
+    }
+    .pf-rule-top    { top: 120px; }
+    .pf-rule-bottom { bottom: 120px; }
+
+    .pf-vline {
+        position: absolute;
+        top: 0; bottom: 0; right: 0;
+        width: 1px;
+        background: linear-gradient(180deg, transparent 0%, var(--accent) 40%, var(--accent) 60%, transparent 100%);
+        opacity: .15;
+        z-index: 1;
+    }
+
+    .pf-left-content { position: relative; z-index: 2; }
+
+    .pf-brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .pf-brand-monogram {
+        width: 46px; height: 46px;
+        border: 1px solid rgba(200,169,110,.4);
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 16px; font-weight: 600;
+        color: var(--accent);
+        letter-spacing: -1px;
+        background: rgba(200,169,110,.06);
+    }
+
+    .pf-brand-name {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 600; font-size: 15px;
+        color: var(--text); letter-spacing: 0.3px;
+    }
+
+    .pf-brand-role {
+        font-size: 11px; color: var(--muted);
+        letter-spacing: 1.2px; text-transform: uppercase;
+        margin-top: 2px;
+    }
+
+    .pf-hero { margin-top: auto; margin-bottom: 56px; }
+
+    .pf-hero-eyebrow {
+        display: flex; align-items: center;
+        gap: 10px; margin-bottom: 24px;
+    }
+
+    .pf-hero-eyebrow-line {
+        width: 36px; height: 1px;
+        background: var(--accent); opacity: .6;
+    }
+
+    .pf-hero-eyebrow-text {
+        font-size: 11px; font-weight: 500;
+        text-transform: uppercase; letter-spacing: 2.5px;
+        color: var(--accent); opacity: .85;
+    }
+
+    .pf-hero-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(44px, 5vw, 72px);
+        font-weight: 300; line-height: 1.08;
+        color: var(--text); letter-spacing: -1.5px;
+        margin-bottom: 24px;
+    }
+
+    .pf-hero-title em { font-style: italic; color: var(--accent); }
+
+    .pf-hero-desc {
+        font-size: 14px; color: var(--muted);
+        line-height: 1.8; max-width: 440px;
+    }
+
+    .pf-thumbnails {
+        display: flex; gap: 12px; margin-top: 48px;
+    }
+
+    .pf-thumb {
+        flex: 1; height: 80px; border-radius: 10px;
+        overflow: hidden; position: relative;
+        border: 1px solid var(--border); cursor: default;
+    }
+
+    .pf-thumb-inner { width: 100%; height: 100%; transition: transform .5s ease; }
+    .pf-thumb:hover .pf-thumb-inner { transform: scale(1.06); }
+
+    .pf-thumb-1 .pf-thumb-inner { background: linear-gradient(135deg, #1a1a2e, #0f3460); }
+    .pf-thumb-2 .pf-thumb-inner { background: linear-gradient(135deg, #1c1009, #3d2208); }
+    .pf-thumb-3 .pf-thumb-inner { background: linear-gradient(135deg, #0d1f12, #0f2a1a); }
+    .pf-thumb-4 .pf-thumb-inner { background: linear-gradient(135deg, #1a0d1a, #1a0d2e); }
+
+    .pf-thumb::after {
+        content: attr(data-label);
+        position: absolute; bottom: 8px; left: 10px;
+        font-size: 9px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 1.5px;
+        color: rgba(255,255,255,.35);
+    }
+
+    .pf-left-footer {
+        display: flex; align-items: center;
+        justify-content: space-between;
+        position: relative; z-index: 2;
+    }
+
+    .pf-left-footer-copy {
+        font-size: 11px; color: rgba(255,255,255,.18); letter-spacing: 0.5px;
+    }
+
+    .pf-social-dots { display: flex; gap: 16px; }
+    .pf-social-dot {
+        width: 6px; height: 6px; border-radius: 50%;
+        background: var(--accent); opacity: .25;
+    }
+    .pf-social-dot:nth-child(2) { opacity: .45; }
+    .pf-social-dot:nth-child(3) { opacity: .65; }
+
+    /* RIGHT — FORM PANEL */
+    .pf-right {
+        background: var(--surface);
+        border-left: 1px solid var(--border);
+        display: flex; align-items: center;
+        justify-content: center;
+        padding: 64px 56px;
+        position: relative; overflow: hidden;
+    }
+
+    .pf-right::before {
+        content: '';
+        position: absolute; top: 0; right: 0;
+        width: 200px; height: 200px;
+        background: radial-gradient(circle at top right, rgba(200,169,110,.08), transparent 70%);
+        pointer-events: none;
+    }
+
+    .pf-right::after {
+        content: '';
+        position: absolute; bottom: 0; left: 0;
+        width: 200px; height: 200px;
+        background: radial-gradient(circle at bottom left, rgba(200,169,110,.05), transparent 70%);
+        pointer-events: none;
+    }
+
+    .pf-form-wrap {
+        width: 100%; max-width: 380px;
+        position: relative; z-index: 1;
+    }
+
+    .pf-form-tag {
+        display: inline-flex; align-items: center;
+        gap: 8px; font-size: 10px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 2px;
+        color: var(--accent); margin-bottom: 28px;
+    }
+
+    .pf-form-tag::before {
+        content: ''; display: block;
+        width: 20px; height: 1px; background: var(--accent);
+    }
+
+    .pf-form-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 40px; font-weight: 400;
+        line-height: 1.1; color: var(--text);
+        letter-spacing: -0.8px; margin-bottom: 10px;
+    }
+
+    .pf-form-title em { font-style: italic; color: var(--accent); }
+
+    .pf-form-sub {
+        font-size: 13px; color: var(--muted);
+        line-height: 1.7; margin-bottom: 40px;
+    }
+
+    .pf-form-divider {
+        display: flex; align-items: center;
+        gap: 14px; margin-bottom: 36px;
+    }
+
+    .pf-form-divider-line { flex: 1; height: 1px; background: var(--border); }
+
+    .pf-form-divider-dot {
+        width: 5px; height: 5px; border-radius: 50%;
+        background: var(--accent); opacity: .4;
+    }
+
+    .pf-alert {
+        border-radius: 10px; padding: 13px 16px;
+        margin-bottom: 24px; display: flex;
+        gap: 11px; align-items: flex-start; font-size: 13px;
+    }
+    .pf-alert-error {
+        background: rgba(239,68,68,.07);
+        border: 1px solid rgba(239,68,68,.2); color: #fca5a5;
+    }
+    .pf-alert-success {
+        background: rgba(200,169,110,.08);
+        border: 1px solid rgba(200,169,110,.25); color: var(--accent2);
+    }
+    .pf-alert i { margin-top: 1px; flex-shrink: 0; }
+    .pf-alert ul { padding-left: 16px; margin-top: 4px; }
+
+    .pf-field { margin-bottom: 20px; }
+
+    .pf-field-label {
+        display: block; font-size: 11px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 1.5px;
+        color: var(--muted); margin-bottom: 9px;
+    }
+
+    .pf-field-input {
+        width: 100%; padding: 13px 16px;
+        background: var(--input-bg);
+        border: 1px solid var(--border);
+        border-radius: 10px; color: var(--text);
+        font-family: 'Outfit', sans-serif;
+        font-size: 14px; font-weight: 300;
+        outline: none;
+        transition: border-color .25s, background .25s, box-shadow .25s;
+    }
+
+    .pf-field-input::placeholder { color: rgba(240,236,228,.18); }
+
+    .pf-field-input:focus {
+        border-color: rgba(200,169,110,.45);
+        background: rgba(200,169,110,.04);
+        box-shadow: 0 0 0 3px rgba(200,169,110,.08);
+    }
+
+    .pf-pw-wrap { position: relative; }
+    .pf-pw-wrap .pf-field-input { padding-right: 48px; }
+
+    .pf-toggle-pw {
+        position: absolute; right: 14px; top: 50%;
+        transform: translateY(-50%);
+        background: none; border: none;
+        color: #555;
+        cursor: pointer; font-size: 14px;
+        transition: color .2s; line-height: 1; padding: 4px;
+    }
+    .pf-toggle-pw:hover { color: var(--accent); }
+
+    .pf-options {
+        display: flex; align-items: center;
+        justify-content: space-between; margin-bottom: 32px;
+    }
+
+    .pf-remember {
+        display: flex; align-items: center;
+        gap: 8px; font-size: 12px;
+        color: var(--muted); cursor: pointer; user-select: none;
+    }
+    .pf-remember input[type="checkbox"] {
+        width: 14px; height: 14px;
+        accent-color: var(--accent); cursor: pointer;
+    }
+
+    .pf-btn {
+        width: 100%; padding: 14px 24px;
+        background: transparent;
+        border: 1px solid rgba(200,169,110,.45);
+        border-radius: 10px; color: var(--accent2);
+        font-family: 'Outfit', sans-serif;
+        font-size: 13px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 2px;
+        cursor: pointer; display: flex;
+        align-items: center; justify-content: center;
+        gap: 10px; position: relative; overflow: hidden;
+        transition: border-color .25s, box-shadow .25s, transform .15s;
+        margin-bottom: 28px;
+    }
+
+    .pf-btn::before {
+        content: ''; position: absolute; inset: 0;
+        background: linear-gradient(135deg, rgba(200,169,110,.18), rgba(200,169,110,.06));
+        opacity: 0; transition: opacity .25s;
+    }
+
+    .pf-btn:hover {
+        border-color: var(--accent2);
+        box-shadow: 0 0 28px rgba(200,169,110,.18), inset 0 0 20px rgba(200,169,110,.06);
+        transform: translateY(-1px);
+    }
+    .pf-btn:hover::before { opacity: 1; }
+    .pf-btn:active { transform: translateY(0); }
+    .pf-btn span { position: relative; z-index: 1; }
+
+    .pf-forgot-wrap {
+        text-align: center; padding-top: 22px;
+        border-top: 1px solid var(--border);
+    }
+
+    .pf-forgot {
+        font-size: 12px; color: var(--muted);
+        text-decoration: none; letter-spacing: 0.3px;
+        transition: color .2s; display: inline-flex;
+        align-items: center; gap: 7px;
+    }
+    .pf-forgot:hover { color: var(--accent); }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(18px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .pf-form-tag     { animation: fadeUp .55s ease both .05s; }
+    .pf-form-title   { animation: fadeUp .55s ease both .12s; }
+    .pf-form-sub     { animation: fadeUp .55s ease both .18s; }
+    .pf-form-divider { animation: fadeUp .55s ease both .22s; }
+    .pf-field        { animation: fadeUp .5s  ease both .27s; }
+    .pf-options      { animation: fadeUp .5s  ease both .37s; }
+    .pf-btn          { animation: fadeUp .5s  ease both .42s; }
+    .pf-forgot-wrap  { animation: fadeUp .5s  ease both .48s; }
+
+    @media (max-width: 900px) {
+        .pf-login { grid-template-columns: 1fr; }
+        .pf-left  { display: none; }
+        .pf-right { padding: 52px 36px; min-height: 100vh; }
+    }
+</style>
+
+<div class="pf-login">
+
+    {{-- LEFT: PORTFOLIO IDENTITY --}}
+    <div class="pf-left">
+        <div class="pf-rule pf-rule-top"></div>
+        <div class="pf-rule pf-rule-bottom"></div>
+        <div class="pf-vline"></div>
+
+        <div class="pf-left-content pf-brand">
+            <div class="pf-brand-monogram">IKA</div>
+            <div>
+                <div class="pf-brand-name">Ivan Kim Almadin</div>
+                <div class="pf-brand-role">Creative Portfolio</div>
+            </div>
         </div>
 
-        <!-- Login Card -->
-        <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-800 p-8 space-y-6">
+        <div class="pf-left-content pf-hero">
+            <div class="pf-hero-eyebrow">
+                <span class="pf-hero-eyebrow-line"></span>
+                <span class="pf-hero-eyebrow-text">Portfolio Studio</span>
+            </div>
+
+            <h2 class="pf-hero-title">
+                Where ideas<br>
+                become <em>craft.</em>
+            </h2>
+
+            <p class="pf-hero-desc">
+                A curated space for design work, experiments, and the projects worth remembering. Manage your portfolio from here.
+            </p>
+
+            <div class="pf-thumbnails">
+                <div class="pf-thumb pf-thumb-1" data-label="UI/UX">
+                    <div class="pf-thumb-inner"></div>
+                </div>
+                <div class="pf-thumb pf-thumb-2" data-label="Brand">
+                    <div class="pf-thumb-inner"></div>
+                </div>
+                <div class="pf-thumb pf-thumb-3" data-label="Web">
+                    <div class="pf-thumb-inner"></div>
+                </div>
+                <div class="pf-thumb pf-thumb-4" data-label="Motion">
+                    <div class="pf-thumb-inner"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pf-left-footer pf-left-content">
+            <span class="pf-left-footer-copy">&copy; {{ date('Y') }} Ivan Kim Almadin. All rights reserved.</span>
+            <div class="pf-social-dots">
+                <div class="pf-social-dot"></div>
+                <div class="pf-social-dot"></div>
+                <div class="pf-social-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    {{-- RIGHT: LOGIN FORM --}}
+    <div class="pf-right">
+        <div class="pf-form-wrap">
+
+            <div class="pf-form-tag">Secure Access</div>
+            <h1 class="pf-form-title">Sign <em>in</em><br>to your portfolio.</h1>
+            <p class="pf-form-sub">Enter your credentials to access your portfolio dashboard.</p>
+
+            <div class="pf-form-divider">
+                <div class="pf-form-divider-line"></div>
+                <div class="pf-form-divider-dot"></div>
+                <div class="pf-form-divider-line"></div>
+            </div>
 
             @if ($errors->any())
-                <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-exclamation-circle text-red-600 dark:text-red-400 text-xl"></i>
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm font-medium text-red-800 dark:text-red-200">Login failed:</p>
-                            <ul class="mt-2 list-disc list-inside text-sm text-red-700 dark:text-red-300 space-y-1">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                <div class="pf-alert pf-alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <div>
+                        <div style="font-weight:500; margin-bottom:4px;">Please correct the following:</div>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             @endif
 
             @if (session('status'))
-                <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-xl"></i>
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm text-green-700 dark:text-green-300">{{ session('status') }}</p>
-                        </div>
-                    </div>
+                <div class="pf-alert pf-alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <span>{{ session('status') }}</span>
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('admin.login.perform') }}" class="space-y-6">
+            @if (session('success'))
+                <div class="pf-alert pf-alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('admin.login.perform') }}">
                 @csrf
 
-                <!-- Email Field -->
-                <div>
-                    <label for="email" class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                        <i class="fas fa-envelope mr-2 text-blue-600"></i>Email Address
-                    </label>
+                <div class="pf-field">
+                    <label for="email" class="pf-field-label">Email Address</label>
                     <input
-                        type="email"
-                        name="email"
-                        id="email"
+                        type="email" name="email" id="email"
                         value="{{ old('email') }}"
-                        required
-                        autofocus
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
-                        placeholder="admin@example.com"
+                        required autofocus
+                        class="pf-field-input"
+                        placeholder="you@example.com"
                     >
                 </div>
 
-                <!-- Password Field -->
-                <div>
-                    <label for="password" class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-                        <i class="fas fa-lock mr-2 text-blue-600"></i>Password
-                    </label>
-                    <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        required
-                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
-                        placeholder="••••••••"
-                    >
+                <div class="pf-field">
+                    <label for="password" class="pf-field-label">Password</label>
+                    <div class="pf-pw-wrap">
+                        <input
+                            type="password" name="password" id="password"
+                            required
+                            class="pf-field-input"
+                            placeholder="••••••••••••"
+                        >
+                        <button type="button" class="pf-toggle-pw" onclick="togglePw()">
+                            <i class="fas fa-eye" id="pwIcon"></i>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Remember Me -->
-                <div class="flex items-center">
-                    <input
-                        type="checkbox"
-                        name="remember"
-                        id="remember"
-                        class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
-                    >
-                    <label for="remember" class="ml-2 text-sm text-gray-600 dark:text-gray-400 cursor-pointer">
+                <div class="pf-options">
+                    <label class="pf-remember" for="remember">
+                        <input type="checkbox" name="remember" id="remember">
                         Remember me
                     </label>
                 </div>
 
-                <!-- Submit Button -->
-                <button
-                    type="submit"
-                    class="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-blue-600/30 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
-                >
-                    <i class="fas fa-sign-in-alt"></i>
-                    Sign In
+                <button type="submit" class="pf-btn">
+                    <span><i class="fas fa-arrow-right" style="margin-right:8px;"></i>Sign In</span>
                 </button>
             </form>
 
-            <!-- Help Links -->
-            <div class="pt-4 border-t border-gray-200 dark:border-gray-800 space-y-3 text-center">
-                <div>
-                    <a href="{{ route('admin.forgot-password') }}" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                        <i class="fas fa-key mr-1"></i>Forgot Password?
-                    </a>
-                </div>
-                <div>
-                    <a href="{{ route('admin.recovery') }}" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">
-                        <i class="fas fa-redo mr-1"></i>Account Recovery
-                    </a>
-                </div>
-                <div>
-                    <a href="/" class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
-                        <i class="fas fa-arrow-left mr-1"></i>Back to Portfolio
-                    </a>
-                </div>
+            <div class="pf-forgot-wrap">
+                <a href="{{ route('admin.forgot-password') }}" class="pf-forgot">
+                    <i class="fas fa-key" style="font-size:11px;"></i>
+                    Forgot your password?
+                </a>
             </div>
-        </div>
 
-        <!-- Info Box -->
-        <div class="rounded-3xl border border-slate-800 bg-slate-900/80 p-4 text-sm text-slate-300 shadow-lg shadow-slate-950/30">
-            <div class="flex items-start gap-3">
-                <i class="fas fa-user-shield mt-1 text-blue-400"></i>
-                <div>
-                    <p class="font-semibold text-white">Admin access</p>
-                    <p class="mt-1 text-slate-400">Use a registered admin email and password. If you have not created an admin account yet, run <code class="rounded bg-slate-800 px-1 py-0.5 text-xs">php artisan db:seed</code> to add one.</p>
-                </div>
-            </div>
         </div>
     </div>
 </div>
+
+<script>
+    function togglePw() {
+        const input = document.getElementById('password');
+        const icon  = document.getElementById('pwIcon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+</script>
+
 @endsection

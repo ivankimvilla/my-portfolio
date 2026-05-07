@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 
 class ProjectController extends Controller
@@ -26,7 +27,7 @@ class ProjectController extends Controller
             'slug' => 'required|string|unique:projects',
             'description' => 'required|string',
             'problem_solution' => 'nullable|string',
-            'image_url' => 'nullable|url',
+            'image_file' => 'nullable|image|max:5120',
             'live_url' => 'nullable|url',
             'github_url' => 'nullable|url',
             'technologies' => 'nullable|string',
@@ -36,7 +37,12 @@ class ProjectController extends Controller
             'is_active' => 'boolean',
         ]);
 
-        $validated['technologies'] = $request->has('technologies')
+        if ($request->hasFile('image_file')) {
+            $path = $request->file('image_file')->store('projects', 'public');
+            $validated['image_url'] = 'storage/' . $path;
+        }
+
+        $validated['technologies'] = $request->has('technologies') && trim($request->technologies) !== ''
             ? array_map('trim', explode(',', $request->technologies))
             : null;
 
@@ -57,7 +63,7 @@ class ProjectController extends Controller
             'slug' => 'required|string|unique:projects,slug,' . $project->id,
             'description' => 'required|string',
             'problem_solution' => 'nullable|string',
-            'image_url' => 'nullable|url',
+            'image_file' => 'nullable|image|max:5120',
             'live_url' => 'nullable|url',
             'github_url' => 'nullable|url',
             'technologies' => 'nullable|string',
@@ -67,7 +73,15 @@ class ProjectController extends Controller
             'is_active' => 'boolean',
         ]);
 
-        $validated['technologies'] = $request->has('technologies')
+        if ($request->hasFile('image_file')) {
+            if ($project->image_url && str_starts_with($project->image_url, 'storage/')) {
+                Storage::disk('public')->delete(str_replace('storage/', '', $project->image_url));
+            }
+            $path = $request->file('image_file')->store('projects', 'public');
+            $validated['image_url'] = 'storage/' . $path;
+        }
+
+        $validated['technologies'] = $request->has('technologies') && trim($request->technologies) !== ''
             ? array_map('trim', explode(',', $request->technologies))
             : null;
 
