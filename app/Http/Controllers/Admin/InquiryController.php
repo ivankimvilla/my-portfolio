@@ -38,4 +38,16 @@ class InquiryController extends Controller
         $inquiry->delete();
         return redirect()->route('admin.inquiries.index')->with('success', 'Inquiry deleted!');
     }
+
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:inquiries,id',
+        ])['ids'];
+
+        Inquiry::whereIn('id', $ids)->delete();
+
+        return redirect()->route('admin.inquiries.index')->with('success', count($ids) . ' inquiry/inquiries deleted!');
+    }
 }

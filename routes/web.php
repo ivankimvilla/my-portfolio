@@ -60,6 +60,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('projects', ProjectController::class);
         Route::resource('services', AdminServiceController::class);
         Route::resource('certificates', CertificateController::class);
+        Route::post('inquiries/bulk-delete', [InquiryController::class, 'bulkDelete'])->name('inquiries.bulk-delete');
         Route::resource('inquiries', InquiryController::class)->only(['index', 'show', 'destroy']);
         Route::put('inquiries/{inquiry}/mark-responded', [InquiryController::class, 'markResponded'])->name('inquiries.mark-responded');
     });

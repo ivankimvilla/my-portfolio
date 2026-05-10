@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use App\Notifications\LoginAttemptNotification;
 
 class AuthController extends Controller
 {
@@ -50,14 +49,9 @@ class AuthController extends Controller
             ])->onlyInput('email');
         }
 
-        // Send login confirmation email
-        $user->notify(new LoginAttemptNotification(
-            $credentials,
-            $request->ip(),
-            $request->userAgent()
-        ));
+        Auth::login($user);
 
-        return back()->with('status', 'Login confirmation email sent! Please check your email and click the confirmation link to complete login.');
+        return redirect()->intended('/admin/projects');
     }
 
     /**

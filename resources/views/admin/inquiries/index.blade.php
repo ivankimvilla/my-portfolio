@@ -38,6 +38,7 @@
         display: flex; align-items: flex-end;
         justify-content: space-between;
         margin-bottom: 32px;
+        gap: 16px;
     }
 
     .inq-eyebrow {
@@ -204,6 +205,57 @@
 
     /* ── PAGINATION ── */
     .inq-pagination { margin-top: 28px; }
+
+    /* ── BULK DELETE BUTTON & CHECKBOX ── */
+    .inq-bulk-delete-btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 10px 18px;
+        background: rgba(239,68,68,.12);
+        border: 1px solid rgba(239,68,68,.3);
+        border-radius: 10px;
+        color: #fca5a5;
+        font-size: 13px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 1px;
+        cursor: pointer; transition: background .2s, border-color .2s;
+        font-family: 'Outfit', sans-serif;
+    }
+    .inq-bulk-delete-btn:hover {
+        background: rgba(239,68,68,.2);
+        border-color: rgba(239,68,68,.55);
+    }
+    .inq-bulk-delete-btn:disabled {
+        opacity: .5; cursor: not-allowed;
+    }
+
+    .inq-checkbox-wrapper { display: flex; align-items: center; }
+    .inq-checkbox {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 18px; height: 18px;
+        background: var(--surface2);
+        border: 1px solid var(--border2);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background .2s, border-color .2s, box-shadow .2s;
+        position: relative;
+    }
+    .inq-checkbox:hover {
+        box-shadow: inset 0 0 0 1px rgba(248,214,109,.16);
+    }
+    .inq-checkbox:checked {
+        background: var(--accent);
+        border-color: var(--accent);
+    }
+    .inq-checkbox:checked::after {
+        content: '';
+        position: absolute;
+        top: 3px; left: 5px;
+        width: 5px; height: 9px;
+        border: 2px solid #0b0c0e;
+        border-top: none; border-left: none;
+        transform: rotate(45deg);
+    }
+
 </style>
 
 <div class="inq-wrap">
@@ -213,21 +265,38 @@
             <div class="inq-eyebrow">Inbox</div>
             <h1 class="inq-title">Contact Form <em>Inquiries</em></h1>
         </div>
+        <button id="bulk-delete-btn" class="inq-bulk-delete-btn" style="display: none;">
+            <i class="fas fa-trash"></i> Delete Selected
+        </button>
     </div>
 
     <div class="inq-table-wrap">
         <table class="inq-table">
             <thead>
                 <tr>
+                    @if ($inquiries->total() > 1)
+                    <th style="width: 50px; padding: 14px 16px;">
+                        <div class="inq-checkbox-wrapper">
+                            <input type="checkbox" id="check-all" class="inq-checkbox">
+                        </div>
+                    </th>
+                    @endif
                     <th>Sender</th>
                     <th>Status</th>
                     <th>Received</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="inquiries-tbody">
                 @forelse($inquiries as $inquiry)
-                <tr>
+                <tr data-inquiry-id="{{ $inquiry->id }}">
+                    @if ($inquiries->total() > 1)
+                    <td style="padding: 18px 16px;">
+                        <div class="inq-checkbox-wrapper">
+                            <input type="checkbox" class="inq-checkbox inquiry-checkbox" value="{{ $inquiry->id }}">
+                        </div>
+                    </td>
+                    @endif
                     <td>
                         <div class="inq-td-name">{{ $inquiry->name }}</div>
                         <div class="inq-td-email">{{ $inquiry->email }}</div>
@@ -260,7 +329,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" style="padding: 0; border-bottom: none;">
+                    <td colspan="5" style="padding: 0; border-bottom: none;">
                         <div class="inq-empty">
                             <i class="fas fa-envelope-open"></i>
                             No inquiries yet. They'll appear here when someone reaches out.
@@ -287,8 +356,8 @@
                 <i class="fas fa-trash del-icon"></i>
             </div>
         </div>
-        <h2 class="del-heading">Delete Inquiry</h2>
-        <p class="del-body">This inquiry will be permanently removed and cannot be recovered. Are you sure you want to continue?</p>
+        <h2 class="del-heading">Delete this inquiry?</h2>
+        <p class="del-body">It cannot be recovered.</p>
         <div class="del-actions">
             <button class="del-btn del-btn-cancel" onclick="closeDeleteModal()">Cancel</button>
             <button class="del-btn del-btn-confirm" id="del-confirm-btn">
@@ -399,5 +468,71 @@
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeDeleteModal();
     });
+
+    // Bulk delete functionality
+    const checkAllCheckbox = document.getElementById('check-all');
+    const inquiryCheckboxes = document.querySelectorAll('.inquiry-checkbox');
+    const bulkDeleteBtn = document.getElementById('bulk-delete-btn');
+    let _bulkDeleteTargetIds = [];
+
+    function updateBulkDeleteButton() {
+        _bulkDeleteTargetIds = Array.from(inquiryCheckboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+
+        bulkDeleteBtn.style.display = _bulkDeleteTargetIds.length > 0 ? 'inline-flex' : 'none';
+    }
+
+    if (checkAllCheckbox && inquiryCheckboxes.length > 0) {
+        checkAllCheckbox.addEventListener('change', function() {
+            inquiryCheckboxes.forEach(cb => cb.checked = this.checked);
+            updateBulkDeleteButton();
+        });
+
+        inquiryCheckboxes.forEach(cb => {
+            cb.addEventListener('change', function() {
+                checkAllCheckbox.checked = Array.from(inquiryCheckboxes).every(c => c.checked);
+                checkAllCheckbox.indeterminate = Array.from(inquiryCheckboxes).some(c => c.checked) &&
+                                                 !Array.from(inquiryCheckboxes).every(c => c.checked);
+                updateBulkDeleteButton();
+            });
+        });
+    }
+
+    bulkDeleteBtn.addEventListener('click', function() {
+        if (_bulkDeleteTargetIds.length === 0) return;
+
+        const count = _bulkDeleteTargetIds.length;
+        const confirmMsg = count === 1
+            ? 'Delete this inquiry? It cannot be recovered.'
+            : `Delete ${count} inquiries? They cannot be recovered.`;
+
+        if (confirm(confirmMsg)) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ route("admin.inquiries.bulk-delete") }}';
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]');
+            if (csrfToken) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = '_token';
+                input.value = csrfToken.getAttribute('content');
+                form.appendChild(input);
+            }
+
+            _bulkDeleteTargetIds.forEach(id => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'ids[]';
+                input.value = id;
+                form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    });
+
 </script>
 @endsection
