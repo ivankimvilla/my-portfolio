@@ -24,6 +24,14 @@ class ContactController extends Controller
 
         Inquiry::create($validated);
 
+        // Return JSON response for AJAX requests
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Message sent successfully! I\'ll get back to you soon.',
+            ], 201);
+        }
+
         return back()->with('success', 'Message sent successfully! I\'ll get back to you soon.');
     }
 } 

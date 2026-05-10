@@ -196,7 +196,12 @@
     .inq-card-footer {
         padding: 24px 40px;
         display: flex; gap: 12px; flex-wrap: wrap;
-        align-items: center;
+        align-items: flex-start;
+    }
+
+    /* Responded indicator spans full width */
+    .inq-responded-banner {
+        flex-basis: 100%;
     }
 
     /* Shared button base */
@@ -249,6 +254,40 @@
         background: rgba(239,68,68,.15);
         border-color: rgba(239,68,68,.45);
         box-shadow: 0 4px 18px rgba(239,68,68,.1);
+    }
+
+    /* Responded indicator */
+    .inq-responded-banner {
+        display: flex; align-items: center; gap: 12px;
+        padding: 14px 20px;
+        background: rgba(34,197,94,.08);
+        border: 1px solid rgba(34,197,94,.3);
+        border-radius: 12px;
+        color: #86efac;
+        font-size: 13px;
+        margin-bottom: 20px;
+        animation: slideIn .3s ease;
+    }
+
+    .inq-responded-banner i {
+        font-size: 16px; flex-shrink: 0;
+    }
+
+    .inq-responded-text {
+        display: flex; flex-direction: column; gap: 2px;
+    }
+
+    .inq-responded-label {
+        font-weight: 600; letter-spacing: 0.5px;
+    }
+
+    .inq-responded-time {
+        font-size: 12px; opacity: 0.8;
+    }
+
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 </style>
 
@@ -318,6 +357,17 @@
 
         {{-- Footer Actions --}}
         <div class="inq-card-footer">
+            {{-- Responded Indicator --}}
+            @if($inquiry->status === 'responded')
+            <div class="inq-responded-banner">
+                <i class="fas fa-check-double"></i>
+                <div class="inq-responded-text">
+                    <span class="inq-responded-label">✓ Response Sent</span>
+                    <span class="inq-responded-time">on {{ $inquiry->responded_at->format('M d, Y \a\t H:i') }}</span>
+                </div>
+            </div>
+            @endif
+
             @if($inquiry->status !== 'responded')
             <form method="POST" action="{{ route('admin.inquiries.mark-responded', $inquiry) }}" style="display:inline;">
                 @csrf
@@ -329,7 +379,7 @@
             @endif
 
             @if(auth()->check() && auth()->user()->email === 'ivanalmadin0@gmail.com')
-                <a href="https://mail.google.com/mail/u/0/#inbox?compose=new&to={{ urlencode($inquiry->email) }}&subject=Re: {{ urlencode($inquiry->subject ?? 'Message from ' . $inquiry->name) }}"
+                <a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&to={{ urlencode($inquiry->email) }}&su={{ urlencode('Re: ' . ($inquiry->subject ?? 'Message from ' . $inquiry->name)) }}"
                    target="_blank"
                    rel="noopener noreferrer"
                    class="inq-footer-btn inq-btn-reply">

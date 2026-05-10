@@ -16,7 +16,10 @@ class InquiryController extends Controller
 
     public function show(Inquiry $inquiry)
     {
-        $inquiry->update(['status' => 'read']);
+        // Only mark as read if not already responded
+        if ($inquiry->status !== 'responded') {
+            $inquiry->update(['status' => 'read']);
+        }
         return view('admin.inquiries.show', ['inquiry' => $inquiry]);
     }
 

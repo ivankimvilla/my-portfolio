@@ -38,6 +38,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('login', [AuthController::class, 'login'])->name('login.perform');
+    Route::get('login/confirm', [AuthController::class, 'confirmLogin'])->name('login.confirm')->middleware('signed');
 
     Route::get('forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
     Route::post('forgot-password', [AuthController::class, 'sendResetLink'])->name('send-reset-link');

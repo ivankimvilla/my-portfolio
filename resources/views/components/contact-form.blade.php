@@ -198,6 +198,61 @@
         transform: translateY(0);
     }
 
+    /* Loading State */
+    .cf-submit:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+    .cf-submit.loading {
+        pointer-events: none;
+        opacity: 0.7;
+    }
+
+    .cf-submit.loading i {
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    /* Error Banner */
+    .cf-error-banner {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px 20px;
+        background: rgba(239, 68, 68, .08);
+        border: 1px solid rgba(239, 68, 68, .3);
+        border-radius: 14px;
+        color: #fca5a5;
+        font-size: 14px;
+        margin-bottom: 24px;
+        animation: slideIn 0.4s ease;
+        display: none;
+    }
+
+    .cf-error-banner.show {
+        display: flex;
+    }
+
+    .cf-error-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .cf-error-list li {
+        margin-bottom: 6px;
+    }
+
+    .cf-error-list li:last-child {
+        margin-bottom: 0;
+    }
+
+
     .cf-submit span {
         position: relative;
         z-index: 1;
@@ -236,6 +291,16 @@
     <p class="cf-subheading">I'd love to hear from you. Get in touch and let's discuss your project.</p>
     @endif
 
+    <div id="successMessage" class="cf-success" style="display: none;">
+        <i class="fas fa-check-circle"></i>
+        <span id="successText"></span>
+    </div>
+
+    <div id="errorMessage" class="cf-error-banner">
+        <div style="flex-shrink: 0; font-size: 18px;">⚠</div>
+        <ul id="errorList" class="cf-error-list"></ul>
+    </div>
+
     @if(session('success'))
     <div class="cf-success">
         <i class="fas fa-check-circle"></i>
@@ -250,8 +315,8 @@
         <div class="cf-row">
             {{-- Name --}}
             <div class="cf-field">
-                <label class="cf-label">Your Name <span style="color: rgba(200,169,110,.6);">*</span></label>
-                <input type="text" name="name" required
+                <label for="name" class="cf-label">Your Name <span style="color: rgba(200,169,110,.6);">*</span></label>
+                <input type="text" id="name" name="name" required autocomplete="name"
                        class="cf-input @error('name') cf-error @enderror"
                        value="{{ old('name') }}"
                        placeholder="John Doe">
@@ -262,8 +327,8 @@
 
             {{-- Email --}}
             <div class="cf-field">
-                <label class="cf-label">Your Email <span style="color: rgba(200,169,110,.6);">*</span></label>
-                <input type="email" name="email" required
+                <label for="email" class="cf-label">Your Email <span style="color: rgba(200,169,110,.6);">*</span></label>
+                <input type="email" id="email" name="email" required autocomplete="email"
                        class="cf-input @error('email') cf-error @enderror"
                        value="{{ old('email') }}"
                        placeholder="john@example.com">
@@ -277,8 +342,8 @@
         <div class="cf-row">
             {{-- Phone --}}
             <div class="cf-field">
-                <label class="cf-label">Phone <span class="cf-label-opt">(Optional)</span></label>
-                <input type="tel" name="phone"
+                <label for="phone" class="cf-label">Phone <span class="cf-label-opt">(Optional)</span></label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel"
                        class="cf-input"
                        value="{{ old('phone') }}"
                        placeholder="+1 (555) 123-4567">
@@ -289,8 +354,8 @@
 
             {{-- Subject --}}
             <div class="cf-field">
-                <label class="cf-label">Subject <span class="cf-label-opt">(Optional)</span></label>
-                <input type="text" name="subject"
+                <label for="subject" class="cf-label">Subject <span class="cf-label-opt">(Optional)</span></label>
+                <input type="text" id="subject" name="subject" autocomplete="off"
                        class="cf-input"
                        value="{{ old('subject') }}"
                        placeholder="What is this about?">
@@ -302,8 +367,8 @@
 
         {{-- Message --}}
         <div class="cf-field">
-            <label class="cf-label">Message <span style="color: rgba(200,169,110,.6);">*</span></label>
-            <textarea name="message" required
+            <label for="message" class="cf-label">Message <span style="color: rgba(200,169,110,.6);">*</span></label>
+            <textarea id="message" name="message" required autocomplete="off"
                       class="cf-textarea @error('message') cf-error @enderror"
                       placeholder="Tell me about your project...">{{ old('message') }}</textarea>
             @error('message')
@@ -312,7 +377,7 @@
         </div>
 
         {{-- Submit Button --}}
-        <button type="submit" class="cf-submit">
+        <button type="submit" class="cf-submit" id="submitBtn">
             <span>
                 <i class="fas fa-arrow-right"></i>Send Message
             </span>
@@ -323,3 +388,95 @@
         </p>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorList = document.getElementById('errorList');
+        const successText = document.getElementById('successText');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.classList.remove('show');
+            errorList.innerHTML = '';
+
+            // Clear error states
+            form.querySelectorAll('.cf-error').forEach(el => el.classList.remove('cf-error'));
+            form.querySelectorAll('.cf-error-msg').forEach(el => el.style.display = 'none');
+
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+            submitBtn.querySelector('i').classList.remove('fa-arrow-right');
+            submitBtn.querySelector('i').classList.add('fa-spinner');
+
+            try {
+                const formData = new FormData(form);
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Success
+                    successText.textContent = data.message;
+                    successMessage.style.display = 'flex';
+
+                    // Reset form
+                    form.reset();
+
+                    // Scroll to message
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    // Validation errors
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(field => {
+                            const errors = data.errors[field];
+                            const input = form.querySelector(`[name="${field}"]`);
+
+                            // Show field error
+                            if (input) {
+                                input.classList.add('cf-error');
+                            }
+
+                            // Add to error list
+                            errors.forEach(error => {
+                                const li = document.createElement('li');
+                                li.textContent = error;
+                                errorList.appendChild(li);
+                            });
+                        });
+
+                        errorMessage.classList.add('show');
+                        errorMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                const li = document.createElement('li');
+                li.textContent = 'An error occurred. Please try again later.';
+                errorList.appendChild(li);
+                errorMessage.classList.add('show');
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } finally {
+                // Remove loading state
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+                submitBtn.querySelector('i').classList.add('fa-arrow-right');
+                submitBtn.querySelector('i').classList.remove('fa-spinner');
+            }
+        });
+    });
+</script>

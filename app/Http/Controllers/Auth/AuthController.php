@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Illuminate\View\View;
-use App\Http\Controllers\Controller;
+use App\Notifications\LoginAttemptNotification;
 
 class AuthController extends Controller
 {
@@ -42,14 +43,65 @@ class AuthController extends Controller
             ])->onlyInput('email');
         }
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
-            return redirect()->intended('/admin/projects')->with('success', 'Logged in successfully!');
+        // Verify password
+        if (!Hash::check($credentials['password'], $user->password)) {
+            return back()->withErrors([
+                'email' => 'The provided credentials do not match our records.',
+            ])->onlyInput('email');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        // Send login confirmation email
+        $user->notify(new LoginAttemptNotification(
+            $credentials,
+            $request->ip(),
+            $request->userAgent()
+        ));
+
+        return back()->with('status', 'Login confirmation email sent! Please check your email and click the confirmation link to complete login.');
+    }
+
+    /**
+     * Confirm login from email link
+     */
+    public function confirmLogin(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'token' => 'required|string',
+        ]);
+
+        // Verify the signed URL
+        if (!$request->hasValidSignature()) {
+            return redirect()->route('admin.login')->withErrors([
+                'email' => 'This login confirmation link has expired or is invalid.',
+            ]);
+        }
+
+        try {
+            $credentials = decrypt($request->token);
+
+            // Verify email matches
+            if ($credentials['email'] !== $request->email) {
+                return redirect()->route('admin.login')->withErrors([
+                    'email' => 'Invalid login confirmation link.',
+                ]);
+            }
+
+            // Attempt login
+            if (Auth::attempt($credentials, false)) {
+                $request->session()->regenerate();
+                return redirect()->intended('/admin/projects')->with('success', 'Login confirmed successfully!');
+            }
+
+        } catch (\Exception $e) {
+            return redirect()->route('admin.login')->withErrors([
+                'email' => 'Invalid login confirmation link.',
+            ]);
+        }
+
+        return redirect()->route('admin.login')->withErrors([
+            'email' => 'Login confirmation failed. Please try logging in again.',
+        ]);
     }
 
     /**

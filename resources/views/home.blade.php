@@ -531,7 +531,9 @@
 
     @media (max-width: 900px) {
         .pf-hero-inner { grid-template-columns: 1fr; }
-        .pf-hero-photo { display: none; }
+        .pf-hero-photo { display: block; margin-top: 40px; }
+        .pf-hero-photo-frame { max-width: 280px; margin: 0 auto; }
+        .pf-hero-photo-overlay { transform: translateY(0) !important; }
         .pf-projects-grid { grid-template-columns: 1fr 1fr; }
         .pf-contact-grid { grid-template-columns: 1fr; gap: 48px; }
         .pf-cta-inner { padding: 56px 32px; }

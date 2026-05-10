@@ -191,7 +191,8 @@
     @media (max-width: 640px) {
         .pf-footer-grid { grid-template-columns: 1fr; gap: 36px; }
         .pf-footer-inner { padding: 60px 24px 40px; }
-        .pf-footer-bottom { flex-direction: column; align-items: flex-start; gap: 20px; }
+        .pf-footer-bottom { flex-direction: column; align-items: center; gap: 20px; }
+        .pf-footer-copy { text-align: center; }
     }
 </style>
 
