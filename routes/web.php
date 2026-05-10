@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\Admin\InquiryController;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 // Redirect /login to admin login
 Route::get('/login', fn() => redirect()->route('admin.login'))->name('login');
@@ -42,6 +43,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
     Route::post('forgot-password', [AuthController::class, 'sendResetLink'])->name('send-reset-link');
+
+    Route::get('reset-password', function (Request $request) {
+        if ($token = $request->query('token')) {
+            return redirect()->route('admin.reset-password', [
+                'token' => $token,
+                'email' => $request->query('email'),
+            ]);
+        }
+
+        return redirect()->route('admin.forgot-password')
+            ->withErrors(['email' => 'Password reset link is invalid or expired. Please request a new link.']);
+    });
 
     Route::get('reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('reset-password');
     Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('reset-password.perform');

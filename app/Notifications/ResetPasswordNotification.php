@@ -16,12 +16,11 @@ class ResetPasswordNotification extends ResetPassword
     protected function buildMailMessage($url)
     {
         return (new MailMessage)
-            ->subject('Reset Password Notification')
-            ->line('You are receiving this email because we received a password reset request for your account.')
-            ->action('Reset Password', $url)
-            ->line('This password reset link will expire in '.config('auth.passwords.'.env('AUTH_PASSWORD_BROKER', 'users').'.expire').' minutes.')
-            ->line('If you did not request a password reset, no further action is required.')
-            ->salutation('Best regards,');
+            ->subject('Reset Your Admin Password')
+            ->view('emails.reset-password', [
+                'url' => $url,
+                'expiration' => config('auth.passwords.'.env('AUTH_PASSWORD_BROKER', 'users').'.expire'),
+            ]);
     }
 
     /**
@@ -31,10 +30,8 @@ class ResetPasswordNotification extends ResetPassword
      */
     public function toMail($notifiable)
     {
-        $resetUrl = route('admin.reset-password', [
-            'token' => $this->token,
-            'email' => $notifiable->getEmailForPasswordReset(),
-        ]);
+        $resetUrl = route('admin.reset-password', $this->token)
+            . '?email=' . urlencode($notifiable->getEmailForPasswordReset());
 
         return $this->buildMailMessage($resetUrl);
     }
