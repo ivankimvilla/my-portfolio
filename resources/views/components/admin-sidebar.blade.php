@@ -3,10 +3,11 @@
         width: 280px;
         height: 100vh;
         background: rgba(10, 14, 22, 0.96);
-        padding: 32px 24px 48px;
+        padding: 24px 24px 24px;
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 1rem;
+        justify-content: space-between;
         position: fixed;
         top: 0;
         left: 0;
@@ -50,7 +51,7 @@
     }
 
     .sidebar-brand-title {
-        font-size: 2rem;
+        font-size: 1.7rem;
         line-height: 1.05;
         font-weight: 700;
         letter-spacing: -0.03em;
@@ -65,16 +66,17 @@
     .sidebar-nav {
         display: flex;
         flex-direction: column;
-        gap: 0.8rem;
+        gap: 0.65rem;
         position: relative;
         z-index: 1;
+        flex: 1;
     }
 
     .sidebar-link {
         display: flex;
         align-items: center;
         gap: 14px;
-        padding: 14px 18px;
+        padding: 10px 18px;
         border-radius: 18px;
         border: 1px solid transparent;
         color: rgba(248, 250, 252, 0.78);
@@ -98,7 +100,7 @@
     }
 
     .sidebar-link:last-child {
-        margin-bottom: 1rem;
+        margin-bottom: 0;
     }
 
     .sidebar-link {
@@ -106,8 +108,8 @@
     }
 
     .sidebar-link-icon {
-        width: 44px;
-        height: 44px;
+        width: 38px;
+        height: 38px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
