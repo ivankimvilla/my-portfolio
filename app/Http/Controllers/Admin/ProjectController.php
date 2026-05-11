@@ -38,15 +38,16 @@ class ProjectController extends Controller
         ]);
 
         if ($request->hasFile('image_file')) {
-            $path = $request->file('image_file')->store('projects', 'public');
-            $validated['image_url'] = 'storage/' . $path;
-            // Copy to public/storage for accessibility
-            $source = storage_path('app/public/' . $path);
-            $destination = public_path('storage/' . $path);
-            if (!file_exists(dirname($destination))) {
-                mkdir(dirname($destination), 0755, true);
+            $uploadDir = 'uploads/projects';
+            $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-_\.]/', '_', $request->file('image_file')->getClientOriginalName());
+            $destination = public_path($uploadDir);
+
+            if (! file_exists($destination)) {
+                mkdir($destination, 0755, true);
             }
-            copy($source, $destination);
+
+            $request->file('image_file')->move($destination, $filename);
+            $validated['image_url'] = $uploadDir . '/' . $filename;
         }
 
         $validated['technologies'] = $request->has('technologies') && trim($request->technologies) !== ''
@@ -81,23 +82,24 @@ class ProjectController extends Controller
         ]);
 
         if ($request->hasFile('image_file')) {
-            if ($project->image_url && str_starts_with($project->image_url, 'storage/')) {
-                Storage::disk('public')->delete(str_replace('storage/', '', $project->image_url));
-                // Also delete from public/storage
-                $oldPath = public_path($project->image_url);
-                if (file_exists($oldPath)) {
-                    unlink($oldPath);
+            if ($project->image_url) {
+                $existingPath = ltrim($project->image_url, '/');
+                $existingFullPath = public_path($existingPath);
+                if (file_exists($existingFullPath)) {
+                    unlink($existingFullPath);
                 }
             }
-            $path = $request->file('image_file')->store('projects', 'public');
-            $validated['image_url'] = 'storage/' . $path;
-            // Copy to public/storage
-            $source = storage_path('app/public/' . $path);
-            $destination = public_path('storage/' . $path);
-            if (!file_exists(dirname($destination))) {
-                mkdir(dirname($destination), 0755, true);
+
+            $uploadDir = 'uploads/projects';
+            $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-_\.]/', '_', $request->file('image_file')->getClientOriginalName());
+            $destination = public_path($uploadDir);
+
+            if (! file_exists($destination)) {
+                mkdir($destination, 0755, true);
             }
-            copy($source, $destination);
+
+            $request->file('image_file')->move($destination, $filename);
+            $validated['image_url'] = $uploadDir . '/' . $filename;
         }
 
         $validated['technologies'] = $request->has('technologies') && trim($request->technologies) !== ''
@@ -111,12 +113,11 @@ class ProjectController extends Controller
 
     public function destroy(Project $project)
     {
-        if ($project->image_url && str_starts_with($project->image_url, 'storage/')) {
-            Storage::disk('public')->delete(str_replace('storage/', '', $project->image_url));
-            // Also delete from public/storage
-            $filePath = public_path($project->image_url);
-            if (file_exists($filePath)) {
-                unlink($filePath);
+        if ($project->image_url) {
+            $filePath = ltrim($project->image_url, '/');
+            $fullPath = public_path($filePath);
+            if (file_exists($fullPath)) {
+                unlink($fullPath);
             }
         }
         $project->delete();

@@ -27,6 +27,23 @@ class Project extends Model
         'is_active' => 'boolean',
     ];
 
+    public function getImageUrlAttribute($value)
+    {
+        if (! $value) {
+            return null;
+        }
+
+        if (preg_match('#^https?://#i', $value)) {
+            return $value;
+        }
+
+        if (str_starts_with($value, '/')) {
+            return asset(ltrim($value, '/'));
+        }
+
+        return asset($value);
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';
