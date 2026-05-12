@@ -471,7 +471,7 @@
     <div class="pd-image-section">
         <div class="pd-image-frame">
             @if($project->image_url)
-                <img src="{{ $project->image_url }}" alt="{{ $project->title }}">
+                <img src="{{ asset($project->image_url) }}" alt="{{ $project->title }}">
             @else
                 <div class="pd-image-placeholder">
                     <i class="fas fa-image"></i>
