@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Certificate;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CertificateController extends Controller
 {
@@ -41,8 +40,15 @@ class CertificateController extends Controller
         ]);
 
         if ($request->hasFile('certificate_file')) {
-            $path = $request->file('certificate_file')->store('certificates', 'public');
-            $validated['certificate_path'] = 'storage/' . $path;
+            $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-_\.]/', '_', $request->file('certificate_file')->getClientOriginalName());
+            $destination = public_path('certificates');
+
+            if (! file_exists($destination)) {
+                mkdir($destination, 0755, true);
+            }
+
+            $request->file('certificate_file')->move($destination, $filename);
+            $validated['certificate_path'] = 'certificates/' . $filename;
         }
 
         Certificate::create($validated);
@@ -81,11 +87,19 @@ class CertificateController extends Controller
         ]);
 
         if ($request->hasFile('certificate_file')) {
-            if ($certificate->certificate_path && str_starts_with($certificate->certificate_path, 'storage/')) {
-                Storage::disk('public')->delete(str_replace('storage/', '', $certificate->certificate_path));
+            if ($certificate->certificate_path && file_exists(public_path($certificate->certificate_path))) {
+                unlink(public_path($certificate->certificate_path));
             }
-            $path = $request->file('certificate_file')->store('certificates', 'public');
-            $validated['certificate_path'] = 'storage/' . $path;
+
+            $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-_\.]/', '_', $request->file('certificate_file')->getClientOriginalName());
+            $destination = public_path('certificates');
+
+            if (! file_exists($destination)) {
+                mkdir($destination, 0755, true);
+            }
+
+            $request->file('certificate_file')->move($destination, $filename);
+            $validated['certificate_path'] = 'certificates/' . $filename;
         }
 
         $certificate->update($validated);
