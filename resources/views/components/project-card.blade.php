@@ -5,7 +5,7 @@
     {{-- Thumbnail --}}
     <div class="pf-project-thumb">
         @if($project->image_url)
-            <img src="{{ asset($project->image_url) }}" alt="{{ $project->title }}" loading="lazy">
+            <img src="{{ $project->image_url }}" alt="{{ $project->title }}" loading="lazy">
         @else
             <div class="pf-project-thumb-placeholder">
                 <i class="fas fa-image"></i>

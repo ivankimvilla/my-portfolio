@@ -232,39 +232,39 @@
             @method('PATCH')
 
             <div class="pf-field">
-                <label class="pf-label">Project Title <span style="color:var(--accent);opacity:.6;">*</span></label>
-                <input type="text" name="title" required
+                <label for="title" class="pf-label">Project Title <span style="color:var(--accent);opacity:.6;">*</span></label>
+                <input id="title" type="text" name="title" required
                     class="pf-input @error('title') has-error @enderror"
                     value="{{ old('title', $project->title) }}">
                 @error('title')<p class="pf-error">{{ $message }}</p>@enderror
             </div>
 
             <div class="pf-field">
-                <label class="pf-label">Slug <span style="color:var(--accent);opacity:.6;">*</span></label>
-                <input type="text" name="slug" required
+                <label for="slug" class="pf-label">Slug <span style="color:var(--accent);opacity:.6;">*</span></label>
+                <input id="slug" type="text" name="slug" required
                     class="pf-input @error('slug') has-error @enderror"
                     value="{{ old('slug', $project->slug) }}">
                 @error('slug')<p class="pf-error">{{ $message }}</p>@enderror
             </div>
 
             <div class="pf-field">
-                <label class="pf-label">Description <span style="color:var(--accent);opacity:.6;">*</span></label>
-                <textarea name="description" rows="4" required
+                <label for="description" class="pf-label">Description <span style="color:var(--accent);opacity:.6;">*</span></label>
+                <textarea id="description" name="description" rows="4" required
                     class="pf-textarea @error('description') has-error @enderror">{{ old('description', $project->description) }}</textarea>
                 @error('description')<p class="pf-error">{{ $message }}</p>@enderror
             </div>
 
             <div class="pf-field">
-                <label class="pf-label">Problem &amp; Solution</label>
-                <textarea name="problem_solution" rows="6"
+                <label for="problem_solution" class="pf-label">Problem &amp; Solution</label>
+                <textarea id="problem_solution" name="problem_solution" rows="6"
                     class="pf-textarea">{{ old('problem_solution', $project->problem_solution) }}</textarea>
                 <p class="pf-hint">Detailed explanation of the problem and your solution</p>
             </div>
 
             <div class="pf-grid-2">
                 <div class="pf-field">
-                    <label class="pf-label">Project Image</label>
-                    <input type="file" name="image_file" accept="image/*"
+                    <label for="image_file" class="pf-label">Project Image</label>
+                    <input id="image_file" type="file" name="image_file" accept="image/*"
                         class="pf-input">
                     @if($project->image_url)
                     <p class="pf-hint">Current image: <strong>{{ basename($project->image_url) }}</strong></p>
@@ -272,8 +272,8 @@
                     <p class="pf-hint">Upload a new image to replace the current one (JPEG, PNG, WebP; max 5MB)</p>
                 </div>
                 <div class="pf-field">
-                    <label class="pf-label">Display Order</label>
-                    <input type="number" name="display_order"
+                    <label for="display_order" class="pf-label">Display Order</label>
+                    <input id="display_order" type="number" name="display_order"
                         class="pf-input"
                         value="{{ old('display_order', $project->display_order) }}">
                 </div>
@@ -281,22 +281,22 @@
 
             <div class="pf-grid-2">
                 <div class="pf-field">
-                    <label class="pf-label">Live URL</label>
-                    <input type="url" name="live_url"
+                    <label for="live_url" class="pf-label">Live URL</label>
+                    <input id="live_url" type="url" name="live_url"
                         class="pf-input"
                         value="{{ old('live_url', $project->live_url) }}">
                 </div>
                 <div class="pf-field">
-                    <label class="pf-label">GitHub URL</label>
-                    <input type="url" name="github_url"
+                    <label for="github_url" class="pf-label">GitHub URL</label>
+                    <input id="github_url" type="url" name="github_url"
                         class="pf-input"
                         value="{{ old('github_url', $project->github_url) }}">
                 </div>
             </div>
 
             <div class="pf-field">
-                <label class="pf-label">Technologies</label>
-                <input type="text" name="technologies"
+                <label for="technologies" class="pf-label">Technologies</label>
+                <input id="technologies" type="text" name="technologies"
                     class="pf-input"
                     value="{{ old('technologies', implode(', ', $project->technologies ?? [])) }}"
                     placeholder="Laravel, Vue.js, MySQL">
@@ -304,8 +304,8 @@
             </div>
 
             <div class="pf-field">
-                <label class="pf-label">Your Role</label>
-                <textarea name="role" rows="3"
+                <label for="role" class="pf-label">Your Role</label>
+                <textarea id="role" name="role" rows="3"
                     class="pf-textarea">{{ old('role', $project->role) }}</textarea>
                 <p class="pf-hint">What did you do on this project?</p>
             </div>

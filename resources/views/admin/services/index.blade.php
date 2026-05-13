@@ -256,8 +256,8 @@
                         <div class="svc-td-slug">{{ $service->slug }}</div>
                     </td>
                     <td>
-                        @if($service->certificate_path)
-                            <a href="{{ asset('storage/' . $service->certificate_path) }}" target="_blank" class="svc-cert-link">
+                        @if($service->certificate_url)
+                            <a href="{{ $service->certificate_url }}" target="_blank" class="svc-cert-link">
                                 <i class="fas fa-file-alt"></i> View
                             </a>
                         @else

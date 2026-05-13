@@ -292,68 +292,68 @@
             @method('PATCH')
 
             <div class="svc-field">
-                <label class="svc-label">Service Title <span style="color:var(--accent);opacity:.6;">*</span></label>
-                <input type="text" name="title" required
+                <label for="title" class="svc-label">Service Title <span style="color:var(--accent);opacity:.6;">*</span></label>
+                <input id="title" type="text" name="title" required
                     class="svc-input @error('title') has-error @enderror"
                     value="{{ old('title', $service->title) }}">
                 @error('title')<p class="svc-error">{{ $message }}</p>@enderror
             </div>
 
             <div class="svc-field">
-                <label class="svc-label">Slug <span style="color:var(--accent);opacity:.6;">*</span></label>
-                <input type="text" name="slug" required
+                <label for="slug" class="svc-label">Slug <span style="color:var(--accent);opacity:.6;">*</span></label>
+                <input id="slug" type="text" name="slug" required
                     class="svc-input @error('slug') has-error @enderror"
                     value="{{ old('slug', $service->slug) }}">
                 @error('slug')<p class="svc-error">{{ $message }}</p>@enderror
             </div>
 
             <div class="svc-field">
-                <label class="svc-label">Description <span style="color:var(--accent);opacity:.6;">*</span></label>
-                <textarea name="description" rows="4" required
+                <label for="description" class="svc-label">Description <span style="color:var(--accent);opacity:.6;">*</span></label>
+                <textarea id="description" name="description" rows="4" required
                     class="svc-textarea @error('description') has-error @enderror">{{ old('description', $service->description) }}</textarea>
                 @error('description')<p class="svc-error">{{ $message }}</p>@enderror
             </div>
 
             <div class="svc-grid-2">
                 <div class="svc-field">
-                    <label class="svc-label">Icon <span style="color:var(--muted2);font-size:10px;">(emoji)</span></label>
-                    <input type="text" name="icon"
+                    <label for="icon" class="svc-label">Icon <span style="color:var(--muted2);font-size:10px;">(emoji)</span></label>
+                    <input id="icon" type="text" name="icon"
                         class="svc-input"
                         value="{{ old('icon', $service->icon) }}" maxlength="2">
                 </div>
                 <div class="svc-field">
-                    <label class="svc-label">Price Range</label>
-                    <input type="text" name="price_range"
+                    <label for="price_range" class="svc-label">Price Range</label>
+                    <input id="price_range" type="text" name="price_range"
                         class="svc-input"
                         value="{{ old('price_range', $service->price_range) }}">
                 </div>
             </div>
 
             <div class="svc-field">
-                <label class="svc-label">Deliverables</label>
-                <textarea name="deliverables" rows="4"
+                <label for="deliverables" class="svc-label">Deliverables</label>
+                <textarea id="deliverables" name="deliverables" rows="4"
                     class="svc-textarea">{{ old('deliverables', $service->deliverables ? implode("\n", $service->deliverables) : '') }}</textarea>
                 <p class="svc-hint">One deliverable per line</p>
             </div>
 
             <div class="svc-field">
-                <label class="svc-label">Tools &amp; Technologies</label>
-                <input type="text" name="tools"
+                <label for="tools" class="svc-label">Tools &amp; Technologies</label>
+                <input id="tools" type="text" name="tools"
                     class="svc-input"
                     value="{{ old('tools', $service->tools ? implode(', ', $service->tools) : '') }}">
                 <p class="svc-hint">Comma-separated — e.g., Laravel, React, MySQL</p>
             </div>
 
             <div class="svc-field">
-                <label class="svc-label">Certificate <span style="color:var(--muted2);font-size:10px;">(PDF or image)</span></label>
-                <input type="file" name="certificate" accept="application/pdf,image/jpeg,image/png"
+                <label for="certificate" class="svc-label">Certificate <span style="color:var(--muted2);font-size:10px;">(PDF or image)</span></label>
+                <input id="certificate" type="file" name="certificate" accept="application/pdf,image/jpeg,image/png"
                     class="svc-file-input">
                 @error('certificate')<p class="svc-error">{{ $message }}</p>@enderror
-                @if($service->certificate_path)
+                @if($service->certificate_url)
                     <div class="svc-cert-notice">
                         <i class="fas fa-file-alt" style="color:var(--accent);opacity:.6;"></i>
                         Current file on record —
-                        <a href="{{ asset('storage/' . $service->certificate_path) }}" target="_blank">
+                        <a href="{{ $service->certificate_url }}" target="_blank">
                             View certificate <i class="fas fa-external-link-alt" style="font-size:10px;"></i>
                         </a>
                     </div>
@@ -362,8 +362,8 @@
             </div>
 
             <div class="svc-field">
-                <label class="svc-label">Display Order</label>
-                <input type="number" name="display_order"
+                <label for="display_order" class="svc-label">Display Order</label>
+                <input id="display_order" type="number" name="display_order"
                     class="svc-input"
                     value="{{ old('display_order', $service->display_order) }}">
             </div>

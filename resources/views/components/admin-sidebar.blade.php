@@ -65,16 +65,17 @@
     .sidebar-nav {
         display: flex;
         flex-direction: column;
-        gap: 0.8rem;
+        gap: 0.90rem;
         position: relative;
         z-index: 1;
+        margin-bottom: 1.5rem;
     }
 
     .sidebar-link {
         display: flex;
         align-items: center;
         gap: 14px;
-        padding: 14px 18px;
+        padding: 10px 18px;
         border-radius: 18px;
         border: 1px solid transparent;
         color: rgba(248, 250, 252, 0.78);

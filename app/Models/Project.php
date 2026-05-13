@@ -37,25 +37,21 @@ class Project extends Model
             return $value;
         }
 
-        $path = preg_replace('#^/+#', '', $value);
+        $path = ltrim($value, '/');
 
-        if (str_starts_with($path, 'public/')) {
-            $path = substr($path, 7);
+        $candidates = [
+            $path,
+            'storage/' . $path,
+            'uploads/' . $path,
+        ];
+
+        foreach ($candidates as $candidate) {
+            if (file_exists(public_path($candidate))) {
+                return asset($candidate);
+            }
         }
 
-        if (file_exists(public_path($path))) {
-            return url($path);
-        }
-
-        if (file_exists(public_path('storage/' . $path))) {
-            return url('storage/' . $path);
-        }
-
-        if (file_exists(public_path('uploads/' . $path))) {
-            return url('uploads/' . $path);
-        }
-
-        return url($path);
+        return asset($path);
     }
 
     public function getRouteKeyName()

@@ -811,9 +811,9 @@
         <div class="pf-certificates-grid">
             @forelse(\App\Models\Certificate::where('is_active', true)->latest()->get() as $certificate)
             <div class="pf-certificate-card">
-                @if($certificate->certificate_path)
+                @if($certificate->certificate_url)
                 <div class="pf-certificate-image">
-                    <img src="{{ asset($certificate->certificate_path) }}" alt="{{ $certificate->title }}" loading="lazy">
+                    <img src="{{ $certificate->certificate_url }}" alt="{{ $certificate->title }}" loading="lazy">
                 </div>
                 @endif
                 <div class="pf-certificate-content">
