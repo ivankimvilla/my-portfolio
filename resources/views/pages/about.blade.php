@@ -3,445 +3,18 @@
 @section('title', 'About Me - Ivan Kim Almadin')
 
 @section('content')
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap');
 
-    *, *::before, *::after { box-sizing: border-box; }
-
-    :root {
-        --bg:       #0b0c0e;
-        --surface:  #111316;
-        --surface2: #161820;
-        --border:   rgba(255,255,255,.07);
-        --accent:   #c8a96e;
-        --accent2:  #e8c98a;
-        --text:     #f0ece4;
-        --muted:    rgba(240,236,228,.65);
-        --muted2:   rgba(240,236,228,.22);
-    }
-
-    .ab-page {
-        font-family: 'Outfit', sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        min-height: 100vh;
-    }
-    /* Suppress global blue link color from layouts.app */
-    .ab-page a { color: inherit; }
-    .ab-page a:hover { color: var(--accent2); text-decoration: none; }
-
-    /* ── SHARED ── */
-    .ab-container {
-        max-width: 1200px; margin: 0 auto;
-        padding: 0 48px;
-    }
-    @media (max-width: 768px) { .ab-container { padding: 0 24px; } }
-
-    .ab-eyebrow {
-        display: inline-flex; align-items: center; gap: 10px;
-        font-size: 11px; font-weight: 600;
-        text-transform: uppercase; letter-spacing: 2.5px;
-        color: var(--accent); margin-bottom: 20px;
-    }
-    .ab-eyebrow::before {
-        content: ''; display: block;
-        width: 28px; height: 1px;
-        background: var(--accent); opacity: .7;
-    }
-
-    .ab-section-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(40px, 5vw, 64px);
-        font-weight: 300; line-height: 1.08;
-        letter-spacing: -1.5px; color: var(--text);
-        margin-bottom: 16px;
-    }
-    .ab-section-title em { font-style: italic; color: var(--accent); }
-
-    .ab-divider {
-        display: flex; align-items: center; gap: 14px;
-        margin-bottom: 56px;
-    }
-    .ab-divider-line { flex: 1; height: 1px; background: var(--border); }
-    .ab-divider-dot {
-        width: 5px; height: 5px; border-radius: 50%;
-        background: var(--accent); opacity: .4;
-    }
-
-    /* ══════════════════════════════
-       HERO
-    ══════════════════════════════ */
-    .ab-hero {
-        position: relative; overflow: hidden;
-        padding: 80px 0 100px;
-        border-bottom: 1px solid var(--border);
-    }
-    .ab-hero::before {
-        content: '';
-        position: absolute; inset: 0;
-        background:
-            radial-gradient(ellipse 55% 50% at 5% 30%, rgba(200,169,110,.08) 0%, transparent 60%),
-            radial-gradient(ellipse 40% 55% at 90% 70%, rgba(200,169,110,.05) 0%, transparent 60%);
-        pointer-events: none;
-    }
-    .ab-hero-rule {
-        position: absolute; left: 0; right: 0; height: 1px;
-        background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        opacity: .12;
-    }
-    .ab-hero-rule-top    { top: 0; }
-    .ab-hero-rule-bottom { bottom: 0; }
-
-    .ab-hero-inner {
-        display: grid; grid-template-columns: 1fr 400px;
-        gap: 72px; align-items: center;
-        position: relative; z-index: 1;
-    }
-
-    .ab-hero-tag {
-        display: inline-flex; align-items: center; gap: 8px;
-        font-size: 10px; font-weight: 600;
-        text-transform: uppercase; letter-spacing: 2px;
-        color: var(--accent);
-        border: 1px solid rgba(200,169,110,.25);
-        background: rgba(200,169,110,.06);
-        border-radius: 99px; padding: 6px 14px;
-        margin-bottom: 28px;
-    }
-
-    .ab-hero-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(48px, 5.5vw, 76px);
-        font-weight: 300; line-height: 1.05;
-        letter-spacing: -2px; color: var(--text);
-        margin-bottom: 24px;
-    }
-    .ab-hero-title em { font-style: italic; color: var(--accent); }
-
-    .ab-hero-desc {
-        font-size: 15px; color: var(--muted);
-        line-height: 1.85; margin-bottom: 16px;
-        text-align: justify;
-    }
-
-    .ab-hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 36px; }
-
-    .ab-btn-primary {
-        display: inline-flex; align-items: center; gap: 9px;
-        padding: 14px 28px;
-        background: transparent;
-        border: 1px solid rgba(200,169,110,.5);
-        border-radius: 10px; color: var(--accent2) !important;
-        font-family: 'Outfit', sans-serif;
-        font-size: 13px; font-weight: 600;
-        text-transform: uppercase; letter-spacing: 1.8px;
-        text-decoration: none; cursor: pointer;
-        position: relative; overflow: hidden;
-        transition: border-color .25s, box-shadow .25s, transform .15s, color .25s;
-    }
-    .ab-btn-primary::before {
-        content: ''; position: absolute; inset: 0;
-        background: linear-gradient(135deg, rgba(200,169,110,.18), rgba(200,169,110,.06));
-        opacity: 0; transition: opacity .25s;
-    }
-    .ab-btn-primary:hover {
-        border-color: var(--accent2);
-        box-shadow: 0 0 24px rgba(200,169,110,.22);
-        transform: translateY(-1px);
-        color: #f5dfa0 !important;
-    }
-    .ab-btn-primary:hover::before { opacity: 1; }
-    .ab-btn-primary span { position: relative; z-index: 1; color: inherit !important; }
-    .ab-btn-primary i { color: inherit !important; }
-
-    /* Photo card */
-    .ab-photo {
-        position: relative;
-        animation: abFloat 6s ease-in-out infinite;
-    }
-    .ab-photo-glow {
-        position: absolute; inset: -24px;
-        background: radial-gradient(ellipse at center, rgba(200,169,110,.11), transparent 70%);
-        pointer-events: none;
-    }
-    .ab-photo-frame {
-        position: relative;
-        border-radius: 20px; overflow: hidden;
-        border: 1px solid rgba(200,169,110,.25);
-        aspect-ratio: 4/5;
-        background: var(--surface);
-    }
-    .ab-photo-frame img {
-        width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .ab-photo::before {
-        content: '';
-        position: absolute; top: -12px; right: -12px;
-        width: 80px; height: 80px;
-        border-top: 1px solid rgba(200,169,110,.3);
-        border-right: 1px solid rgba(200,169,110,.3);
-        border-radius: 0 12px 0 0;
-        pointer-events: none; z-index: 2;
-    }
-    .ab-photo::after {
-        content: '';
-        position: absolute; bottom: -12px; left: -12px;
-        width: 80px; height: 80px;
-        border-bottom: 1px solid rgba(200,169,110,.3);
-        border-left: 1px solid rgba(200,169,110,.3);
-        border-radius: 0 0 0 12px;
-        pointer-events: none; z-index: 2;
-    }
-
-    @keyframes abFloat {
-        0%, 100% { transform: translateY(0px); }
-        50%       { transform: translateY(-14px) rotate(0.3deg); }
-    }
-
-    /* ══════════════════════════════
-       SKILLS
-    ══════════════════════════════ */
-    .ab-skills {
-        padding: 100px 0;
-        border-bottom: 1px solid var(--border);
-        position: relative;
-    }
-    .ab-skills::before {
-        content: '';
-        position: absolute; inset: 0;
-        background: radial-gradient(ellipse 50% 60% at 15% 50%, rgba(200,169,110,.04), transparent 60%);
-        pointer-events: none;
-    }
-
-    .ab-skills-inner {
-        display: grid; grid-template-columns: 1fr 1fr;
-        gap: 72px; align-items: start;
-    }
-
-    /* Skill bars */
-    .ab-skill-bars { display: flex; flex-direction: column; gap: 24px; }
-
-    .ab-skill-bar-header {
-        display: flex; justify-content: space-between;
-        align-items: center; margin-bottom: 10px;
-    }
-    .ab-skill-bar-label {
-        font-size: 13px; font-weight: 600;
-        color: var(--text); letter-spacing: 0.3px;
-    }
-    .ab-skill-bar-pct {
-        font-size: 11px; font-weight: 600;
-        color: var(--accent); letter-spacing: 1px;
-    }
-    .ab-skill-bar-track {
-        height: 3px; border-radius: 99px;
-        background: rgba(255,255,255,.06);
-        overflow: hidden;
-    }
-    .ab-skill-bar-fill {
-        height: 100%; border-radius: 99px;
-        background: linear-gradient(90deg, var(--accent), var(--accent2));
-        position: relative;
-    }
-    .ab-skill-bar-fill::after {
-        content: '';
-        position: absolute; right: 0; top: 50%;
-        transform: translateY(-50%);
-        width: 6px; height: 6px; border-radius: 50%;
-        background: var(--accent2);
-        box-shadow: 0 0 8px rgba(232,201,138,.6);
-    }
-
-    /* Timeline */
-    .ab-timeline { display: flex; flex-direction: column; gap: 28px; }
-
-    .ab-timeline-item {
-        display: flex; gap: 20px; align-items: flex-start;
-        padding: 24px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        position: relative; overflow: hidden;
-        transition: border-color .3s, transform .3s;
-    }
-    .ab-timeline-item::before {
-        content: '';
-        position: absolute; top: 0; left: 0; bottom: 0; width: 2px;
-        background: linear-gradient(to bottom, var(--accent), transparent);
-        opacity: 0; transition: opacity .3s;
-    }
-    .ab-timeline-item:hover {
-        border-color: rgba(200,169,110,.2);
-        transform: translateX(4px);
-    }
-    .ab-timeline-item:hover::before { opacity: 1; }
-
-    .ab-timeline-icon {
-        width: 44px; height: 44px; flex-shrink: 0;
-        border-radius: 10px;
-        border: 1px solid rgba(200,169,110,.25);
-        background: rgba(200,169,110,.06);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 16px; color: var(--accent);
-    }
-    .ab-timeline-role {
-        font-size: 15px; font-weight: 600;
-        color: var(--text); margin-bottom: 4px;
-    }
-    .ab-timeline-company {
-        font-size: 11px; font-weight: 600;
-        color: var(--accent); letter-spacing: 1.5px;
-        text-transform: uppercase; margin-bottom: 8px;
-    }
-    .ab-timeline-desc {
-        font-size: 13px; color: var(--muted);
-        line-height: 1.7;
-    }
-
-    /* ══════════════════════════════
-       STATS / ACHIEVEMENTS
-    ══════════════════════════════ */
-    .ab-stats {
-        padding: 100px 0;
-        border-bottom: 1px solid var(--border);
-        position: relative;
-    }
-    .ab-stats::before {
-        content: '';
-        position: absolute; inset: 0;
-        background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(200,169,110,.05), transparent 60%);
-        pointer-events: none;
-    }
-
-    .ab-stats-grid {
-        display: grid; grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
-    }
-
-    .ab-stat-card {
-        padding: 40px 32px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        text-align: center;
-        position: relative; overflow: hidden;
-        transition: border-color .3s, transform .3s, box-shadow .3s;
-    }
-    .ab-stat-card::before {
-        content: '';
-        position: absolute; top: 0; left: 0; right: 0; height: 1px;
-        background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        opacity: 0; transition: opacity .3s;
-    }
-    .ab-stat-card:hover {
-        border-color: rgba(200,169,110,.25);
-        transform: translateY(-6px);
-        box-shadow: 0 20px 48px rgba(0,0,0,.35), 0 0 0 1px rgba(200,169,110,.08);
-    }
-    .ab-stat-card:hover::before { opacity: .6; }
-
-    .ab-stat-icon {
-        width: 56px; height: 56px; margin: 0 auto 20px;
-        border-radius: 14px;
-        border: 1px solid rgba(200,169,110,.25);
-        background: rgba(200,169,110,.06);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 22px; color: var(--accent);
-    }
-    .ab-stat-number {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 52px; font-weight: 300;
-        line-height: 1; letter-spacing: -2px;
-        color: var(--text); margin-bottom: 8px;
-    }
-    .ab-stat-number em { font-style: italic; color: var(--accent); }
-    .ab-stat-label {
-        font-size: 13px; font-weight: 600;
-        color: var(--text); margin-bottom: 8px;
-        text-transform: uppercase; letter-spacing: 1px;
-    }
-    .ab-stat-desc {
-        font-size: 12px; color: var(--muted2);
-        line-height: 1.6;
-    }
-
-    /* ══════════════════════════════
-       CTA
-    ══════════════════════════════ */
-    .ab-cta {
-        padding: 100px 0 120px;
-        position: relative;
-    }
-    .ab-cta-inner {
-        position: relative; overflow: hidden;
-        border: 1px solid rgba(200,169,110,.18);
-        border-radius: 24px; padding: 80px 64px;
-        text-align: center;
-        background: var(--surface);
-    }
-    .ab-cta-inner::before {
-        content: '';
-        position: absolute; inset: 0;
-        background:
-            radial-gradient(ellipse 70% 60% at 50% 0%, rgba(200,169,110,.1), transparent 60%),
-            radial-gradient(ellipse 50% 40% at 50% 100%, rgba(200,169,110,.06), transparent 60%);
-        pointer-events: none;
-    }
-    .ab-cta-inner::after {
-        content: '';
-        position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
-        background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        opacity: .18;
-    }
-    .ab-cta-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(40px, 5vw, 64px);
-        font-weight: 300; line-height: 1.1;
-        letter-spacing: -1.5px; color: var(--text);
-        margin-bottom: 16px; position: relative; z-index: 1;
-    }
-    .ab-cta-title em { font-style: italic; color: var(--accent); }
-    .ab-cta-desc {
-        font-size: 15px; color: var(--muted);
-        line-height: 1.8; max-width: 520px;
-        margin: 0 auto 40px; position: relative; z-index: 1;
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-        .ab-hero-inner  { grid-template-columns: 1fr; }
-        .ab-photo       { display: none; }
-        .ab-skills-inner { grid-template-columns: 1fr; gap: 48px; }
-        .ab-stats-grid  { grid-template-columns: 1fr; }
-        .ab-cta-inner   { padding: 56px 32px; }
-    }
-    @media (max-width: 640px) {
-        .ab-stats-grid  { grid-template-columns: 1fr; }
-    }
-
-    /* ── ENTRANCE ANIMATIONS ── */
-    @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(24px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-    .ab-hero-left > * {
-        animation: fadeUp .6s ease both;
-    }
-    .ab-hero-left > *:nth-child(1) { animation-delay: .08s; }
-    .ab-hero-left > *:nth-child(2) { animation-delay: .16s; }
-    .ab-hero-left > *:nth-child(3) { animation-delay: .24s; }
-    .ab-hero-left > *:nth-child(4) { animation-delay: .32s; }
-    .ab-hero-left > *:nth-child(5) { animation-delay: .40s; }
-</style>
+<link rel="stylesheet" href="{{ asset('css/pages/about.css') }}">
 
 <div class="ab-page">
-<div class="ab-container">
 
     {{-- ══ HERO ══ --}}
     <section class="ab-hero">
+        <canvas id="ab-neural-canvas"></canvas>
         <div class="ab-hero-rule ab-hero-rule-top"></div>
         <div class="ab-hero-rule ab-hero-rule-bottom"></div>
 
+        <div class="ab-container">
         <div class="ab-hero-inner">
             {{-- Left copy --}}
             <div class="ab-hero-left">
@@ -475,6 +48,9 @@
                     <a href="/portfolio" class="ab-btn-primary">
                         <span><i class="fas fa-arrow-right" style="margin-right:7px;"></i>View My Work</span>
                     </a>
+                    <a href="{{ route('resume.download') }}" class="ab-btn-primary" title="Download Resume">
+                        <span><i class="fas fa-download" style="margin-right:7px;"></i>Download Resume</span>
+                    </a>
                 </div>
             </div>
 
@@ -486,8 +62,10 @@
                 </div>
             </div>
         </div>
+        </div>{{-- /.ab-container --}}
     </section>
 
+<div class="ab-container">
     {{-- ══ SKILLS & EXPERIENCE ══ --}}
     <section class="ab-skills">
         <div class="ab-eyebrow">Expertise</div>
@@ -512,25 +90,28 @@
             @endphp
 
             <div>
-                <div class="ab-eyebrow" style="margin-bottom:28px;">Professional Skills</div>
-                <div class="ab-skill-bars">
-                    @foreach ($skills as $skill)
-                        @if (! empty($skill['label']))
-                            @php
-                                $pct = trim((string) ($skill['pct'] ?? ''));
-                                $pctValue = rtrim($pct, '%');
-                            @endphp
-                            <div>
-                                <div class="ab-skill-bar-header">
-                                    <span class="ab-skill-bar-label">{{ $skill['label'] }}</span>
-                                    <span class="ab-skill-bar-pct">{{ $pct ?: '0%' }}</span>
+                <div class="ab-eyebrow" style="margin-bottom:12px;">Proficiency</div>
+                <h3 style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,38px);font-weight:300;letter-spacing:-0.8px;color:var(--text);line-height:1.1;margin:0 0 36px;">Professional <em style="font-style:italic;color:var(--accent);">Skills</em></h3>
+                <div class="ab-skill-bars-wrap">
+                    <div class="ab-skill-bars">
+                        @foreach ($skills as $skill)
+                            @if (! empty($skill['label']))
+                                @php
+                                    $pct = trim((string) ($skill['pct'] ?? ''));
+                                    $pctValue = rtrim($pct, '%');
+                                @endphp
+                                <div class="ab-skill-bar">
+                                    <div class="ab-skill-bar-header">
+                                        <span class="ab-skill-bar-label">{{ $skill['label'] }}</span>
+                                        <span class="ab-skill-bar-pct">{{ $pctValue ?: '0' }}<span class="ab-skill-bar-pct-sign">%</span></span>
+                                    </div>
+                                    <div class="ab-skill-bar-track">
+                                        <div class="ab-skill-bar-fill" data-width="{{ $pctValue ?: 0 }}%"></div>
+                                    </div>
                                 </div>
-                                <div class="ab-skill-bar-track">
-                                    <div class="ab-skill-bar-fill" style="width:{{ $pctValue ?: 0 }}%"></div>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
             </div>
 
@@ -623,7 +204,181 @@
         </div>
     </section>
 
-</div>
-</div>
+</div>{{-- /.ab-container --}}
+</div>{{-- /.ab-page --}}
+
+<script>
+/* ── Neural Brain-Cell Canvas Background ── */
+(function () {
+    const canvas = document.getElementById('ab-neural-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    const GOLD  = { r: 200, g: 169, b: 110 };
+    const CREAM = { r: 240, g: 236, b: 228 };
+
+    const NUM_NODES = 70;
+    const nodes = [];
+
+    /* ── Nodes store RELATIVE positions (0–1) so they always
+       spread across the full canvas after any resize ── */
+    for (let i = 0; i < NUM_NODES; i++) {
+        const isBig = Math.random() < 0.14;
+        nodes.push({
+            rx:          Math.random(),
+            ry:          Math.random(),
+            vx:          (Math.random() - 0.5) * 0.00035,
+            vy:          (Math.random() - 0.5) * 0.00035,
+            radius:      isBig ? (3.5 + Math.random() * 3) : (1 + Math.random() * 2),
+            pulseOffset: Math.random() * Math.PI * 2,
+            pulseSpeed:  0.010 + Math.random() * 0.016,
+            isGold:      Math.random() < 0.42,
+            isBig,
+            halo:        isBig && Math.random() < 0.65,
+        });
+    }
+
+    /* Resize: update canvas dimensions; nodes auto-adapt via rx/ry */
+    function resize() {
+        const hero    = canvas.closest('.ab-hero');
+        canvas.width  = hero.offsetWidth;
+        canvas.height = hero.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    let frame = 0;
+
+    function draw() {
+        frame++;
+        const W = canvas.width;
+        const H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        const MAX_DIST = Math.min(W, H) * 0.22;
+
+        /* Move nodes in relative space and wrap */
+        for (const n of nodes) {
+            n.rx += n.vx;
+            n.ry += n.vy;
+            if (n.rx < -0.05) n.rx = 1.05;
+            if (n.rx > 1.05)  n.rx = -0.05;
+            if (n.ry < -0.05) n.ry = 1.05;
+            if (n.ry > 1.05)  n.ry = -0.05;
+        }
+
+        /* Convert to pixel coords for drawing */
+        const px = nodes.map(n => ({ x: n.rx * W, y: n.ry * H, n }));
+
+        /* Draw curved synaptic connections */
+        for (let i = 0; i < px.length; i++) {
+            for (let j = i + 1; j < px.length; j++) {
+                const a = px[i], b = px[j];
+                const dx = a.x - b.x, dy = a.y - b.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < MAX_DIST) {
+                    const alpha = (1 - dist / MAX_DIST) * 0.16;
+                    const bothGold = a.n.isGold && b.n.isGold;
+                    const c = bothGold ? GOLD : CREAM;
+                    const bend = ((i * 31 + j * 17) % 24) - 12;
+                    const mx = (a.x + b.x) / 2 - (dy / dist) * bend;
+                    const my = (a.y + b.y) / 2 + (dx / dist) * bend;
+                    ctx.beginPath();
+                    ctx.moveTo(a.x, a.y);
+                    ctx.quadraticCurveTo(mx, my, b.x, b.y);
+                    ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},${alpha})`;
+                    ctx.lineWidth   = bothGold ? 0.85 : 0.4;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        /* Draw nodes */
+        for (let i = 0; i < px.length; i++) {
+            const { x, y, n } = px[i];
+            const pulse = Math.sin(frame * n.pulseSpeed + n.pulseOffset);
+            const r     = n.radius + pulse * 0.7;
+            const c     = n.isGold ? GOLD : CREAM;
+            const alpha = 0.5 + pulse * 0.35;
+
+            if (n.halo) {
+                const grad = ctx.createRadialGradient(x, y, r * 0.5, x, y, r * 6);
+                grad.addColorStop(0, `rgba(${c.r},${c.g},${c.b},0.15)`);
+                grad.addColorStop(1, `rgba(${c.r},${c.g},${c.b},0)`);
+                ctx.beginPath();
+                ctx.arc(x, y, r * 6, 0, Math.PI * 2);
+                ctx.fillStyle = grad;
+                ctx.fill();
+            }
+
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${c.r},${c.g},${c.b},${alpha})`;
+            ctx.fill();
+
+            if (n.isBig) {
+                ctx.beginPath();
+                ctx.arc(x, y, r + 2.5, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},0.22)`;
+                ctx.lineWidth   = 1;
+                ctx.stroke();
+            }
+        }
+
+        requestAnimationFrame(draw);
+    }
+
+    draw();
+})();
+</script>
+
+<script>
+/* ── Animate skill bars when they scroll into view ── */
+(function () {
+    const fills = document.querySelectorAll('.ab-skill-bar-fill');
+    if (!fills.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const idx = [...fills].indexOf(el);
+                setTimeout(() => {
+                    el.style.width = el.dataset.width || '0%';
+                }, idx * 120);
+                observer.unobserve(el);
+            }
+        });
+    }, { threshold: 0.25 });
+
+    fills.forEach(fill => observer.observe(fill));
+
+    /* Animated percentage counter */
+    const pcts = document.querySelectorAll('.ab-skill-bar-pct');
+    const pctObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el   = entry.target;
+                const sign = el.querySelector('.ab-skill-bar-pct-sign');
+                const end  = parseInt(el.textContent, 10) || 0;
+                const dur  = 1200;
+                const step = 16;
+                const steps = Math.round(dur / step);
+                let current = 0;
+                const inc   = end / steps;
+                const timer = setInterval(() => {
+                    current += inc;
+                    if (current >= end) { current = end; clearInterval(timer); }
+                    el.textContent = Math.round(current);
+                    if (sign) el.appendChild(sign);
+                }, step);
+                pctObserver.unobserve(el);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    pcts.forEach(p => pctObserver.observe(p));
+})();
+</script>
 
 @endsection

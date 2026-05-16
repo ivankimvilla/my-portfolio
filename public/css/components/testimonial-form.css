@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* ── Design tokens (mirrors homepage :root) ── */
+.tst-wrap {
+    --bg: #0b0c0e;
+    --surface: #111316;
+    --border: rgba(255, 255, 255, .07);
+    --accent: #c8a96e;
+    --accent2: #e8c98a;
+    --text: #f0ece4;
+    --muted: rgba(240, 236, 228, .55);
+    font-family: 'Outfit', sans-serif;
+    color: var(--text);
+}
+
+/* ── Heading ── */
+.tst-heading {
+    margin-bottom: 32px;
+}
+
+.tst-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--accent);
+    margin-bottom: 16px;
+}
+
+.tst-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--accent);
+    opacity: .7;
+}
+
+.tst-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: var(--text);
+    margin-bottom: 10px;
+}
+
+.tst-title em {
+    font-style: italic;
+    color: var(--accent);
+}
+
+.tst-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.75;
+}
+
+/* ── Divider ── */
+.tst-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 24px 0 32px;
+}
+
+.tst-divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+.tst-divider-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: .4;
+}
+
+/* ── Form layout ── */
+.tst-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tst-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tst-form-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+}
+
+/* ── Inputs ── */
+.tst-form-input,
+.tst-form-textarea,
+.tst-form-select {
+    background: rgba(255, 255, 255, .04);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 16px;
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    transition: border-color .2s, background .2s, box-shadow .2s;
+    width: 100%;
+}
+
+.tst-form-input::placeholder,
+.tst-form-textarea::placeholder {
+    color: rgba(240, 236, 228, .25);
+}
+
+.tst-form-select option {
+    background: #111316;
+    color: var(--text);
+}
+
+.tst-form-input:focus,
+.tst-form-textarea:focus,
+.tst-form-select:focus {
+    outline: none;
+    border-color: rgba(200, 169, 110, .5);
+    background: rgba(200, 169, 110, .05);
+    box-shadow: 0 0 0 3px rgba(200, 169, 110, .07);
+}
+
+.tst-form-textarea {
+    resize: vertical;
+    min-height: 130px;
+}
+
+/* ── Grid row ── */
+.tst-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 680px) {
+    .tst-form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Checkbox consent ── */
+.tst-form-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.tst-form-consent input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: var(--accent);
+}
+
+.tst-form-consent label {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    cursor: pointer;
+}
+
+/* ── Submit button (matches .pf-btn-primary exactly) ── */
+.tst-form-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 14px 28px;
+    background: transparent;
+    border: 1px solid rgba(200, 169, 110, .5);
+    border-radius: 10px;
+    color: var(--accent2);
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .25s, box-shadow .25s, transform .15s;
+    align-self: flex-start;
+}
+
+.tst-form-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(200, 169, 110, .18), rgba(200, 169, 110, .06));
+    opacity: 0;
+    transition: opacity .25s;
+}
+
+.tst-form-btn:hover {
+    border-color: var(--accent2);
+    box-shadow: 0 0 24px rgba(200, 169, 110, .18);
+    transform: translateY(-1px);
+}
+
+.tst-form-btn:hover::before {
+    opacity: 1;
+}
+
+.tst-form-btn span {
+    position: relative;
+    z-index: 1;
+}
+
+/* ── Alerts ── */
+.tst-alert {
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.tst-alert-error {
+    background: rgba(239, 68, 68, .08);
+    border: 1px solid rgba(239, 68, 68, .2);
+    color: #fca5a5;
+}
+
+.tst-alert-success {
+    background: rgba(200, 169, 110, .08);
+    border: 1px solid rgba(200, 169, 110, .25);
+    color: var(--accent2);
+}
+
+.tst-alert ul {
+    margin: 8px 0 0 16px;
+    padding: 0;
+}
+
+.tst-alert ul li {
+    margin-bottom: 4px;
+}

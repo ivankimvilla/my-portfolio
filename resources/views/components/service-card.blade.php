@@ -1,33 +1,68 @@
-@props(['service'])
+@props(['service', 'index' => null])
 
-<div class="border border-gray-200 dark:border-gray-800 rounded-xl p-8 hover:shadow-lg dark:hover:shadow-gray-800 transition">
-    <div class="text-5xl mb-4">{{ $service->icon ?? '🚀' }}</div>
-    <h3 class="text-2xl font-bold mb-4">{{ $service->title }}</h3>
-    <p class="text-gray-600 dark:text-gray-400 mb-6">{{ $service->description }}</p>
+<div class="sv-service-card">
 
+    {{-- Gold top stripe --}}
+    <div class="sv-card-stripe"></div>
+
+    {{-- Header: icon + service name --}}
+    <div class="sv-card-header">
+        <div class="sv-service-card-icon" aria-hidden="true">
+            {{ $service->icon ?? '🚀' }}
+        </div>
+        <div class="sv-card-header-text">
+            <span class="sv-field-label">Service</span>
+            <h3 class="sv-service-card-title">{{ $service->title }}</h3>
+        </div>
+    </div>
+
+    {{-- Description --}}
+    <div class="sv-card-field">
+        <span class="sv-field-label">Description</span>
+        <p class="sv-service-card-description">{{ $service->description }}</p>
+    </div>
+
+    {{-- Deliverables --}}
     @if($service->deliverables)
-    <h4 class="font-bold mb-3">Deliverables:</h4>
-    <ul class="space-y-2 mb-6 text-sm text-gray-600 dark:text-gray-400">
-        @foreach($service->deliverables as $item)
-        <li>✓ {{ $item }}</li>
-        @endforeach
-    </ul>
-    @endif
-
-    @if($service->tools)
-    <h4 class="font-bold mb-3">Tools & Tech:</h4>
-    <div class="flex gap-2 flex-wrap mb-6">
-        @foreach($service->tools as $tool)
-        <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm">{{ $tool }}</span>
-        @endforeach
+    <div class="sv-card-field">
+        <span class="sv-field-label">Deliverables</span>
+        <ul class="sv-service-card-list">
+            @foreach($service->deliverables as $item)
+            <li>{{ $item }}</li>
+            @endforeach
+        </ul>
     </div>
     @endif
 
-    @if($service->price_range)
-    <p class="text-blue-600 font-bold text-lg">{{ $service->price_range }}</p>
+    {{-- Tools --}}
+    @if($service->tools)
+    <div class="sv-card-field">
+        <span class="sv-field-label">Tools</span>
+        <div class="sv-service-card-tags">
+            @foreach($service->tools as $tool)
+            <span class="sv-service-card-tag">{{ $tool }}</span>
+            @endforeach
+        </div>
+    </div>
     @endif
 
-    <a href="/contact" class="mt-6 inline-block text-blue-600 hover:text-blue-700 font-semibold">
-        Discuss This Service →
-    </a>
+    {{-- Footer: price range + CTA --}}
+    <div class="sv-service-card-footer">
+
+        @if($service->price_range)
+        <div class="sv-service-card-price-row">
+            <span class="sv-field-label" style="margin-bottom:0;">Price Range</span>
+            <span class="sv-service-card-price">{{ $service->price_range }}</span>
+        </div>
+        @endif
+
+        <a href="/contact" class="sv-service-card-button">
+            Discuss this service
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+        </a>
+
+    </div>
 </div>

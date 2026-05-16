@@ -38,12 +38,24 @@ class Project extends Model
         }
 
         $path = ltrim($value, '/');
+        if (str_starts_with($path, 'public/')) {
+            $path = substr($path, 7);
+        }
 
-        $candidates = [
-            $path,
-            'storage/' . $path,
-            'uploads/' . $path,
-        ];
+        $candidates = [$path];
+        if (! str_starts_with($path, 'storage/')) {
+            $candidates[] = 'storage/' . $path;
+        }
+        if (! str_starts_with($path, 'uploads/')) {
+            $candidates[] = 'uploads/' . $path;
+        }
+        if (! str_contains($path, '/')) {
+            $candidates[] = 'uploads/projects/' . $path;
+            $candidates[] = 'projects/' . $path;
+        }
+        if (str_starts_with($path, 'projects/')) {
+            $candidates[] = 'uploads/' . $path;
+        }
 
         foreach ($candidates as $candidate) {
             if (file_exists(public_path($candidate))) {

@@ -16,6 +16,7 @@ class ResetPasswordNotification extends ResetPassword
     protected function buildMailMessage($url)
     {
         return (new MailMessage)
+            ->from(config('mail.from.address'), config('mail.from.name'))
             ->subject('Reset Your Admin Password')
             ->view('emails.reset-password', [
                 'url' => $url,

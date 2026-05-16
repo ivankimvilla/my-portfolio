@@ -1,0 +1,635 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #0b0c0e;
+    --surface: #111316;
+    --surface2: #161820;
+    --border: rgba(255, 255, 255, .07);
+    --accent: #c8a96e;
+    --accent2: #e8c98a;
+    --text: #f0ece4;
+    --muted: rgba(240, 236, 228, .65);
+    --muted2: rgba(240, 236, 228, .22);
+}
+
+.sv-page {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* Suppress global blue link color from layouts.app */
+.sv-page a {
+    color: inherit;
+}
+
+.sv-page a:hover {
+    color: var(--accent2);
+    text-decoration: none;
+}
+
+/* ── CONTAINER ── */
+.sv-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+}
+
+@media (max-width: 768px) {
+    .sv-container {
+        padding: 0 24px;
+    }
+}
+
+/* ── SHARED ── */
+.sv-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+.sv-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--accent);
+    opacity: .7;
+}
+
+.sv-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    color: var(--text);
+    margin-bottom: 16px;
+}
+
+.sv-section-title em {
+    font-style: italic;
+    color: var(--accent);
+}
+
+.sv-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 56px;
+}
+
+.sv-divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+.sv-divider-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: .4;
+}
+
+.sv-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 14px 28px;
+    background: transparent;
+    border: 1px solid rgba(200, 169, 110, .5);
+    border-radius: 10px;
+    color: var(--accent2) !important;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .25s, box-shadow .25s, transform .15s, color .25s;
+}
+
+.sv-btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(200, 169, 110, .18), rgba(200, 169, 110, .06));
+    opacity: 0;
+    transition: opacity .25s;
+}
+
+.sv-btn-primary:hover {
+    border-color: var(--accent2);
+    box-shadow: 0 0 24px rgba(200, 169, 110, .22);
+    transform: translateY(-1px);
+    color: #f5dfa0 !important;
+}
+
+.sv-btn-primary:hover::before {
+    opacity: 1;
+}
+
+.sv-btn-primary span {
+    position: relative;
+    z-index: 1;
+    color: inherit !important;
+}
+
+.sv-btn-primary i {
+    color: inherit !important;
+}
+
+/* ══════════════════════════════
+       HERO HEADER
+    ══════════════════════════════ */
+.sv-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 80px 0 72px;
+    border-bottom: 1px solid var(--border);
+}
+
+.sv-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 55% 60% at 8% 40%, rgba(200, 169, 110, .08) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 50% at 92% 60%, rgba(200, 169, 110, .05) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.sv-hero-rule {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: .12;
+}
+
+.sv-hero-rule-top {
+    top: 0;
+}
+
+.sv-hero-rule-bottom {
+    bottom: 0;
+}
+
+.sv-hero-inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sv-hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    border: 1px solid rgba(200, 169, 110, .25);
+    background: rgba(200, 169, 110, .06);
+    border-radius: 99px;
+    padding: 6px 14px;
+    margin-bottom: 28px;
+}
+
+.sv-hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 5.5vw, 80px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    color: var(--text);
+    margin-bottom: 20px;
+}
+
+.sv-hero-title em {
+    font-style: italic;
+    color: var(--accent);
+}
+
+.sv-hero-desc {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.85;
+    max-width: 580px;
+    text-align: center;
+}
+
+/* ══════════════════════════════
+       SERVICES GRID
+    ══════════════════════════════ */
+.sv-section {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+}
+
+.sv-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 80% 50%, rgba(200, 169, 110, .04), transparent 60%);
+    pointer-events: none;
+}
+
+.sv-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(280px, 1fr));
+    gap: 24px;
+    align-items: stretch;
+}
+
+/* ══════════════════════════════
+       SERVICE CARD
+    ══════════════════════════════ */
+
+.sv-service-card {
+    display: flex;
+    flex-direction: column;
+    background: #111316;
+    border: 1px solid rgba(255, 255, 255, .09);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, .28);
+}
+
+.sv-service-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(200, 169, 110, .35);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, .40), 0 0 0 1px rgba(200, 169, 110, .07);
+}
+
+/* ── Top gold stripe ── */
+.sv-card-stripe {
+    height: 2px;
+    flex-shrink: 0;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(200, 169, 110, .55) 30%,
+            rgba(232, 201, 138, 1) 50%,
+            rgba(200, 169, 110, .55) 70%,
+            transparent 100%);
+}
+
+/* ── Header: icon + SERVICE label + italic title ── */
+.sv-card-header {
+    padding: 22px 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, .06);
+}
+
+.sv-card-header-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.sv-service-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid rgba(200, 169, 110, .25);
+    background: rgba(200, 169, 110, .07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--accent);
+    flex-shrink: 0;
+    transition: background .3s, transform .3s;
+}
+
+.sv-service-card:hover .sv-service-card-icon {
+    background: rgba(200, 169, 110, .13);
+    transform: scale(1.06);
+}
+
+/* "SERVICE" micro-label above the title */
+.sv-field-label {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(200, 169, 110, .95);
+    margin-bottom: 5px;
+}
+
+/* Italic serif title */
+.sv-service-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.45rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.15;
+    letter-spacing: -0.2px;
+    color: var(--text);
+    margin: 0;
+}
+
+/* ── Labeled field rows (DESCRIPTION, DELIVERABLES, TOOLS) ── */
+.sv-card-field {
+    padding: 15px 24px 17px;
+    border-bottom: 1px solid rgba(255, 255, 255, .05);
+}
+
+.sv-card-field:last-of-type {
+    border-bottom: none;
+}
+
+/* Description text */
+.sv-service-card-description {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    color: rgba(240, 236, 228, .95);
+    line-height: 1.75;
+    margin: 0;
+}
+
+/* Deliverables list */
+.sv-service-card-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sv-service-card-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: 'Outfit', sans-serif;
+    color: rgba(240, 236, 228, .95);
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.sv-service-card-list li::before {
+    content: '—';
+    color: var(--accent);
+    flex-shrink: 0;
+    line-height: 1.55;
+    opacity: 1;
+}
+
+/* Tool tags */
+.sv-service-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.sv-service-card-tag {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .05em;
+    color: var(--accent2);
+    border: 1px solid rgba(200, 169, 110, .35);
+    border-radius: 999px;
+    padding: 4px 12px;
+    background: rgba(200, 169, 110, .1);
+    white-space: nowrap;
+    transition: border-color .2s, color .2s, background .2s;
+}
+
+.sv-service-card:hover .sv-service-card-tag {
+    border-color: rgba(200, 169, 110, .5);
+    color: #f5dfa0;
+    background: rgba(200, 169, 110, .15);
+}
+
+/* ── Footer: PRICE RANGE + button ── */
+.sv-service-card-footer {
+    border-top: 1px solid rgba(255, 255, 255, .06);
+    padding: 18px 24px 22px;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Price range row */
+.sv-service-card-price-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.sv-service-card-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-weight: 300;
+    color: #e8c98a;
+    letter-spacing: -0.1px;
+}
+
+/* CTA button */
+.sv-service-card-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 13px 18px;
+    border-radius: 10px;
+    border: 1px solid rgba(200, 169, 110, .45);
+    background: rgba(200, 169, 110, .12);
+    color: #f0ece4;
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background .22s, border-color .22s, color .22s, box-shadow .22s, transform .18s;
+}
+
+.sv-service-card-button:hover {
+    background: rgba(200, 169, 110, .22);
+    border-color: rgba(200, 169, 110, .65);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(200, 169, 110, .18);
+    transform: translateY(-1px);
+}
+
+.sv-service-card-button svg {
+    flex-shrink: 0;
+    transition: transform .2s ease;
+}
+
+.sv-service-card-button:hover svg {
+    transform: translateX(4px);
+}
+
+/* Empty state */
+.sv-empty {
+    grid-column: 1 / -1;
+    padding: 80px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    border: 1px dashed rgba(200, 169, 110, .15);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.sv-empty-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    border: 1px solid rgba(200, 169, 110, .2);
+    background: rgba(200, 169, 110, .05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--accent);
+    opacity: .5;
+}
+
+.sv-empty p {
+    font-size: 14px;
+    color: var(--text);
+}
+
+/* ══════════════════════════════
+       CTA BANNER
+    ══════════════════════════════ */
+.sv-cta {
+    padding: 100px 0 120px;
+    position: relative;
+}
+
+.sv-cta-inner {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(200, 169, 110, .18);
+    border-radius: 24px;
+    padding: 80px 64px;
+    text-align: center;
+    background: var(--surface);
+}
+
+.sv-cta-inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 70% 60% at 50% 0%, rgba(200, 169, 110, .10), transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(200, 169, 110, .06), transparent 60%);
+    pointer-events: none;
+}
+
+.sv-cta-inner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: .18;
+}
+
+.sv-cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4.5vw, 58px);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    color: var(--text);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+.sv-cta-title em {
+    font-style: italic;
+    color: var(--accent);
+}
+
+.sv-cta-desc {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.8;
+    max-width: 500px;
+    margin: 0 auto 40px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+    .sv-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sv-cta-inner {
+        padding: 56px 32px;
+    }
+}
+
+/* ── ENTRANCE ANIMATIONS ── */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sv-hero-inner>* {
+    animation: fadeUp .6s ease both;
+}
+
+.sv-hero-inner>*:nth-child(1) {
+    animation-delay: .06s;
+}
+
+.sv-hero-inner>*:nth-child(2) {
+    animation-delay: .14s;
+}
+
+.sv-hero-inner>*:nth-child(3) {
+    animation-delay: .22s;
+}

@@ -11,7 +11,11 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::orderBy('display_order')->paginate(10);
+        $services = Service::where('slug', '!=', 'certificate')
+            ->where('title', 'not like', '%certificate%')
+            ->orderBy('display_order')
+            ->paginate(10);
+
         return view('admin.services.index', ['services' => $services]);
     }
 
@@ -30,22 +34,17 @@ class ServiceController extends Controller
             'deliverables' => 'nullable|string',
             'tools' => 'nullable|string',
             'price_range' => 'nullable|string|max:100',
-            'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'display_order' => 'integer',
             'is_active' => 'boolean',
         ]);
 
         $validated['deliverables'] = $request->has('deliverables')
-            ? array_map('trim', explode("\n", str_replace('\r\n', '\n', $request->deliverables)))
+            ? array_filter(array_map('trim', explode("\n", str_replace('\r\n', '\n', $request->deliverables))))
             : null;
 
         $validated['tools'] = $request->has('tools')
-            ? array_map('trim', explode(',', $request->tools))
+            ? array_filter(array_map('trim', preg_split('/[\r\n,]+/', $request->tools)))
             : null;
-
-        if ($request->hasFile('certificate')) {
-            $validated['certificate_path'] = $request->file('certificate')->store('certificates', 'public');
-        }
 
         Service::create($validated);
 
@@ -67,25 +66,17 @@ class ServiceController extends Controller
             'deliverables' => 'nullable|string',
             'tools' => 'nullable|string',
             'price_range' => 'nullable|string|max:100',
-            'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'display_order' => 'integer',
             'is_active' => 'boolean',
         ]);
 
         $validated['deliverables'] = $request->has('deliverables')
-            ? array_map('trim', explode("\n", str_replace('\r\n', '\n', $request->deliverables)))
+            ? array_filter(array_map('trim', explode("\n", str_replace('\r\n', '\n', $request->deliverables))))
             : null;
 
         $validated['tools'] = $request->has('tools')
-            ? array_map('trim', explode(',', $request->tools))
+            ? array_filter(array_map('trim', preg_split('/[\r\n,]+/', $request->tools)))
             : null;
-
-        if ($request->hasFile('certificate')) {
-            if ($service->certificate_path && Storage::disk('public')->exists($service->certificate_path)) {
-                Storage::disk('public')->delete($service->certificate_path);
-            }
-            $validated['certificate_path'] = $request->file('certificate')->store('certificates', 'public');
-        }
 
         $service->update($validated);
 
@@ -94,6 +85,9 @@ class ServiceController extends Controller
 
     public function destroy(Service $service)
     {
+        if ($service->certificate_path && Storage::disk('public')->exists($service->certificate_path)) {
+            Storage::disk('public')->delete($service->certificate_path);
+        }
         $service->delete();
         return redirect()->route('admin.services.index')->with('success', 'Service deleted successfully!');
     }

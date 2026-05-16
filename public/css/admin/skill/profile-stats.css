@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap');
+        .pf-btn-primary {
+               display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                padding: 14px 32px;
+                border-radius: 10px;
+                border: 1px solid rgba(200, 169, 110, 0.75);
+                background: transparent;
+                color: #c8a96e;
+                font-size: 13px;
+                font-weight: 600;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                cursor: pointer;
+        }
+        .pf-btn-primary:hover {
+                background: linear-gradient(135deg, rgba(200,169,110,.18), rgba(200,169,110,.06));
+                border-color: rgba(200, 169, 110, 1);
+        }

@@ -39,16 +39,18 @@ class CertificateController extends Controller
             'is_active' => 'boolean',
         ]);
 
+        $validated['is_active'] = $request->has('is_active');
+
         if ($request->hasFile('certificate_file')) {
             $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-_\.]/', '_', $request->file('certificate_file')->getClientOriginalName());
-            $destination = public_path('certificates');
+            $destination = public_path('uploads/certificates');
 
             if (! file_exists($destination)) {
                 mkdir($destination, 0755, true);
             }
 
             $request->file('certificate_file')->move($destination, $filename);
-            $validated['certificate_path'] = 'certificates/' . $filename;
+            $validated['certificate_path'] = 'uploads/certificates/' . $filename;
         }
 
         Certificate::create($validated);
@@ -86,20 +88,34 @@ class CertificateController extends Controller
             'is_active' => 'boolean',
         ]);
 
-        if ($request->hasFile('certificate_file')) {
-            if ($certificate->certificate_path && file_exists(public_path($certificate->certificate_path))) {
-                unlink(public_path($certificate->certificate_path));
-            }
+        $validated['is_active'] = $request->boolean('is_active', $certificate->is_active);
 
+        if ($request->hasFile('certificate_file')) {
             $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-_\.]/', '_', $request->file('certificate_file')->getClientOriginalName());
-            $destination = public_path('certificates');
+            $destination = public_path('uploads/certificates');
 
             if (! file_exists($destination)) {
                 mkdir($destination, 0755, true);
             }
 
-            $request->file('certificate_file')->move($destination, $filename);
-            $validated['certificate_path'] = 'certificates/' . $filename;
+            try {
+                $request->file('certificate_file')->move($destination, $filename);
+                $newPath = 'uploads/certificates/' . $filename;
+
+                // Check if file was moved successfully
+                if (file_exists($destination . '/' . $filename)) {
+                    // Only update path and delete old file after successful move
+                    if ($certificate->certificate_path && file_exists(public_path($certificate->certificate_path))) {
+                        unlink(public_path($certificate->certificate_path));
+                    }
+                    $validated['certificate_path'] = $newPath;
+                } else {
+                    // File move failed, return with error
+                    return redirect()->back()->withErrors(['certificate_file' => 'Failed to upload certificate file.'])->withInput();
+                }
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['certificate_file' => 'Failed to upload certificate file: ' . $e->getMessage()])->withInput();
+            }
         }
 
         $certificate->update($validated);
@@ -112,6 +128,10 @@ class CertificateController extends Controller
      */
     public function destroy(Certificate $certificate)
     {
+        if ($certificate->certificate_path && file_exists(public_path($certificate->certificate_path))) {
+            unlink(public_path($certificate->certificate_path));
+        }
+
         $certificate->delete();
 
         return redirect()->route('admin.certificates.index')->with('success', 'Certificate deleted successfully!');

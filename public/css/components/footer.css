@@ -1,0 +1,195 @@
+ @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap');
+
+    .pf-footer {
+        font-family: 'Outfit', sans-serif;
+        background: var(--bg, #0b0c0e);
+        border-top: 1px solid rgba(255,255,255,.07);
+        position: relative;
+        overflow: hidden;
+        margin-top: 0;
+    }
+
+    .pf-footer::before {
+        content: '';
+        position: absolute; inset: 0;
+        background:
+            radial-gradient(ellipse 60% 80% at 15% 0%, rgba(200,169,110,.06) 0%, transparent 60%),
+            radial-gradient(ellipse 40% 60% at 85% 100%, rgba(200,169,110,.04) 0%, transparent 60%);
+        pointer-events: none;
+    }
+
+    /* Top accent rule */
+    .pf-footer-rule {
+        position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+        background: linear-gradient(90deg, transparent, var(--accent, #c8a96e), transparent);
+        opacity: .18;
+    }
+
+    .pf-footer-inner {
+        max-width: 1200px; margin: 0 auto;
+        padding: 80px 48px 56px;
+        position: relative; z-index: 1;
+    }
+
+    /* ── MAIN GRID ── */
+    .pf-footer-grid {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr 1fr 1fr;
+        gap: 56px;
+        margin-bottom: 64px;
+    }
+
+    /* Brand column */
+    .pf-footer-brand-monogram {
+        width: 46px; height: 46px;
+        border: 1px solid rgba(200,169,110,.4);
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 16px; font-weight: 600;
+        color: var(--accent, #c8a96e);
+        letter-spacing: -1px;
+        background: rgba(200,169,110,.06);
+        margin-bottom: 20px;
+    }
+
+    .pf-footer-brand-name {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 600; font-size: 15px;
+        color: var(--text, #f0ece4);
+        letter-spacing: 0.3px;
+        margin-bottom: 4px;
+    }
+
+    .pf-footer-brand-role {
+        font-size: 11px; color: rgba(200,169,110,.7);
+        letter-spacing: 1.2px; text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+
+    .pf-footer-brand-desc {
+        font-size: 13px; color: #f0ece4;
+        line-height: 1.8; max-width: 260px;
+        margin-bottom: 28px;
+    }
+
+    /* Social icons */
+    .pf-footer-socials { display: flex; gap: 10px; }
+
+    .pf-footer-social {
+        width: 36px; height: 36px;
+        border: 1px solid rgba(200,169,110,.2);
+        border-radius: 8px;
+        background: rgba(200,169,110,.05);
+        display: flex; align-items: center; justify-content: center;
+        color: rgba(200,169,110,.6);
+        font-size: 14px; text-decoration: none;
+        transition: border-color .25s, color .25s, background .25s, transform .2s;
+    }
+
+    .pf-footer-social:hover {
+        border-color: rgba(200,169,110,.5);
+        color: var(--accent, #c8a96e);
+        background: rgba(200,169,110,.1);
+        transform: translateY(-2px);
+    }
+
+    /* Column headings */
+    .pf-footer-col-title {
+        font-size: 10px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 2.5px;
+        color: var(--accent, #c8a96e);
+        margin-bottom: 24px;
+        display: flex; align-items: center; gap: 10px;
+    }
+
+    .pf-footer-col-title::before {
+        content: ''; display: block;
+        width: 20px; height: 1px;
+        background: var(--accent, #c8a96e); opacity: .6;
+    }
+
+    /* Nav links */
+    .pf-footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+
+    .pf-footer-links a {
+        font-size: 13px; color: #f0ece4;
+        text-decoration: none; letter-spacing: 0.3px;
+        transition: color .2s, padding-left .2s;
+        display: inline-block;
+    }
+
+    .pf-footer-links a:hover { color: var(--accent, #c8a96e); padding-left: 4px; }
+
+    /* Contact items */
+    .pf-footer-contact-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+
+    .pf-footer-contact-item { display: flex; align-items: flex-start; gap: 12px; }
+
+    .pf-footer-contact-icon {
+        width: 32px; height: 32px; flex-shrink: 0;
+        border: 1px solid rgba(200,169,110,.25);
+        border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 12px; color: var(--accent, #c8a96e);
+        background: rgba(200,169,110,.06);
+        margin-top: 1px;
+    }
+
+    .pf-footer-contact-label {
+        font-size: 10px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 1.5px;
+        color: rgba(200,169,110,.7); margin-bottom: 3px;
+    }
+
+    .pf-footer-contact-value {
+        font-size: 13px; color: #f0ece4;
+    }
+
+    /* ── BOTTOM BAR ── */
+    .pf-footer-bottom {
+        border-top: 1px solid rgba(255,255,255,.07);
+        padding-top: 32px;
+        display: flex; align-items: center;
+        justify-content: center; flex-wrap: wrap; gap: 16px;
+    }
+
+    .pf-footer-copy {
+        font-size: 11px; color: rgba(255,255,255,.18);
+        letter-spacing: 0.5px;
+    }
+
+    .pf-footer-copy em {
+        font-style: normal;
+        color: rgba(200,169,110,.5);
+    }
+
+    .pf-footer-legal { display: flex; gap: 24px; }
+
+    .pf-footer-legal a {
+        font-size: 11px; color: rgba(255,255,255,.18);
+        text-decoration: none; letter-spacing: 0.5px;
+        transition: color .2s;
+    }
+    .pf-footer-legal a:hover { color: var(--accent, #c8a96e); }
+
+    /* Decorative dots */
+    .pf-footer-dots { display: flex; gap: 14px; align-items: center; }
+    .pf-footer-dot {
+        width: 5px; height: 5px; border-radius: 50%;
+        background: var(--accent, #c8a96e);
+    }
+    .pf-footer-dot:nth-child(1) { opacity: .2; }
+    .pf-footer-dot:nth-child(2) { opacity: .4; }
+    .pf-footer-dot:nth-child(3) { opacity: .65; }
+
+    @media (max-width: 1024px) {
+        .pf-footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+
+    @media (max-width: 640px) {
+        .pf-footer-grid { grid-template-columns: 1fr; gap: 36px; }
+        .pf-footer-inner { padding: 60px 24px 40px; }
+        .pf-footer-bottom { flex-direction: column; align-items: center; gap: 20px; }
+        .pf-footer-copy { text-align: center; }
+    }

@@ -3,662 +3,19 @@
 @section('title', 'Ivan Kim Almadin - Full Stack Developer')
 
 @section('content')
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap');
 
-    *, *::before, *::after { box-sizing: border-box; }
 
-    :root {
-        --bg:       #0b0c0e;
-        --surface:  #111316;
-        --surface2: #161820;
-        --border:   rgba(255,255,255,.07);
-        --accent:   #c8a96e;
-        --accent2:  #e8c98a;
-        --text:     #f0ece4;
-        --muted:    #f0ece4;
-        --muted2:   rgba(240,236,228,.22);
-    }
-
-    .pf-home {
-        font-family: 'Outfit', sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        min-height: 100vh;
-    }
-
-    /* ── SHARED UTILITIES ── */
-    .pf-eyebrow {
-        display: inline-flex; align-items: center; gap: 10px;
-        font-size: 11px; font-weight: 600;
-        text-transform: uppercase; letter-spacing: 2.5px;
-        color: var(--accent); margin-bottom: 20px;
-    }
-    .pf-eyebrow::before {
-        content: ''; display: block;
-        width: 28px; height: 1px; background: var(--accent); opacity: .7;
-    }
-
-    .pf-section-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(40px, 5vw, 64px);
-        font-weight: 300; line-height: 1.08;
-        letter-spacing: -1.5px; color: var(--text);
-        margin-bottom: 16px;
-    }
-    .pf-section-title em { font-style: italic; color: var(--accent); }
-
-    .pf-section-desc {
-        font-size: 15px; color: var(--muted);
-        line-height: 1.8; max-width: 520px;
-    }
-
-    .pf-divider {
-        display: flex; align-items: center; gap: 14px;
-        margin-bottom: 56px;
-    }
-    .pf-divider-line { flex: 1; height: 1px; background: var(--border); }
-    .pf-divider-dot {
-        width: 5px; height: 5px; border-radius: 50%;
-        background: var(--accent); opacity: .4;
-    }
-
-    /* ── CONTAINER ── */
-    .pf-container {
-        max-width: 1200px; margin: 0 auto;
-        padding: 0 48px;
-    }
-
-    @media (max-width: 768px) {
-        .pf-container { padding: 0 24px; }
-    }
-
-    /* ══════════════════════════════
-       HERO
-    ══════════════════════════════ */
-    .pf-hero {
-        position: relative; overflow: hidden;
-        padding: 56px 0 100px;
-    }
-
-    .pf-hero::before {
-        content: '';
-        position: absolute; inset: 0;
-        background:
-            radial-gradient(ellipse 60% 50% at 10% 30%, rgba(200,169,110,.09) 0%, transparent 60%),
-            radial-gradient(ellipse 40% 60% at 85% 70%, rgba(200,169,110,.06) 0%, transparent 60%);
-        pointer-events: none;
-        animation: heroBgDrift 10s ease-in-out infinite alternate;
-    }
-
-    /* Horizontal rule accents */
-    .pf-hero-rule {
-        position: absolute; left: 0; right: 0; height: 1px;
-        background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
-        opacity: .12;
-    }
-    .pf-hero-rule-top    { top: 0; }
-    .pf-hero-rule-bottom { bottom: 0; }
-
-    .pf-hero-inner {
-        display: grid; grid-template-columns: 1fr 420px;
-        gap: 64px; align-items: center;
-        position: relative; z-index: 1;
-    }
-
-    .pf-hero-tag {
-        display: inline-flex; align-items: center; gap: 8px;
-        font-size: 10px; font-weight: 600;
-        text-transform: uppercase; letter-spacing: 2px;
-        color: var(--accent);
-        border: 1px solid rgba(200,169,110,.25);
-        background: rgba(200,169,110,.06);
-        border-radius: 99px; padding: 6px 14px;
-        margin-bottom: 28px;
-    }
-
-    .pf-hero-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(52px, 6vw, 80px);
-        font-weight: 300; line-height: 1.05;
-        letter-spacing: -2px; color: var(--text);
-        margin-bottom: 20px;
-    }
-    .pf-hero-title em { font-style: italic; color: var(--accent); }
-
-    .pf-hero-role {
-        font-size: 16px; font-weight: 500;
-        color: var(--muted); letter-spacing: 0.3px;
-        margin-bottom: 20px;
-    }
-
-    .pf-hero-desc {
-        font-size: 15px; color: var(--muted);
-        line-height: 1.8; max-width: 460px; margin-bottom: 44px;
-        text-align: justify;
-    }
-
-    .pf-hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
-
-    .pf-btn-primary {
-        display: inline-flex; align-items: center; gap: 9px;
-        padding: 14px 28px;
-        background: transparent;
-        border: 1px solid rgba(200,169,110,.5);
-        border-radius: 10px; color: var(--accent2);
-        font-family: 'Outfit', sans-serif;
-        font-size: 13px; font-weight: 600;
-        text-transform: uppercase; letter-spacing: 1.8px;
-        text-decoration: none; cursor: pointer;
-        position: relative; overflow: hidden;
-        transition: border-color .25s, box-shadow .25s, transform .15s;
-    }
-    .pf-btn-primary::before {
-        content: ''; position: absolute; inset: 0;
-        background: linear-gradient(135deg, rgba(200,169,110,.18), rgba(200,169,110,.06));
-        opacity: 0; transition: opacity .25s;
-    }
-    .pf-btn-primary:hover {
-        border-color: var(--accent2);
-        color: var(--accent2);
-        box-shadow: 0 0 24px rgba(200,169,110,.18);
-        transform: translateY(-1px);
-    }
-    .pf-btn-primary:hover::before { opacity: 1; }
-    .pf-btn-primary span { position: relative; z-index: 1; }
-
-    .pf-btn-ghost {
-        display: inline-flex; align-items: center; gap: 9px;
-        padding: 14px 28px;
-        border: 1px solid var(--border);
-        border-radius: 10px; color: var(--muted);
-        font-family: 'Outfit', sans-serif;
-        font-size: 13px; font-weight: 500;
-        text-transform: uppercase; letter-spacing: 1.5px;
-        text-decoration: none;
-        transition: border-color .25s, color .25s, transform .15s;
-    }
-    .pf-btn-ghost:hover {
-        border-color: rgba(200,169,110,.3);
-        color: var(--accent);
-        transform: translateY(-1px);
-    }
-
-    /* Hero photo card */
-    .pf-hero-photo {
-        position: relative;
-    }
-
-    .pf-hero-photo-glow {
-        position: absolute; inset: -24px;
-        background: radial-gradient(ellipse at center, rgba(200,169,110,.12), transparent 70%);
-        pointer-events: none;
-        animation: glowPulse 6s ease-in-out infinite alternate;
-    }
-
-    .pf-hero-photo-frame {
-        position: relative;
-        border-radius: 20px; overflow: hidden;
-        border: 1px solid rgba(200,169,110,.25);
-        aspect-ratio: 4/5;
-        background: var(--surface);
-    }
-
-    .pf-hero-photo-frame img {
-        width: 100%; height: 100%; object-fit: cover;
-        display: block;
-    }
-
-    /* Hover reveal overlay */
-    .pf-hero-photo-overlay {
-        position: absolute; bottom: 0; left: 0; right: 0;
-        background: linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 100%);
-        padding: 28px 24px 24px;
-        transform: translateY(100%);
-        transition: transform .35s ease;
-    }
-    .pf-hero-photo-frame:hover .pf-hero-photo-overlay { transform: translateY(0); }
-
-    .pf-hero-photo-overlay-name {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 20px; font-weight: 400;
-        color: var(--text); margin-bottom: 4px;
-    }
-    .pf-hero-photo-overlay-role {
-        font-size: 12px; color: var(--accent);
-        text-transform: uppercase; letter-spacing: 1.5px;
-    }
-
-    /* Corner deco */
-    .pf-hero-photo::before {
-        content: '';
-        position: absolute; top: -12px; right: -12px;
-        width: 80px; height: 80px;
-        border-top: 1px solid rgba(200,169,110,.3);
-        border-right: 1px solid rgba(200,169,110,.3);
-        border-radius: 0 12px 0 0;
-        pointer-events: none; z-index: 2;
-    }
-    .pf-hero-photo::after {
-        content: '';
-        position: absolute; bottom: -12px; left: -12px;
-        width: 80px; height: 80px;
-        border-bottom: 1px solid rgba(200,169,110,.3);
-        border-left: 1px solid rgba(200,169,110,.3);
-        border-radius: 0 0 0 12px;
-        pointer-events: none; z-index: 2;
-    }
-
-    /* ══════════════════════════════
-       FEATURED PROJECTS
-    ══════════════════════════════ */
-    .pf-projects {
-        padding: 100px 0;
-        border-top: 1px solid var(--border);
-        position: relative;
-    }
-
-    .pf-projects::before {
-        content: '';
-        position: absolute; inset: 0;
-        background: radial-gradient(ellipse 50% 60% at 80% 50%, rgba(200,169,110,.04), transparent 60%);
-        pointer-events: none;
-    }
-
-    .pf-projects-header {
-        display: flex; align-items: flex-end;
-        justify-content: space-between;
-        margin-bottom: 16px; gap: 24px; flex-wrap: wrap;
-    }
-
-    .pf-projects-grid {
-        display: grid; grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
-    }
-
-    /* Empty state */
-    .pf-projects-empty {
-        grid-column: 1/-1;
-        padding: 80px 24px;
-        display: flex; flex-direction: column;
-        align-items: center; gap: 16px;
-        border: 1px dashed rgba(200,169,110,.15);
-        border-radius: 16px; text-align: center;
-    }
-    .pf-projects-empty i { font-size: 40px; color: var(--accent); opacity: .4; }
-    .pf-projects-empty p { font-size: 14px; color: #ffffff; }
-
-    /* ══════════════════════════════
-       TECHNICAL SKILLS
-    ══════════════════════════════ */
-    .pf-skills {
-        padding: 100px 0;
-        border-top: 1px solid var(--border);
-        position: relative;
-    }
-
-    .pf-skills::before {
-        content: '';
-        position: absolute; inset: 0;
-        background: radial-gradient(ellipse 50% 60% at 15% 50%, rgba(200,169,110,.04), transparent 60%);
-        pointer-events: none;
-    }
-
-    .pf-skills-grid {
-        display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
-    }
-
-    .pf-skill-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 16px; padding: 32px 28px;
-        position: relative; overflow: hidden;
-        transition: border-color .3s, transform .3s, box-shadow .3s;
-    }
-
-    .pf-skill-card::before {
-        content: '';
-        position: absolute; top: 0; left: 0; right: 0; height: 1px;
-        background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        opacity: 0; transition: opacity .3s;
-    }
-
-    .pf-skill-card:hover {
-        border-color: rgba(200,169,110,.25);
-        transform: translateY(-4px);
-        box-shadow: 0 16px 40px rgba(0,0,0,.3), 0 0 0 1px rgba(200,169,110,.08);
-    }
-    .pf-skill-card:hover::before { opacity: .6; }
-
-    .pf-skill-icon {
-        width: 52px; height: 52px;
-        border: 1px solid rgba(200,169,110,.25);
-        border-radius: 12px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 20px; color: var(--accent);
-        background: rgba(200,169,110,.06);
-        margin-bottom: 20px;
-        transition: transform .3s;
-    }
-    .pf-skill-card:hover .pf-skill-icon { transform: scale(1.1); }
-
-    .pf-skill-name {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 22px; font-weight: 600;
-        color: var(--text); margin-bottom: 16px;
-        letter-spacing: -0.3px;
-    }
-
-    .pf-skill-list {
-        list-style: none; padding: 0; margin: 0;
-        display: flex; flex-direction: column; gap: 9px;
-    }
-
-    .pf-skill-list li {
-        display: flex; align-items: center; gap: 10px;
-        font-size: 13px; color: var(--muted);
-    }
-
-    .pf-skill-list li::before {
-        content: ''; display: block;
-        width: 5px; height: 1px;
-        background: var(--accent); opacity: .6; flex-shrink: 0;
-    }
-
-    /* ══════════════════════════════
-       CTA BANNER
-    ══════════════════════════════ */
-    .pf-cta {
-        padding: 100px 0;
-        border-top: 1px solid var(--border);
-    }
-
-    .pf-cta-inner {
-        position: relative; overflow: hidden;
-        border: 1px solid rgba(200,169,110,.18);
-        border-radius: 24px;
-        padding: 80px 64px;
-        text-align: center;
-        background: var(--surface);
-    }
-
-    .pf-cta-inner::before {
-        content: '';
-        position: absolute; inset: 0;
-        background:
-            radial-gradient(ellipse 70% 60% at 50% 0%, rgba(200,169,110,.1), transparent 60%),
-            radial-gradient(ellipse 50% 40% at 50% 100%, rgba(200,169,110,.06), transparent 60%);
-        pointer-events: none;
-    }
-
-    /* Top & bottom rules */
-    .pf-cta-inner::after {
-        content: '';
-        position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
-        background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        opacity: .18;
-    }
-
-    .pf-cta-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(40px, 5vw, 64px);
-        font-weight: 300; line-height: 1.1;
-        letter-spacing: -1.5px; color: var(--text);
-        margin-bottom: 16px; position: relative; z-index: 1;
-    }
-    .pf-cta-title em { font-style: italic; color: var(--accent); }
-
-    .pf-cta-desc {
-        font-size: 15px; color: var(--muted);
-        line-height: 1.8; max-width: 520px;
-        margin: 0 auto 40px; position: relative; z-index: 1;
-    }
-
-    /* ══════════════════════════════
-       CONTACT
-    ══════════════════════════════ */
-    .pf-contact {
-        padding: 100px 0 120px;
-        border-top: 1px solid var(--border);
-        position: relative;
-    }
-
-    .pf-contact::before {
-        content: '';
-        position: absolute; inset: 0;
-        background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(200,169,110,.05), transparent 60%);
-        pointer-events: none;
-    }
-
-    .pf-contact-grid {
-        display: grid; grid-template-columns: 1fr 1fr;
-        gap: 80px; align-items: start;
-    }
-
-    .pf-contact-cards { display: flex; flex-direction: column; gap: 16px; }
-
-    .pf-contact-card {
-        display: flex; gap: 16px; align-items: flex-start;
-        padding: 20px 22px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        transition: border-color .25s, transform .25s;
-    }
-    .pf-contact-card:hover {
-        border-color: rgba(200,169,110,.25);
-        transform: translateX(4px);
-        box-shadow: 0 0 0 1px rgba(200,169,110,.06);
-    }
-
-    .pf-contact-icon {
-        width: 46px; height: 46px; flex-shrink: 0;
-        border: 1px solid rgba(200,169,110,.25);
-        border-radius: 10px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 17px; color: var(--accent);
-        background: rgba(200,169,110,.06);
-    }
-
-    .pf-contact-card-title {
-        font-size: 13px; font-weight: 600;
-        color: var(--text); margin-bottom: 4px;
-        text-transform: uppercase; letter-spacing: 0.8px;
-    }
-    .pf-contact-card-value {
-        font-size: 14px; color: var(--muted); margin-bottom: 3px;
-    }
-    .pf-contact-card-note {
-        font-size: 11px; color: var(--muted2);
-    }
-
-    .pf-social-links { display: flex; gap: 14px; margin-top: 4px; }
-    .pf-social-link {
-        display: inline-flex; align-items: center; gap: 6px;
-        font-size: 12px; font-weight: 500;
-        color: var(--accent); text-decoration: none;
-        letter-spacing: 0.3px;
-        transition: opacity .2s;
-    }
-    .pf-social-link:hover { opacity: .7; }
-
-    /* ── HERO MOTION ANIMATIONS ── */
-    @keyframes heroFloat {
-        0%   { transform: translateY(0px) rotate(0deg); }
-        50%  { transform: translateY(-18px) rotate(0.4deg); }
-        100% { transform: translateY(0px) rotate(0deg); }
-    }
-
-    @keyframes heroBgDrift {
-        0%   { opacity: 1;   transform: scale(1)    translateX(0px)   translateY(0px); }
-        33%  { opacity: .85; transform: scale(1.08) translateX(22px)  translateY(-14px); }
-        66%  { opacity: .9;  transform: scale(1.05) translateX(-14px) translateY(11px); }
-        100% { opacity: 1;   transform: scale(1.09) translateX(18px)  translateY(-8px); }
-    }
-
-    @keyframes glowPulse {
-        0%   { opacity: .6;  transform: scale(1); }
-        50%  { opacity: 1;   transform: scale(1.22); }
-        100% { opacity: .75; transform: scale(1.1); }
-    }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(24px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to   { opacity: 1; }
-    }
-
-    .pf-hero-left > * {
-        animation: fadeUp .6s ease both;
-    }
-    .pf-hero-left > *:nth-child(1) { animation-delay: .08s; }
-    .pf-hero-left > *:nth-child(2) { animation-delay: .16s; }
-    .pf-hero-left > *:nth-child(3) { animation-delay: .24s; }
-    .pf-hero-left > *:nth-child(4) { animation-delay: .32s; }
-    .pf-hero-left > *:nth-child(5) { animation-delay: .40s; }
-
-    .pf-hero-photo { animation: fadeIn .8s ease both .25s, heroFloat 5s ease-in-out infinite; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1024px) {
-        .pf-skills-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 900px) {
-        .pf-hero-inner { grid-template-columns: 1fr; }
-        .pf-hero-photo { display: block; margin-top: 40px; }
-        .pf-hero-photo-frame { max-width: 280px; margin: 0 auto; }
-        .pf-hero-photo-overlay { transform: translateY(0) !important; }
-        .pf-projects-grid { grid-template-columns: 1fr 1fr; }
-        .pf-contact-grid { grid-template-columns: 1fr; gap: 48px; }
-        .pf-cta-inner { padding: 56px 32px; }
-    }
-
-    @media (max-width: 640px) {
-        .pf-projects-grid { grid-template-columns: 1fr; }
-        .pf-skills-grid { grid-template-columns: 1fr; }
-        .pf-hero { padding: 40px 0 64px; }
-    }
-
-    /* ── CERTIFICATES ── */
-    .pf-certificates {
-        padding: 120px 0;
-        background: #0b0c0e;
-        color: #f0ece4;
-    }
-
-    .pf-certificates-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 2rem;
-        margin-top: 3rem;
-    }
-
-    .pf-certificate-card {
-        background: rgba(15, 23, 42, 0.8);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 20px;
-        overflow: hidden;
-        transition: transform .3s ease, box-shadow .3s ease;
-    }
-
-    .pf-certificate-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .pf-certificate-image {
-        width: 100%;
-        height: 200px;
-        overflow: hidden;
-    }
-
-    .pf-certificate-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform .3s ease;
-    }
-
-    .pf-certificate-card:hover .pf-certificate-image img {
-        transform: scale(1.05);
-    }
-
-    .pf-certificate-content {
-        padding: 1.5rem;
-    }
-
-    .pf-certificate-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #f0ece4;
-        margin-bottom: 0.5rem;
-        line-height: 1.3;
-    }
-
-    .pf-certificate-issuer {
-        font-size: 0.9rem;
-        color: #c8a96e;
-        font-weight: 500;
-        margin-bottom: 0.25rem;
-    }
-
-    .pf-certificate-date {
-        font-size: 0.85rem;
-        color: rgba(240, 236, 228, 0.7);
-        margin-bottom: 0.75rem;
-    }
-
-    .pf-certificate-desc {
-        font-size: 0.9rem;
-        color: rgba(240, 236, 228, 0.8);
-        line-height: 1.5;
-        margin: 0;
-    }
-
-    .pf-certificates-empty {
-        grid-column: 1 / -1;
-        text-align: center;
-        padding: 4rem 2rem;
-        color: rgba(240, 236, 228, 0.6);
-    }
-
-    .pf-certificates-empty i {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        opacity: 0.5;
-    }
-
-    .pf-certificates-empty p {
-        font-size: 1.1rem;
-        margin: 0;
-    }
-
-    @media (max-width: 768px) {
-        .pf-certificates {
-            padding: 80px 0;
-        }
-
-        .pf-certificates-grid {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('css/home/home.css') }}">
 
 <div class="pf-home">
-<div class="pf-container">
 
     {{-- ══ HERO ══ --}}
     <section class="pf-hero">
+        <canvas id="pf-neural-canvas"></canvas>
         <div class="pf-hero-rule pf-hero-rule-top"></div>
         <div class="pf-hero-rule pf-hero-rule-bottom"></div>
 
+        <div class="pf-container">
         <div class="pf-hero-inner">
             {{-- Left copy --}}
             <div class="pf-hero-left">
@@ -701,8 +58,10 @@
                 </div>
             </div>
         </div>
+        </div>{{-- /.pf-container --}}
     </section>
 
+<div class="pf-container">
     {{-- ══ FEATURED PROJECTS ══ --}}
     <section class="pf-projects">
         <div class="pf-projects-header">
@@ -730,6 +89,96 @@
                     <p>Featured projects coming soon.</p>
                 </div>
             @endforelse
+        </div>
+    </section>
+
+    {{-- ══ TESTIMONIALS ══ --}}
+    <section id="testimonials" class="pf-testimonials">
+        <div class="pf-eyebrow">Client Feedback</div>
+        <h2 class="pf-section-title">Trusted <em>Testimonials.</em></h2>
+        <p class="pf-section-desc">
+            Real client feedback from projects that delivered strong results.
+        </p>
+
+        <div class="pf-divider">
+            <div class="pf-divider-line"></div>
+            <div class="pf-divider-dot"></div>
+            <div class="pf-divider-line"></div>
+        </div>
+
+        <div class="pf-testimonials-layout">
+
+            {{-- LEFT: cards column --}}
+            <div class="pf-testimonials-cards-col">
+                <div class="pf-testimonials-grid">
+                    @forelse($testimonials->take(5) as $testimonial)
+                        <article class="pf-testimonial-card">
+
+                            {{-- 1. Stars — top ── --}}
+                            <div class="pf-testimonial-rating">
+                                @for($i = 0; $i < $testimonial->rating; $i++)
+                                    <span>★</span>
+                                @endfor
+                                @for($i = $testimonial->rating; $i < 5; $i++)
+                                    <span style="color:rgba(255,255,255,.15);">★</span>
+                                @endfor
+                            </div>
+
+                            {{-- 2. Author row: avatar + info ── --}}
+                            <div class="pf-testimonial-author">
+                                @if($testimonial->client_image)
+                                    <img src="{{ $testimonial->client_image }}" alt="{{ $testimonial->client_name }}" class="pf-testimonial-avatar object-cover">
+                                @else
+                                    <div class="pf-testimonial-avatar">{{ strtoupper(substr($testimonial->client_name, 0, 1)) }}</div>
+                                @endif
+
+                                <div class="pf-testimonial-author-info">
+                                    <div class="pf-testimonial-author-name">{{ $testimonial->client_name }}</div>
+                                    <div class="pf-testimonial-author-meta">
+                                        {{ $testimonial->client_title }}{{ $testimonial->client_title && $testimonial->client_company ? ' at ' : '' }}{{ $testimonial->client_company }}
+                                    </div>
+                                    @if($testimonial->project_url)
+                                        <a href="{{ $testimonial->project_url }}" class="pf-testimonial-link" target="_blank" rel="noopener">
+                                            View client project <i class="fas fa-arrow-right" style="font-size:9px;"></i>
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+
+                            {{-- 3. Quote — bottom ── --}}
+                            <p class="pf-testimonial-quote">"{{ $testimonial->content }}"</p>
+
+                        </article>
+                    @empty
+                        <div class="pf-projects-empty">
+                            <i class="fas fa-comments"></i>
+                            <p>Client testimonials coming soon.</p>
+                        </div>
+                    @endforelse
+                </div>
+
+                @if(!empty($hasMoreTestimonials))
+                    <div style="margin-top: auto; padding-top: 24px; text-align: center;">
+                        <a href="{{ route('testimonials.index') }}" class="pf-btn-primary" style="display:inline-flex; justify-content:center;">
+                            View all
+                        </a>
+                    </div>
+                @endif
+            </div>
+
+            {{-- RIGHT: form column (sticky) --}}
+            <div class="pf-testimonials-form-col">
+                <div class="pf-testimonials-form-sticky">
+                    <div class="pf-testimonials-form-heading">
+                        <div class="pf-testimonials-form-eyebrow">Share Your Experience</div>
+                        <h3 class="pf-testimonials-form-title">Leave a <em>Review</em></h3>
+                    </div>
+                    <div id="testimonial-form-container">
+                        <x-testimonial-form :showHeading="false" />
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -763,9 +212,9 @@
                 <div class="pf-skill-icon"><i class="fas fa-palette"></i></div>
                 <div class="pf-skill-name">Frontend</div>
                 <ul class="pf-skill-list">
-                    <li>React / Vue</li>
+                    <li>React</li>
                     <li>Tailwind CSS</li>
-                    <li>JavaScript / TypeScript</li>
+                    <li>JavaScript</li>
                     <li>Responsive Design</li>
                 </ul>
             </div>
@@ -792,6 +241,45 @@
                 </ul>
             </div>
         </div>
+
+        @php
+            $defaultSkills = [
+                ['label' => 'Backend Development', 'pct' => '95%'],
+                ['label' => 'Frontend Development', 'pct' => '85%'],
+                ['label' => 'Database Design', 'pct' => '90%'],
+                ['label' => 'DevOps & Deployment', 'pct' => '80%'],
+            ];
+            $admin = \App\Models\User::where('is_admin', true)->first();
+            $skills = $admin?->skills ?: $defaultSkills;
+        @endphp
+
+        <div class="pf-skill-bars-group">
+            <div class="pf-skill-bars-header">
+                <span class="pf-skill-bars-eyebrow">Proficiency</span>
+                <h3 class="pf-skill-bars-title">Professional <em>Skills</em></h3>
+            </div>
+            <div class="pf-skill-bars-wrap">
+                <div class="pf-skill-bars-list">
+                    @foreach ($skills as $skill)
+                        @if (! empty($skill['label']))
+                            @php
+                                $pct = trim((string) ($skill['pct'] ?? ''));
+                                $pctValue = rtrim($pct, '%');
+                            @endphp
+                            <div class="pf-skill-bar">
+                                <div class="pf-skill-bar-header">
+                                    <span class="pf-skill-bar-label">{{ $skill['label'] }}</span>
+                                    <span class="pf-skill-bar-pct">{{ $pctValue ?: '0' }}<span class="pf-skill-bar-pct-sign">%</span></span>
+                                </div>
+                                <div class="pf-skill-bar-track">
+                                    <div class="pf-skill-bar-fill" data-width="{{ $pctValue ?: 0 }}%"></div>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+        </div>
     </section>
 
     {{-- ══ CERTIFICATES ══ --}}
@@ -813,9 +301,18 @@
             <div class="pf-certificate-card">
                 @if($certificate->certificate_url)
                 <div class="pf-certificate-image">
-                    <img src="{{ $certificate->certificate_url }}" alt="{{ $certificate->title }}" loading="lazy">
+                    <a href="{{ $certificate->certificate_url }}" target="_blank" rel="noopener" class="pf-certificate-image-link">
+                        <img src="{{ $certificate->certificate_url }}" alt="{{ $certificate->title }}" loading="lazy">
+                    </a>
                 </div>
-                @endif
+            @else
+                <div class="pf-certificate-image pf-certificate-image-placeholder">
+                    <div class="pf-certificate-placeholder-inner">
+                        <i class="fas fa-certificate"></i>
+                        <span>No certificate image</span>
+                    </div>
+                </div>
+            @endif
                 <div class="pf-certificate-content">
                     <h3 class="pf-certificate-title">{{ $certificate->title }}</h3>
                     <div class="pf-certificate-issuer">{{ $certificate->issuer }}</div>
@@ -905,5 +402,184 @@
 
 </div>
 </div>
+
+<script>
+/* ── Neural Brain-Cell Canvas Background ── */
+(function () {
+    const canvas = document.getElementById('pf-neural-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    /* Color palette */
+    const GOLD  = { r: 200, g: 169, b: 110 };
+    const CREAM = { r: 240, g: 236, b: 228 };
+
+    const NUM_NODES = 70;
+    const nodes = [];
+
+    /* ── Nodes store RELATIVE positions (0–1) so they always
+       spread across the full canvas after any resize ── */
+    for (let i = 0; i < NUM_NODES; i++) {
+        const isBig = Math.random() < 0.14;
+        nodes.push({
+            rx:          Math.random(),          /* relative x: 0–1 */
+            ry:          Math.random(),          /* relative y: 0–1 */
+            vx:          (Math.random() - 0.5) * 0.00035,  /* velocity as fraction of W */
+            vy:          (Math.random() - 0.5) * 0.00035,  /* velocity as fraction of H */
+            radius:      isBig ? (3.5 + Math.random() * 3) : (1 + Math.random() * 2),
+            pulseOffset: Math.random() * Math.PI * 2,
+            pulseSpeed:  0.010 + Math.random() * 0.016,
+            isGold:      Math.random() < 0.42,
+            isBig,
+            halo:        isBig && Math.random() < 0.65,
+        });
+    }
+
+    /* Resize: update canvas dimensions; nodes auto-adapt via rx/ry */
+    function resize() {
+        canvas.width  = canvas.closest('.pf-hero').offsetWidth;
+        canvas.height = canvas.closest('.pf-hero').offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    let frame = 0;
+
+    function draw() {
+        frame++;
+        const W = canvas.width;
+        const H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        const MAX_DIST = Math.min(W, H) * 0.22;
+
+        /* Move nodes in relative space and wrap */
+        for (const n of nodes) {
+            n.rx += n.vx;
+            n.ry += n.vy;
+            if (n.rx < -0.05) n.rx = 1.05;
+            if (n.rx > 1.05)  n.rx = -0.05;
+            if (n.ry < -0.05) n.ry = 1.05;
+            if (n.ry > 1.05)  n.ry = -0.05;
+        }
+
+        /* Convert to pixel coords for drawing */
+        const px = nodes.map(n => ({ x: n.rx * W, y: n.ry * H, n }));
+
+        /* Draw curved synaptic connections */
+        for (let i = 0; i < px.length; i++) {
+            for (let j = i + 1; j < px.length; j++) {
+                const a = px[i], b = px[j];
+                const dx = a.x - b.x, dy = a.y - b.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < MAX_DIST) {
+                    const alpha = (1 - dist / MAX_DIST) * 0.16;
+                    const bothGold = a.n.isGold && b.n.isGold;
+                    const c = bothGold ? GOLD : CREAM;
+                    const seed = (i * 31 + j * 17) & 0xFFFF;
+                    const bend = ((seed % 24) - 12);
+                    const mx = (a.x + b.x) / 2 - (dy / dist) * bend;
+                    const my = (a.y + b.y) / 2 + (dx / dist) * bend;
+                    ctx.beginPath();
+                    ctx.moveTo(a.x, a.y);
+                    ctx.quadraticCurveTo(mx, my, b.x, b.y);
+                    ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},${alpha})`;
+                    ctx.lineWidth   = bothGold ? 0.85 : 0.4;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        /* Draw nodes */
+        for (let i = 0; i < px.length; i++) {
+            const { x, y, n } = px[i];
+            const pulse = Math.sin(frame * n.pulseSpeed + n.pulseOffset);
+            const r     = n.radius + pulse * 0.7;
+            const c     = n.isGold ? GOLD : CREAM;
+            const alpha = 0.5 + pulse * 0.35;
+
+            /* Soft halo glow */
+            if (n.halo) {
+                const grad = ctx.createRadialGradient(x, y, r * 0.5, x, y, r * 6);
+                grad.addColorStop(0, `rgba(${c.r},${c.g},${c.b},0.15)`);
+                grad.addColorStop(1, `rgba(${c.r},${c.g},${c.b},0)`);
+                ctx.beginPath();
+                ctx.arc(x, y, r * 6, 0, Math.PI * 2);
+                ctx.fillStyle = grad;
+                ctx.fill();
+            }
+
+            /* Core dot */
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${c.r},${c.g},${c.b},${alpha})`;
+            ctx.fill();
+
+            /* Outer ring for large nodes */
+            if (n.isBig) {
+                ctx.beginPath();
+                ctx.arc(x, y, r + 2.5, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},0.22)`;
+                ctx.lineWidth   = 1;
+                ctx.stroke();
+            }
+        }
+
+        requestAnimationFrame(draw);
+    }
+
+    draw();
+})();
+</script>
+
+<script>
+/* ── Animate skill bars when they scroll into view ── */
+(function () {
+    const fills = document.querySelectorAll('.pf-skill-bar-fill');
+    if (!fills.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                /* stagger by index */
+                const idx = [...fills].indexOf(el);
+                setTimeout(() => {
+                    el.style.width = el.dataset.width || '0%';
+                }, idx * 120);
+                observer.unobserve(el);
+            }
+        });
+    }, { threshold: 0.25 });
+
+    fills.forEach(fill => observer.observe(fill));
+
+    /* Animated percentage counter */
+    const pcts = document.querySelectorAll('.pf-skill-bar-pct');
+    const pctObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el    = entry.target;
+                const sign  = el.querySelector('.pf-skill-bar-pct-sign');
+                const end   = parseInt(el.textContent, 10) || 0;
+                const dur   = 1200;
+                const step  = 16;
+                const steps = Math.round(dur / step);
+                let current = 0;
+                const inc   = end / steps;
+                const timer = setInterval(() => {
+                    current += inc;
+                    if (current >= end) { current = end; clearInterval(timer); }
+                    el.textContent = Math.round(current);
+                    if (sign) el.appendChild(sign); /* keep % span intact */
+                }, step);
+                pctObserver.unobserve(el);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    pcts.forEach(p => pctObserver.observe(p));
+})();
+</script>
 
 @endsection
