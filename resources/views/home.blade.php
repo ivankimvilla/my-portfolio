@@ -435,23 +435,29 @@
         });
     }
 
-    /* Resize: update canvas dimensions; nodes auto-adapt via rx/ry */
+    /* Resize: update canvas dimensions; nodes auto-adapt via rx/ry.
+       Falls back to window dimensions if the hero section is unavailable. */
     function resize() {
-        canvas.width  = canvas.closest('.pf-hero').offsetWidth;
-        canvas.height = canvas.closest('.pf-hero').offsetHeight;
+        const hero = canvas.closest('.pf-hero');
+        canvas.width  = hero ? hero.offsetWidth  : window.innerWidth;
+        canvas.height = hero ? hero.offsetHeight : window.innerHeight;
     }
     resize();
     window.addEventListener('resize', resize);
 
     let frame = 0;
+    let rafId = null;
+    let running = true;
 
     function draw() {
+        if (!running) return;
         frame++;
         const W = canvas.width;
         const H = canvas.height;
         ctx.clearRect(0, 0, W, H);
 
-        const MAX_DIST = Math.min(W, H) * 0.22;
+        /* Wider detection range so more nodes form connections */
+        const MAX_DIST = Math.min(W, H) * 0.30;
 
         /* Move nodes in relative space and wrap */
         for (const n of nodes) {
@@ -472,21 +478,24 @@
                 const a = px[i], b = px[j];
                 const dx = a.x - b.x, dy = a.y - b.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < MAX_DIST) {
-                    const alpha = (1 - dist / MAX_DIST) * 0.16;
-                    const bothGold = a.n.isGold && b.n.isGold;
-                    const c = bothGold ? GOLD : CREAM;
-                    const seed = (i * 31 + j * 17) & 0xFFFF;
-                    const bend = ((seed % 24) - 12);
-                    const mx = (a.x + b.x) / 2 - (dy / dist) * bend;
-                    const my = (a.y + b.y) / 2 + (dx / dist) * bend;
-                    ctx.beginPath();
-                    ctx.moveTo(a.x, a.y);
-                    ctx.quadraticCurveTo(mx, my, b.x, b.y);
-                    ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},${alpha})`;
-                    ctx.lineWidth   = bothGold ? 0.85 : 0.4;
-                    ctx.stroke();
-                }
+                /* Guard: skip if nodes are at the same position (dist = 0)
+                   to prevent NaN from dividing by zero in the bend calculation */
+                if (dist < 1 || dist >= MAX_DIST) continue;
+                /* Quadratic fade: bright near nodes, soft at the edge of range */
+                const t     = 1 - dist / MAX_DIST;
+                const alpha = t * t * 0.55;
+                const bothGold = a.n.isGold && b.n.isGold;
+                const c = bothGold ? GOLD : CREAM;
+                const seed = (i * 31 + j * 17) & 0xFFFF;
+                const bend = ((seed % 20) - 10);
+                const mx = (a.x + b.x) / 2 - (dy / dist) * bend;
+                const my = (a.y + b.y) / 2 + (dx / dist) * bend;
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.quadraticCurveTo(mx, my, b.x, b.y);
+                ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},${alpha})`;
+                ctx.lineWidth   = bothGold ? 1.4 : 0.8;
+                ctx.stroke();
             }
         }
 
@@ -494,17 +503,17 @@
         for (let i = 0; i < px.length; i++) {
             const { x, y, n } = px[i];
             const pulse = Math.sin(frame * n.pulseSpeed + n.pulseOffset);
-            const r     = n.radius + pulse * 0.7;
+            const r     = n.radius + pulse * 1.0;
             const c     = n.isGold ? GOLD : CREAM;
-            const alpha = 0.5 + pulse * 0.35;
+            const alpha = 0.65 + pulse * 0.30;
 
-            /* Soft halo glow */
+            /* Soft halo glow — tighter and brighter */
             if (n.halo) {
-                const grad = ctx.createRadialGradient(x, y, r * 0.5, x, y, r * 6);
-                grad.addColorStop(0, `rgba(${c.r},${c.g},${c.b},0.15)`);
+                const grad = ctx.createRadialGradient(x, y, r * 0.4, x, y, r * 5.5);
+                grad.addColorStop(0, `rgba(${c.r},${c.g},${c.b},0.25)`);
                 grad.addColorStop(1, `rgba(${c.r},${c.g},${c.b},0)`);
                 ctx.beginPath();
-                ctx.arc(x, y, r * 6, 0, Math.PI * 2);
+                ctx.arc(x, y, r * 5.5, 0, Math.PI * 2);
                 ctx.fillStyle = grad;
                 ctx.fill();
             }
@@ -515,18 +524,29 @@
             ctx.fillStyle = `rgba(${c.r},${c.g},${c.b},${alpha})`;
             ctx.fill();
 
-            /* Outer ring for large nodes */
+            /* Outer ring for large nodes — more visible */
             if (n.isBig) {
                 ctx.beginPath();
-                ctx.arc(x, y, r + 2.5, 0, Math.PI * 2);
-                ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},0.22)`;
-                ctx.lineWidth   = 1;
+                ctx.arc(x, y, r + 3, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(${c.r},${c.g},${c.b},0.35)`;
+                ctx.lineWidth   = 1.2;
                 ctx.stroke();
             }
         }
 
-        requestAnimationFrame(draw);
+        rafId = requestAnimationFrame(draw);
     }
+
+    /* Cancel the loop if the canvas is removed from the DOM (e.g. SPA navigation)
+       to prevent a memory-leaking zombie animation loop */
+    const sentinel = new MutationObserver(() => {
+        if (!document.body.contains(canvas)) {
+            running = false;
+            if (rafId) cancelAnimationFrame(rafId);
+            sentinel.disconnect();
+        }
+    });
+    sentinel.observe(document.body, { childList: true, subtree: true });
 
     draw();
 })();
@@ -559,19 +579,28 @@
     const pctObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const el    = entry.target;
-                const sign  = el.querySelector('.pf-skill-bar-pct-sign');
-                const end   = parseInt(el.textContent, 10) || 0;
+                const el   = entry.target;
+                const sign = el.querySelector('.pf-skill-bar-pct-sign');
+                /* Read the numeric value from the data attribute on the sibling
+                   fill bar to avoid picking up the '%' character from textContent */
+                const track = el.closest('.pf-skill-bar');
+                const fill  = track ? track.querySelector('.pf-skill-bar-fill') : null;
+                const end   = parseInt(fill ? fill.dataset.width : el.textContent, 10) || 0;
                 const dur   = 1200;
                 const step  = 16;
                 const steps = Math.round(dur / step);
                 let current = 0;
                 const inc   = end / steps;
+                /* Create a dedicated text node for the number so the '%' sign
+                   child element is never disturbed during the counter animation */
+                const numNode = document.createTextNode('0');
+                el.textContent = '';
+                el.appendChild(numNode);
+                if (sign) el.appendChild(sign);
                 const timer = setInterval(() => {
                     current += inc;
                     if (current >= end) { current = end; clearInterval(timer); }
-                    el.textContent = Math.round(current);
-                    if (sign) el.appendChild(sign); /* keep % span intact */
+                    numNode.textContent = Math.round(current);
                 }, step);
                 pctObserver.unobserve(el);
             }
