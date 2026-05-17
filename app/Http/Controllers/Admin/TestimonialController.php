@@ -10,8 +10,11 @@ class TestimonialController extends Controller
 {
     public function index()
     {
-        $approved = Testimonial::approved()->orderBy('display_order')->paginate(10, ['*'], 'approved_page');
-        $pending = Testimonial::pending()->orderBy('created_at', 'desc')->paginate(10, ['*'], 'pending_page');
+        $perPage = (int) request('per_page', 10);
+        $perPage = $perPage > 0 ? min($perPage, 100) : 10;
+
+        $approved = Testimonial::approved()->orderBy('display_order')->paginate($perPage, ['*'], 'approved_page');
+        $pending = Testimonial::pending()->orderBy('created_at', 'desc')->paginate($perPage, ['*'], 'pending_page');
         return view('admin.testimonials.index', compact('approved', 'pending'));
     }
 
