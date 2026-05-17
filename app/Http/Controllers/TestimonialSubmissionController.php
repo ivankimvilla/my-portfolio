@@ -22,11 +22,11 @@ class TestimonialSubmissionController extends Controller
         // Create testimonial in pending state (not approved, not active)
         Testimonial::create([
             'client_name' => $validated['client_name'],
-            'client_company' => $validated['client_company'],
-            'client_title' => $validated['client_title'],
+            'client_company' => $validated['client_company'] ?? null,
+            'client_title' => $validated['client_title'] ?? null,
             'content' => $validated['content'],
             'rating' => $validated['rating'],
-            'project_url' => $validated['project_url'],
+            'project_url' => $validated['project_url'] ?? null,
             'ip_address' => $request->ip(),
             'is_active' => false,
             'is_approved' => false,
