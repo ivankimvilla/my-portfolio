@@ -150,6 +150,14 @@
     color: var(--accent);
 }
 
+.test-table th.text-right {
+    text-align: right;
+}
+
+.test-table td:last-child {
+    text-align: right;
+}
+
 .test-table tbody tr {
     border-bottom: 1px solid var(--border);
 }
@@ -258,102 +266,6 @@
 
 .test-pagination {
     margin-top: 24px;
-}
-
-/* ─── Pagination ─────────────────────────────────────────── */
-.pagination {
-    display: flex;
-    gap: 6px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    align-items: center;
-}
-
-/* Base style for all page buttons */
-.pagination li a,
-.pagination li span {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    height: 36px;
-    min-width: 36px;
-    padding: 0 14px;
-    border-radius: 10px;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted2);
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: .5px;
-    transition: color .15s, border-color .15s, background .15s, transform .12s;
-}
-
-/* Numeric page hover */
-.pagination li a:hover {
-    color: var(--text);
-    border-color: rgba(200, 169, 110, .22);
-    background: rgba(200, 169, 110, .04);
-}
-
-/* Active / current page */
-.pagination li.active span {
-    background: linear-gradient(135deg, rgba(200, 169, 110, .18), rgba(200, 169, 110, .08));
-    border-color: rgba(200, 169, 110, .45);
-    color: var(--accent2);
-    box-shadow: 0 0 0 3px rgba(200, 169, 110, .1);
-}
-
-/* Disabled state (Prev on first page, Next on last) */
-.pagination li.disabled span {
-    opacity: .35;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-/* Prev / Next buttons */
-.pagination li:first-child a,
-.pagination li:last-child a {
-    padding: 0 18px;
-    border-radius: 12px;
-    background: rgba(200, 169, 110, .08);
-    border-color: rgba(200, 169, 110, .3);
-    color: var(--accent2);
-    position: relative;
-    overflow: hidden;
-}
-
-/* Shimmer overlay that fades in on hover */
-.pagination li:first-child a::before,
-.pagination li:last-child a::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(200, 169, 110, .15), transparent);
-    opacity: 0;
-    transition: opacity .15s;
-}
-
-.pagination li:first-child a:hover,
-.pagination li:last-child a:hover {
-    transform: translateY(-2px);
-    border-color: rgba(200, 169, 110, .55);
-    background: rgba(200, 169, 110, .14);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, .3);
-    color: var(--accent2);
-}
-
-.pagination li:first-child a:hover::before,
-.pagination li:last-child a:hover::before {
-    opacity: 1;
-}
-
-/* ─── Misc ───────────────────────────────────────────────── */
-.test-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
 }
 
 .test-empty {
