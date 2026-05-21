@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Service;
-use App\Models\Testimonial;
 
 class HomeController extends Controller
 {
@@ -22,33 +21,9 @@ class HomeController extends Controller
             ->orderBy('display_order')
             ->get();
 
-        $testimonials = Testimonial::approved()
-            ->active()
-            ->orderBy('display_order')
-            ->limit(6)
-            ->get();
-
-        $hasMoreTestimonials = Testimonial::approved()
-            ->active()
-            ->count() > 6;
-
         return view('home', [
             'featuredProjects' => $featuredProjects,
             'services' => $services,
-            'testimonials' => $testimonials,
-            'hasMoreTestimonials' => $hasMoreTestimonials,
-        ]);
-    }
-
-    public function testimonials()
-    {
-        $testimonials = Testimonial::approved()
-            ->active()
-            ->orderBy('display_order')
-            ->get();
-
-        return view('pages.testimonials', [
-            'testimonials' => $testimonials,
         ]);
     }
 }

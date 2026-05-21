@@ -12,7 +12,7 @@
         @else
             <div class="pf-project-thumb-placeholder">
                 <i class="fas fa-image"></i>
-                <span>No project image</span>
+                <span>No work image</span>
             </div>
         @endif
         <div class="pf-project-thumb-overlay"></div>
@@ -38,7 +38,7 @@
 
         <div class="pf-project-footer">
             <span class="pf-project-link">
-                View Project <i class="fas fa-arrow-right"></i>
+                View Work <i class="fas fa-arrow-right"></i>
             </span>
             <div class="pf-project-ext-links">
                 @if($project->live_url ?? false)

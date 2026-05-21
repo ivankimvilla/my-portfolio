@@ -30,7 +30,7 @@
                 </h1>
 
                 <p class="ab-hero-desc">
-                    With over 5 years of experience in web development, I specialize in building scalable,
+                    With over 3 years of experience in web development, I specialize in building scalable,
                     user-friendly applications that solve real business problems. My passion is turning
                     complex requirements into elegant, maintainable code.
                 </p>
@@ -117,30 +117,30 @@
 
             {{-- Timeline --}}
             <div>
-                <div class="ab-eyebrow" style="margin-bottom:28px;">Work Experience</div>
+                <div class="ab-eyebrow" style="margin-bottom:28px;">Experience</div>
                 <div class="ab-timeline">
                     <div class="ab-timeline-item">
                         <div class="ab-timeline-icon"><i class="fas fa-briefcase"></i></div>
                         <div>
-                            <div class="ab-timeline-role">Senior Developer</div>
-                            <div class="ab-timeline-company">Tech Startup Inc. &nbsp;·&nbsp; 2023 – Present</div>
-                            <div class="ab-timeline-desc">Led development of microservices architecture serving 100k+ users.</div>
-                        </div>
+                            <div class="ab-timeline-role">Full-Stack Developer</div>
+                            <div class="ab-timeline-company">RYPACI IT SOLUTIONS &nbsp;·&nbsp; July 2023 – Dec. 2026</div>
+                            <div class="ab-timeline-desc" style="text-align: justify;">Spearheaded full-stack web development projects, including an e-commerce online dress rental platform and a web application for Penong's, ensuring responsive design and seamless user experiences. Developed and optimized a mobile game application, managing both front-end gameplay interfaces and back-end logic for enhanced performance and stability.</div>
+                         </div>
                     </div>
                     <div class="ab-timeline-item">
                         <div class="ab-timeline-icon"><i class="fas fa-code"></i></div>
                         <div>
-                            <div class="ab-timeline-role">Full Stack Developer</div>
-                            <div class="ab-timeline-company">Digital Agency Co. &nbsp;·&nbsp; 2021 – 2023</div>
-                            <div class="ab-timeline-desc">Developed 15+ web applications for diverse clients across industries.</div>
+                            <div class="ab-timeline-role">GRAPHIC DESIGNER</div>
+                            <div class="ab-timeline-company">Private Client &nbsp;·&nbsp; Feb. 2022 – August 2025</div>
+                            <div class="ab-timeline-desc" style="text-align: justify;">Crafted high-impact visual assets including branding, layouts, digital ads, and social media creatives that elevated client visibility and consistently exceeded design expectations. Delivered end-to-end graphic design solutions with fast turnaround, strong communication, and a client-focused approach leading to long-term collaboration.</div>
                         </div>
                     </div>
                     <div class="ab-timeline-item">
-                        <div class="ab-timeline-icon"><i class="fas fa-seedling"></i></div>
+                        <div class="ab-timeline-icon"><i class="fas fa-robot"></i></div>
                         <div>
-                            <div class="ab-timeline-role">Junior Developer</div>
-                            <div class="ab-timeline-company">Web Solutions Ltd. &nbsp;·&nbsp; 2020 – 2021</div>
-                            <div class="ab-timeline-desc">Started my journey building PHP and MySQL applications from the ground up.</div>
+                            <div class="ab-timeline-role">AI DIRECTOR / PROMPTER</div>
+                            <div class="ab-timeline-company">Private Client &nbsp;·&nbsp; June 2024 – April 2025</div>
+                            <div class="ab-timeline-desc" style="text-align: justify;">Spearheaded AI-assisted creative direction, transforming client concepts into high-impact, polished outputs with precision and speed. Developed smart prompting strategies that enhanced workflow efficiency and elevated the quality of AI-generated content for a premium private client.</div>
                         </div>
                     </div>
                 </div>

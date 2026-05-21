@@ -19,14 +19,14 @@
                 <i class="fas fa-arrow-left"></i> Back to Portfolio
             </a>
 
-            <div class="pd-eyebrow">Project Detail</div>
+            <div class="pd-eyebrow">Work Detail</div>
 
             <h1 class="pd-hero-title">{{ $project->title }}</h1>
             <p class="pd-hero-desc">{{ $project->description }}</p>
 
             <div class="pd-hero-meta">
                 @if($project->live_url)
-                <span class="pd-meta-tag"><i class="fas fa-globe"></i> Live Project</span>
+                <span class="pd-meta-tag"><i class="fas fa-globe"></i> Live Work</span>
                 @endif
                 @if($project->github_url)
                 <span class="pd-meta-tag"><i class="fab fa-github"></i> Open Source</span>
@@ -46,7 +46,7 @@
             @else
                 <div class="pd-image-placeholder">
                     <i class="fas fa-image"></i>
-                    <span>Project Preview</span>
+                    <span>Work Preview</span>
                 </div>
             @endif
         </div>
@@ -59,7 +59,7 @@
             {{-- Left: Overview + Role --}}
             <div>
                 <div class="pd-eyebrow">Overview</div>
-                <h2 class="pd-section-heading">Project <em>Breakdown.</em></h2>
+                <h2 class="pd-section-heading">Work <em>Breakdown.</em></h2>
 
                 @if($project->problem_solution)
                 <div class="pd-body-text">

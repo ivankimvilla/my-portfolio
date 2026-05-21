@@ -21,7 +21,7 @@
                 Selected Work
             </div>
 
-            <h1 class="port-hero-title">My <em>Projects.</em></h1>
+            <h1 class="port-hero-title">My <em>Works.</em></h1>
 
             <p class="port-hero-desc">
                 A curated collection of projects I've built — each one showcasing a different dimension

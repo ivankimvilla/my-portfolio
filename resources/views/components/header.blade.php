@@ -18,7 +18,7 @@
         <nav class="pf-header-nav">
             <a href="/" class="{{ request()->is('/') ? 'active' : '' }}">Home</a>
             <a href="/about" class="{{ request()->is('about') ? 'active' : '' }}">About</a>
-            <a href="/portfolio" class="{{ request()->is('portfolio*') ? 'active' : '' }}">Projects</a>
+            <a href="/portfolio" class="{{ request()->is('portfolio*') ? 'active' : '' }}">Works</a>
             <a href="/services" class="{{ request()->is('services*') ? 'active' : '' }}">Services</a>
             <a href="/contact" class="{{ request()->is('contact') ? 'active' : '' }}">Contact</a>
         </nav>
@@ -44,7 +44,7 @@
     <div class="pf-mobile-menu-inner">
         <a href="/" class="pf-mobile-link">Home</a>
         <a href="/about" class="pf-mobile-link">About</a>
-        <a href="/portfolio" class="pf-mobile-link">Projects</a>
+        <a href="/portfolio" class="pf-mobile-link">Works</a>
         <a href="/services" class="pf-mobile-link">Services</a>
         <a href="/contact" class="pf-mobile-link">Contact</a>
     </div>

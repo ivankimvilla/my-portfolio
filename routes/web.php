@@ -6,7 +6,6 @@ use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\TestimonialSubmissionController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
@@ -20,7 +19,6 @@ Route::get('/login', fn() => redirect()->route('admin.login'))->name('login');
 
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/testimonials', [HomeController::class, 'testimonials'])->name('testimonials.index');
 Route::get('/about', function () {
     $admin = User::where('is_admin', true)->first();
     return view('pages.about', ['admin' => $admin]);
@@ -33,7 +31,6 @@ Route::get('/services', [ServiceController::class, 'index'])->name('services.ind
 Route::get('/services/{service}', [ServiceController::class, 'show'])->name('services.show');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-Route::post('/testimonials/submit', [TestimonialSubmissionController::class, 'submit'])->name('testimonials.submit');
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -82,9 +79,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('inquiries/bulk-delete', [InquiryController::class, 'bulkDelete'])->name('inquiries.bulk-delete');
         Route::resource('inquiries', InquiryController::class)->only(['index', 'show', 'destroy']);
         Route::put('inquiries/{inquiry}/mark-responded', [InquiryController::class, 'markResponded'])->name('inquiries.mark-responded');
-        Route::resource('testimonials', \App\Http\Controllers\Admin\TestimonialController::class);
-        Route::put('testimonials/{testimonial}/approve', [\App\Http\Controllers\Admin\TestimonialController::class, 'approve'])->name('testimonials.approve');
-        Route::put('testimonials/{testimonial}/reject', [\App\Http\Controllers\Admin\TestimonialController::class, 'reject'])->name('testimonials.reject');
         // Resume management (admin)
         Route::get('resume', fn() => view('admin.resume'))->name('resume.index');
         Route::post('resume/upload', [\App\Http\Controllers\ResumeController::class, 'upload'])->name('resume.upload');

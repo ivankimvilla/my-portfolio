@@ -45,12 +45,6 @@
             <span>Inquiries</span>
         </a>
 
-        <a href="{{ route('admin.testimonials.index') }}"
-           class="sidebar-link {{ request()->routeIs('admin.testimonials.*') ? 'active' : '' }}">
-            <span class="sidebar-link-icon"><i class="fas fa-comments"></i></span>
-            <span>Testimonials</span>
-        </a>
-
         <a href="{{ route('admin.profile') }}"
            class="sidebar-link {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
             <span class="sidebar-link-icon"><i class="fas fa-user-circle"></i></span>

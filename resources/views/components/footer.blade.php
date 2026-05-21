@@ -30,7 +30,7 @@
                 <ul class="pf-footer-links">
                     <li><a href="/">Home</a></li>
                     <li><a href="/about">About</a></li>
-                    <li><a href="/portfolio">Projects</a></li>
+                    <li><a href="/portfolio">Works</a></li>
                     <li><a href="/services">Services</a></li>
                     <li><a href="{{ route('contact.index') }}">Contact</a></li>
                 </ul>
@@ -88,7 +88,7 @@
         {{-- ── BOTTOM BAR ── --}}
         <div class="pf-footer-bottom">
             <span class="pf-footer-copy">
-                <span style="color: var(--accent, #c8a96e);">&copy;</span> 2026 <span style="color: var(--accent, #c8a96e);">Ivan Kim Almadin</span>. All rights reserved.
+                <span style="color: var(--accent, #c8a96e);">&copy;</span> 2023 <span style="color: var(--accent, #c8a96e);">Ivan Kim Almadin</span>. All rights reserved.
             </span>
 
         </div>

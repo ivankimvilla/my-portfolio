@@ -67,7 +67,7 @@
         <div class="pf-projects-header">
             <div>
                 <div class="pf-eyebrow">Selected Work</div>
-                <h2 class="pf-section-title">Featured <em>Projects.</em></h2>
+                <h2 class="pf-section-title">Featured <em>Works.</em></h2>
             </div>
             <p class="pf-section-desc">
                 A selection of recent work showcasing modern web development practices and creative problem-solving.
@@ -89,96 +89,6 @@
                     <p>Featured projects coming soon.</p>
                 </div>
             @endforelse
-        </div>
-    </section>
-
-    {{-- ══ TESTIMONIALS ══ --}}
-    <section id="testimonials" class="pf-testimonials">
-        <div class="pf-eyebrow">Client Feedback</div>
-        <h2 class="pf-section-title">Trusted <em>Testimonials.</em></h2>
-        <p class="pf-section-desc">
-            Real client feedback from projects that delivered strong results.
-        </p>
-
-        <div class="pf-divider">
-            <div class="pf-divider-line"></div>
-            <div class="pf-divider-dot"></div>
-            <div class="pf-divider-line"></div>
-        </div>
-
-        <div class="pf-testimonials-layout">
-
-            {{-- LEFT: cards column --}}
-            <div class="pf-testimonials-cards-col">
-                <div class="pf-testimonials-grid">
-                    @forelse($testimonials->take(5) as $testimonial)
-                        <article class="pf-testimonial-card">
-
-                            {{-- 1. Stars — top ── --}}
-                            <div class="pf-testimonial-rating">
-                                @for($i = 0; $i < $testimonial->rating; $i++)
-                                    <span>★</span>
-                                @endfor
-                                @for($i = $testimonial->rating; $i < 5; $i++)
-                                    <span style="color:rgba(255,255,255,.15);">★</span>
-                                @endfor
-                            </div>
-
-                            {{-- 2. Author row: avatar + info ── --}}
-                            <div class="pf-testimonial-author">
-                                @if($testimonial->client_image)
-                                    <img src="{{ $testimonial->client_image }}" alt="{{ $testimonial->client_name }}" class="pf-testimonial-avatar object-cover">
-                                @else
-                                    <div class="pf-testimonial-avatar">{{ strtoupper(substr($testimonial->client_name, 0, 1)) }}</div>
-                                @endif
-
-                                <div class="pf-testimonial-author-info">
-                                    <div class="pf-testimonial-author-name">{{ $testimonial->client_name }}</div>
-                                    <div class="pf-testimonial-author-meta">
-                                        {{ $testimonial->client_title }}{{ $testimonial->client_title && $testimonial->client_company ? ' at ' : '' }}{{ $testimonial->client_company }}
-                                    </div>
-                                    @if($testimonial->project_url)
-                                        <a href="{{ $testimonial->project_url }}" class="pf-testimonial-link" target="_blank" rel="noopener">
-                                            View client project <i class="fas fa-arrow-right" style="font-size:9px;"></i>
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
-
-                            {{-- 3. Quote — bottom ── --}}
-                            <p class="pf-testimonial-quote">"{{ $testimonial->content }}"</p>
-
-                        </article>
-                    @empty
-                        <div class="pf-projects-empty">
-                            <i class="fas fa-comments"></i>
-                            <p>Client testimonials coming soon.</p>
-                        </div>
-                    @endforelse
-                </div>
-
-                @if(!empty($hasMoreTestimonials))
-                    <div style="margin-top: auto; padding-top: 24px; text-align: center;">
-                        <a href="{{ route('testimonials.index') }}" class="pf-btn-primary" style="display:inline-flex; justify-content:center;">
-                            View all
-                        </a>
-                    </div>
-                @endif
-            </div>
-
-            {{-- RIGHT: form column (sticky) --}}
-            <div class="pf-testimonials-form-col">
-                <div class="pf-testimonials-form-sticky">
-                    <div class="pf-testimonials-form-heading">
-                        <div class="pf-testimonials-form-eyebrow">Share Your Experience</div>
-                        <h3 class="pf-testimonials-form-title">Leave a <em>Review</em></h3>
-                    </div>
-                    <div id="testimonial-form-container">
-                        <x-testimonial-form :showHeading="false" />
-                    </div>
-                </div>
-            </div>
-
         </div>
     </section>
 
