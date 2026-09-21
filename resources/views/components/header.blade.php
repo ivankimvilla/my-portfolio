@@ -17,10 +17,11 @@
         {{-- Desktop Nav --}}
         <nav class="pf-header-nav">
             <a href="/" class="{{ request()->is('/') ? 'active' : '' }}">Home</a>
-            <a href="/about" class="{{ request()->is('about') ? 'active' : '' }}">About</a>
+            <a href="/about" class="{{ request()->is('about*') ? 'active' : '' }}">About Me</a>
+            <a href="/skills" class="{{ request()->is('skills*') ? 'active' : '' }}">Skills</a>
+            <a href="/experience" class="{{ request()->is('experience*') ? 'active' : '' }}">Experience</a>
             <a href="/portfolio" class="{{ request()->is('portfolio*') ? 'active' : '' }}">Works</a>
-            <a href="/services" class="{{ request()->is('services*') ? 'active' : '' }}">Services</a>
-            <a href="/contact" class="{{ request()->is('contact') ? 'active' : '' }}">Contact</a>
+            <a href="/contact" class="{{ request()->is('contact*') ? 'active' : '' }}">Contact</a>
         </nav>
 
         {{-- Actions --}}
@@ -43,10 +44,11 @@
 <div class="pf-mobile-menu" id="pf-mobile-menu">
     <div class="pf-mobile-menu-inner">
         <a href="/" class="pf-mobile-link">Home</a>
-        <a href="/about" class="pf-mobile-link">About</a>
+        <a href="/about" class="pf-mobile-link">About Me</a>
+        <a href="/skills" class="pf-mobile-link">Skills</a>
+        <a href="/experience" class="pf-mobile-link">Experience</a>
         <a href="/portfolio" class="pf-mobile-link">Works</a>
-        <a href="/services" class="pf-mobile-link">Services</a>
-        <a href="/contact" class="pf-mobile-link">Contact</a>
+        <a href="/#contact" class="pf-mobile-link">Contact</a>
     </div>
 </div>
 

@@ -14,6 +14,8 @@
     <!-- Vite Assets (Optional - for when you set up npm) -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        <script src="{{ asset('js/project-card-neural.js') }}" defer></script>
     @endif
 </head>
 <body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
@@ -23,7 +25,5 @@
     <main>
         @yield('content')
     </main>
-
-    <x-footer />
 </body>
 </html>

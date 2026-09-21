@@ -25,11 +25,17 @@ Route::get('/about', function () {
 })->name('about');
 // Resume download (public)
 Route::get('/resume/download', [ResumeController::class, 'download'])->name('resume.download');
+Route::get('/skills', function () {
+    $admin = User::where('is_admin', true)->first();
+    return view('pages.skills', ['admin' => $admin]);
+})->name('skills');
+Route::get('/experience', function () {
+    $admin = User::where('is_admin', true)->first();
+    return view('pages.experience', ['admin' => $admin]);
+})->name('experience');
 Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio.index');
 Route::get('/portfolio/{project}', [PortfolioController::class, 'show'])->name('portfolio.show');
-Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
-Route::get('/services/{service}', [ServiceController::class, 'show'])->name('services.show');
-Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::get('/contact', fn () => view('pages.contact'))->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 // Admin Routes

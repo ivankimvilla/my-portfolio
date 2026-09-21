@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Ivan Kim Almadin - Full Stack Developer')
+@section('title', 'Ivan Kim Almadin')
 
 @section('content')
 
@@ -25,20 +25,17 @@
                 </div>
 
                 <h1 class="pf-hero-title">
-                    Hi, I'm<br>
-                    <em>Ivan Kim</em><br>
-                    Almadin.
+                    Hi, I'm
+                    <span class="pf-hero-name-line"><em>Ivan Kim</em> Almadin.</span>
                 </h1>
 
-                <p class="pf-hero-role">Laravel Full-Stack Developer</p>
-
                 <p class="pf-hero-desc">
-                    A Full-Stack Web Developer focused on building elegant and scalable solutions for complex problems, specializing in modern Laravel-based web applications and impactful digital experiences.
+                    A Full-Stack Web Developer focused on building elegant and scalable solutions for complex problems, specializing in modern web applications and impactful digital experiences.
                 </p>
 
                 <div class="pf-hero-actions">
                     <a href="#contact" class="pf-btn-primary">
-                        <span><i class="fas fa-arrow-right" style="margin-right:7px;"></i>Start a Project</span>
+                        <span>Start a Project</span><i class="fas fa-arrow-right" style="margin-right:7px;"></i>
                     </a>
                     <a href="/portfolio" class="pf-btn-primary">
                         View My Work
@@ -53,257 +50,6 @@
                     <img src="{{ asset('home-hero.png') }}" alt="Ivan Kim Almadin">
                     <div class="pf-hero-photo-overlay">
                         <div class="pf-hero-photo-overlay-name">Ivan Kim Almadin</div>
-                        <div class="pf-hero-photo-overlay-role">Laravel Full-Stack Developer</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>{{-- /.pf-container --}}
-    </section>
-
-<div class="pf-container">
-    {{-- ══ FEATURED PROJECTS ══ --}}
-    <section class="pf-projects">
-        <div class="pf-projects-header">
-            <div>
-                <div class="pf-eyebrow">Selected Work</div>
-                <h2 class="pf-section-title">Featured <em>Works.</em></h2>
-            </div>
-            <p class="pf-section-desc">
-                A selection of recent work showcasing modern web development practices and creative problem-solving.
-            </p>
-        </div>
-
-        <div class="pf-divider">
-            <div class="pf-divider-line"></div>
-            <div class="pf-divider-dot"></div>
-            <div class="pf-divider-line"></div>
-        </div>
-
-        <div class="pf-projects-grid">
-            @forelse($featuredProjects as $project)
-                <x-project-card :project="$project" />
-            @empty
-                <div class="pf-projects-empty">
-                    <i class="fas fa-rocket"></i>
-                    <p>Featured projects coming soon.</p>
-                </div>
-            @endforelse
-        </div>
-    </section>
-
-    {{-- ══ TECHNICAL SKILLS ══ --}}
-    <section class="pf-skills">
-        <div class="pf-eyebrow">Capabilities</div>
-        <h2 class="pf-section-title">Technical <em>Expertise.</em></h2>
-        <p class="pf-section-desc" style="margin-bottom: 0;">
-            A comprehensive toolkit of technologies and skills built through years of hands-on work.
-        </p>
-
-        <div class="pf-divider" style="margin-top: 32px;">
-            <div class="pf-divider-line"></div>
-            <div class="pf-divider-dot"></div>
-            <div class="pf-divider-line"></div>
-        </div>
-
-        <div class="pf-skills-grid">
-            <div class="pf-skill-card">
-                <div class="pf-skill-icon"><i class="fas fa-cogs"></i></div>
-                <div class="pf-skill-name">Backend</div>
-                <ul class="pf-skill-list">
-                    <li>PHP / Laravel</li>
-                    <li>Node.js</li>
-                    <li>REST APIs</li>
-                    <li>Database Design</li>
-                </ul>
-            </div>
-
-            <div class="pf-skill-card">
-                <div class="pf-skill-icon"><i class="fas fa-palette"></i></div>
-                <div class="pf-skill-name">Frontend</div>
-                <ul class="pf-skill-list">
-                    <li>React</li>
-                    <li>Tailwind CSS</li>
-                    <li>JavaScript</li>
-                    <li>Responsive Design</li>
-                </ul>
-            </div>
-
-            <div class="pf-skill-card">
-                <div class="pf-skill-icon"><i class="fas fa-database"></i></div>
-                <div class="pf-skill-name">Database</div>
-                <ul class="pf-skill-list">
-                    <li>MySQL</li>
-                    <li>PostgreSQL</li>
-                    <li>MongoDB</li>
-                    <li>Query Optimisation</li>
-                </ul>
-            </div>
-
-            <div class="pf-skill-card">
-                <div class="pf-skill-icon"><i class="fas fa-tools"></i></div>
-                <div class="pf-skill-name">DevOps</div>
-                <ul class="pf-skill-list">
-                    <li>Git / GitHub</li>
-                    <li>Docker</li>
-                    <li>AWS / Azure</li>
-                    <li>CI/CD Pipelines</li>
-                </ul>
-            </div>
-        </div>
-
-        @php
-            $defaultSkills = [
-                ['label' => 'Backend Development', 'pct' => '95%'],
-                ['label' => 'Frontend Development', 'pct' => '85%'],
-                ['label' => 'Database Design', 'pct' => '90%'],
-                ['label' => 'DevOps & Deployment', 'pct' => '80%'],
-            ];
-            $admin = \App\Models\User::where('is_admin', true)->first();
-            $skills = $admin?->skills ?: $defaultSkills;
-        @endphp
-
-        <div class="pf-skill-bars-group">
-            <div class="pf-skill-bars-header">
-                <span class="pf-skill-bars-eyebrow">Proficiency</span>
-                <h3 class="pf-skill-bars-title">Professional <em>Skills</em></h3>
-            </div>
-            <div class="pf-skill-bars-wrap">
-                <div class="pf-skill-bars-list">
-                    @foreach ($skills as $skill)
-                        @if (! empty($skill['label']))
-                            @php
-                                $pct = trim((string) ($skill['pct'] ?? ''));
-                                $pctValue = rtrim($pct, '%');
-                            @endphp
-                            <div class="pf-skill-bar">
-                                <div class="pf-skill-bar-header">
-                                    <span class="pf-skill-bar-label">{{ $skill['label'] }}</span>
-                                    <span class="pf-skill-bar-pct">{{ $pctValue ?: '0' }}<span class="pf-skill-bar-pct-sign">%</span></span>
-                                </div>
-                                <div class="pf-skill-bar-track">
-                                    <div class="pf-skill-bar-fill" data-width="{{ $pctValue ?: 0 }}%"></div>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- ══ CERTIFICATES ══ --}}
-    <section class="pf-certificates">
-        <div class="pf-eyebrow">Certifications</div>
-        <h2 class="pf-section-title">Professional <em>Credentials</em></h2>
-        <p class="pf-section-desc">
-            Validated expertise and continuous learning through recognized certifications.
-        </p>
-
-        <div class="pf-divider">
-            <div class="pf-divider-line"></div>
-            <div class="pf-divider-dot"></div>
-            <div class="pf-divider-line"></div>
-        </div>
-
-        <div class="pf-certificates-grid">
-            @forelse(\App\Models\Certificate::where('is_active', true)->latest()->get() as $certificate)
-            <div class="pf-certificate-card">
-                @if($certificate->certificate_url)
-                <div class="pf-certificate-image">
-                    <a href="{{ $certificate->certificate_url }}" target="_blank" rel="noopener" class="pf-certificate-image-link">
-                        <img src="{{ $certificate->certificate_url }}" alt="{{ $certificate->title }}" loading="lazy">
-                    </a>
-                </div>
-            @else
-                <div class="pf-certificate-image pf-certificate-image-placeholder">
-                    <div class="pf-certificate-placeholder-inner">
-                        <i class="fas fa-certificate"></i>
-                        <span>No certificate image</span>
-                    </div>
-                </div>
-            @endif
-                <div class="pf-certificate-content">
-                    <h3 class="pf-certificate-title">{{ $certificate->title }}</h3>
-                    <div class="pf-certificate-issuer">{{ $certificate->issuer }}</div>
-                    <div class="pf-certificate-date">{{ $certificate->issue_date->format('M Y') }}</div>
-                    @if($certificate->description)
-                    <p class="pf-certificate-desc">{{ $certificate->description }}</p>
-                    @endif
-                </div>
-            </div>
-            @empty
-            <div class="pf-certificates-empty">
-                <i class="fas fa-certificate"></i>
-                <p>Certificates coming soon...</p>
-            </div>
-            @endforelse
-        </div>
-    </section>
-
-    {{-- ══ CTA ══ --}}
-    <section class="pf-cta">
-        <div class="pf-cta-inner">
-            <div class="pf-eyebrow" style="justify-content:center;">Let's Build Together</div>
-            <h2 class="pf-cta-title">Ready to <em>collaborate?</em></h2>
-            <p class="pf-cta-desc">
-                Let's discuss your project and create something extraordinary together. I'm always open to new ideas and challenges.
-            </p>
-            <a href="#contact" class="pf-btn-primary" style="display:inline-flex; position:relative; z-index:1;">
-                <span><i class="fas fa-arrow-right" style="margin-right:7px;"></i>Start a Conversation</span>
-            </a>
-        </div>
-    </section>
-
-    {{-- ══ CONTACT ══ --}}
-    <section class="pf-contact" id="contact">
-        <div class="pf-eyebrow">Contact</div>
-        <h2 class="pf-section-title">Let's <em>Connect.</em></h2>
-        <p class="pf-section-desc" style="margin-bottom:0;">
-            Reach out to discuss your project or explore collaborations.
-        </p>
-
-        <div class="pf-divider" style="margin-top: 32px;">
-            <div class="pf-divider-line"></div>
-            <div class="pf-divider-dot"></div>
-            <div class="pf-divider-line"></div>
-        </div>
-
-        <div class="pf-contact-grid">
-            {{-- Contact Form --}}
-            <div>
-                <x-contact-form :showHeading="false" />
-            </div>
-
-            {{-- Contact Info --}}
-            <div class="pf-contact-cards">
-                <div class="pf-contact-card">
-                    <div class="pf-contact-icon"><i class="fas fa-envelope"></i></div>
-                    <div>
-                        <div class="pf-contact-card-title">Email</div>
-                        <div class="pf-contact-card-value">ivanalmadin0@gmail.com</div>
-                        <div class="pf-contact-card-note">I'll respond within 24 hours</div>
-                    </div>
-                </div>
-
-                <div class="pf-contact-card">
-                    <div class="pf-contact-icon"><i class="fas fa-phone"></i></div>
-                    <div>
-                        <div class="pf-contact-card-title">Phone</div>
-                        <div class="pf-contact-card-value">+63 (953) 578-6765</div>
-                        <div class="pf-contact-card-note">Available Monday–Friday, 8:00 AM–6:00 PM PHT</div>
-                    </div>
-                </div>
-
-                <div class="pf-contact-card">
-                    <div class="pf-contact-icon"><i class="fas fa-link"></i></div>
-                    <div>
-                        <div class="pf-contact-card-title">Social</div>
-                        <div class="pf-social-links">
-                            <a href="https://github.com/ivankimvilla" target="_blank" rel="noopener" class="pf-social-link"><i class="fab fa-github"></i>GitHub</a>
-                            <a href="https://www.linkedin.com/in/ivan-kim-almadin-483b16408/" target="_blank" rel="noopener" class="pf-social-link"><i class="fab fa-linkedin"></i>LinkedIn</a>
-                            <a href="https://x.com/AlmadinIvan" target="_blank" rel="noopener" class="pf-social-link"><i class="fab fa-twitter"></i>Twitter</a>
-                        </div>
                     </div>
                 </div>
             </div>

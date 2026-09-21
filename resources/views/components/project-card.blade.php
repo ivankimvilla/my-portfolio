@@ -3,16 +3,25 @@
 
 @props(['project'])
 
-<a href="{{ route('portfolio.show', $project) }}" class="pf-project-card">
+@php
+    $cardUrl = $project->live_url ?? route('portfolio.show', $project);
+@endphp
+
+<a href="{{ $cardUrl }}" class="pf-project-card" @if($project->live_url) target="_blank" rel="noopener noreferrer" @endif>
 
     {{-- Thumbnail --}}
     <div class="pf-project-thumb">
         @if($project->image_url)
             <img src="{{ $project->image_url }}" alt="{{ $project->title }}" loading="lazy">
         @else
-            <div class="pf-project-thumb-placeholder">
-                <i class="fas fa-image"></i>
-                <span>No work image</span>
+            <div class="pf-project-thumb-placeholder pc-image-no-image">
+                <canvas class="pc-image-neural-canvas"></canvas>
+                <span class="pc-neural-top-rule"></span>
+                <span class="pc-neural-corner-bl"></span>
+                <div class="pc-neural-label">
+                    <span class="pc-neural-label-icon"><i class="fas fa-code"></i></span>
+                    <span class="pc-neural-label-text">{{ $project->title }}</span>
+                </div>
             </div>
         @endif
         <div class="pf-project-thumb-overlay"></div>
@@ -38,7 +47,7 @@
 
         <div class="pf-project-footer">
             <span class="pf-project-link">
-                View Work <i class="fas fa-arrow-right"></i>
+                {{ $project->live_url ? 'View Demo' : 'View Work' }} <i class="fas fa-arrow-right"></i>
             </span>
             <div class="pf-project-ext-links">
                 @if($project->live_url ?? false)

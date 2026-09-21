@@ -18,35 +18,22 @@
         <div class="ab-hero-inner">
             {{-- Left copy --}}
             <div class="ab-hero-left">
-                <div class="ab-hero-tag">
-                    <i class="fas fa-user" style="font-size:9px;"></i>
-                    About Me
-                </div>
-
                 <h1 class="ab-hero-title">
-                    I'm a<br>
-                    <em>Full-Stack</em><br>
-                    Developer.
+                    I'm a
+                    <span class="ab-hero-name-line"><em>Full-Stack</em> Developer.</span>
                 </h1>
 
                 <p class="ab-hero-desc">
-                    With over 3 years of experience in web development, I specialize in building scalable,
-                    user-friendly applications that solve real business problems. My passion is turning
-                    complex requirements into elegant, maintainable code.
+                    IT graduate with strong experience in full-stack web development, AI integration, and AI agent pipelines.
+                    Skilled at using AI and prompt engineering to work efficiently and solve technical challenges.
                 </p>
                 <p class="ab-hero-desc">
-                    I believe in clean architecture, continuous learning, and delivering products that exceed
-                    expectations. I've worked with startups and established companies, always bringing a
-                    solution-oriented mindset.
-                </p>
-                <p class="ab-hero-desc">
-                    When I'm not coding, you'll find me contributing to open-source projects, writing
-                    technical blogs, or exploring new technologies.
+                    Passionate about creating practical solutions, helping businesses improve, and using technology to make work easier and more effective.
                 </p>
 
                 <div class="ab-hero-actions">
                     <a href="/portfolio" class="ab-btn-primary">
-                        <span><i class="fas fa-arrow-right" style="margin-right:7px;"></i>View My Work</span>
+                        <span>View My Work</span><i style="margin-right:7px;"></i>
                     </a>
                     <a href="{{ route('resume.download') }}" class="ab-btn-primary" title="Download Resume">
                         <span><i class="fas fa-download" style="margin-right:7px;"></i>Download Resume</span>
@@ -63,145 +50,6 @@
             </div>
         </div>
         </div>{{-- /.ab-container --}}
-    </section>
-
-<div class="ab-container">
-    {{-- ══ SKILLS & EXPERIENCE ══ --}}
-    <section class="ab-skills">
-        <div class="ab-eyebrow">Expertise</div>
-        <h2 class="ab-section-title">Technical <em>Skills.</em></h2>
-
-        <div class="ab-divider">
-            <div class="ab-divider-line"></div>
-            <div class="ab-divider-dot"></div>
-            <div class="ab-divider-line"></div>
-        </div>
-
-        <div class="ab-skills-inner">
-
-                @php
-                $defaultSkills = [
-                    ['label' => 'Backend Development', 'pct' => '95%'],
-                    ['label' => 'Frontend Development', 'pct' => '85%'],
-                    ['label' => 'Database Design', 'pct' => '90%'],
-                    ['label' => 'DevOps & Deployment', 'pct' => '80%'],
-                ];
-                $skills = $admin?->skills ?: $defaultSkills;
-            @endphp
-
-            <div>
-                <div class="ab-eyebrow" style="margin-bottom:12px;">Proficiency</div>
-                <h3 style="font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,38px);font-weight:300;letter-spacing:-0.8px;color:var(--text);line-height:1.1;margin:0 0 36px;">Professional <em style="font-style:italic;color:var(--accent);">Skills</em></h3>
-                <div class="ab-skill-bars-wrap">
-                    <div class="ab-skill-bars">
-                        @foreach ($skills as $skill)
-                            @if (! empty($skill['label']))
-                                @php
-                                    $pct = trim((string) ($skill['pct'] ?? ''));
-                                    $pctValue = rtrim($pct, '%');
-                                @endphp
-                                <div class="ab-skill-bar">
-                                    <div class="ab-skill-bar-header">
-                                        <span class="ab-skill-bar-label">{{ $skill['label'] }}</span>
-                                        <span class="ab-skill-bar-pct">{{ $pctValue ?: '0' }}<span class="ab-skill-bar-pct-sign">%</span></span>
-                                    </div>
-                                    <div class="ab-skill-bar-track">
-                                        <div class="ab-skill-bar-fill" data-width="{{ $pctValue ?: 0 }}%"></div>
-                                    </div>
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-
-            {{-- Timeline --}}
-            <div>
-                <div class="ab-eyebrow" style="margin-bottom:28px;">Experience</div>
-                <div class="ab-timeline">
-                    <div class="ab-timeline-item">
-                        <div class="ab-timeline-icon"><i class="fas fa-briefcase"></i></div>
-                        <div>
-                            <div class="ab-timeline-role">Full-Stack Developer</div>
-                            <div class="ab-timeline-company">RYPACI IT SOLUTIONS &nbsp;·&nbsp; July 2023 – Dec. 2026</div>
-                            <div class="ab-timeline-desc" style="text-align: justify;">Spearheaded full-stack web development projects, including an e-commerce online dress rental platform and a web application for Penong's, ensuring responsive design and seamless user experiences. Developed and optimized a mobile game application, managing both front-end gameplay interfaces and back-end logic for enhanced performance and stability.</div>
-                         </div>
-                    </div>
-                    <div class="ab-timeline-item">
-                        <div class="ab-timeline-icon"><i class="fas fa-code"></i></div>
-                        <div>
-                            <div class="ab-timeline-role">GRAPHIC DESIGNER</div>
-                            <div class="ab-timeline-company">Private Client &nbsp;·&nbsp; Feb. 2022 – August 2025</div>
-                            <div class="ab-timeline-desc" style="text-align: justify;">Crafted high-impact visual assets including branding, layouts, digital ads, and social media creatives that elevated client visibility and consistently exceeded design expectations. Delivered end-to-end graphic design solutions with fast turnaround, strong communication, and a client-focused approach leading to long-term collaboration.</div>
-                        </div>
-                    </div>
-                    <div class="ab-timeline-item">
-                        <div class="ab-timeline-icon"><i class="fas fa-robot"></i></div>
-                        <div>
-                            <div class="ab-timeline-role">AI DIRECTOR / PROMPTER</div>
-                            <div class="ab-timeline-company">Private Client &nbsp;·&nbsp; June 2024 – April 2025</div>
-                            <div class="ab-timeline-desc" style="text-align: justify;">Spearheaded AI-assisted creative direction, transforming client concepts into high-impact, polished outputs with precision and speed. Developed smart prompting strategies that enhanced workflow efficiency and elevated the quality of AI-generated content for a premium private client.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    {{-- ══ STATS / ACHIEVEMENTS ══ --}}
-    <section class="ab-stats">
-        <div style="text-align:center;">
-            <div class="ab-eyebrow" style="justify-content:center;">By the Numbers</div>
-            <h2 class="ab-section-title" style="text-align:center;">Certifications &amp; <em>Achievements.</em></h2>
-        </div>
-
-        <div class="ab-divider" style="margin-top:16px;">
-            <div class="ab-divider-line"></div>
-            <div class="ab-divider-dot"></div>
-            <div class="ab-divider-line"></div>
-        </div>
-
-        @php
-            $defaultIcons = ['fas fa-trophy', 'fas fa-layer-group', 'fas fa-star'];
-            $defaultStats = [
-                ['number' => '5+', 'label' => 'Years Experience', 'desc' => 'Building professional web solutions across industries.'],
-                ['number' => '50+', 'label' => 'Projects Delivered', 'desc' => 'Across startups, agencies, and enterprise clients.'],
-                ['number' => '100%', 'label' => 'Client Satisfaction', 'desc' => 'Consistent positive reviews and long-term retention.'],
-            ];
-            $stats = $admin?->stats ?: $defaultStats;
-        @endphp
-
-        <div class="ab-stats-grid">
-            @foreach ($stats as $index => $stat)
-                @if (! empty($stat['number']) || ! empty($stat['label']))
-                    @php
-                        $number = trim((string) ($stat['number'] ?? ''));
-                        $icon = $stat['icon'] ?? $defaultIcons[$index] ?? 'fas fa-award';
-                    @endphp
-                    <div class="ab-stat-card">
-                        <div class="ab-stat-icon"><i class="{{ $icon }}"></i></div>
-                        <div class="ab-stat-number">{{ $number }}</div>
-                        <div class="ab-stat-label">{{ $stat['label'] ?? '' }}</div>
-                        <div class="ab-stat-desc">{{ $stat['desc'] ?? '' }}</div>
-                    </div>
-                @endif
-            @endforeach
-        </div>
-    </section>
-
-    {{-- ══ CTA ══ --}}
-    <section class="ab-cta">
-        <div class="ab-cta-inner">
-            <div class="ab-eyebrow" style="justify-content:center;">Let's Build Together</div>
-            <h2 class="ab-cta-title">Ready to <em>collaborate?</em></h2>
-            <p class="ab-cta-desc">
-                Let's discuss how I can help bring your project to life and create something extraordinary together.
-            </p>
-            <a href="/contact" class="ab-btn-primary" style="display:inline-flex; position:relative; z-index:1;">
-                <span><i class="fas fa-arrow-right" style="margin-right:7px;"></i>Get In Touch</span>
-            </a>
-        </div>
     </section>
 
 </div>{{-- /.ab-container --}}

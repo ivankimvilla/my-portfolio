@@ -22,8 +22,10 @@
     font-family: 'Outfit', sans-serif;
     background: var(--bg);
     color: var(--text);
-    min-height: 100vh;
+    min-height: calc(100vh - 72px);
+    height: calc(100vh - 72px);
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 /* Suppress global blue link color from layouts.app */
@@ -112,7 +114,10 @@
 .ab-hero {
     position: relative;
     overflow: hidden;
-    padding: 80px 0 100px;
+    height: calc(100vh - 72px);
+    padding: 0;
+    display: flex;
+    align-items: center;
     border-bottom: 1px solid var(--border);
 }
 
@@ -168,11 +173,13 @@
 
 .ab-hero-inner {
     display: grid;
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 400px);
     gap: 72px;
     align-items: center;
     position: relative;
     z-index: 1;
+    min-height: 0;
+    height: 100%;
 }
 
 .ab-hero-tag {
@@ -199,6 +206,17 @@
     letter-spacing: -2px;
     color: var(--text);
     margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ab-hero-name-line {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2em;
+    white-space: normal;
+    flex-wrap: wrap;
 }
 
 .ab-hero-title em {
@@ -208,7 +226,7 @@
 
 .ab-hero-desc {
     font-size: 15px;
-    color: var(--muted);
+    color: #ffffff;
     line-height: 1.85;
     margin-bottom: 16px;
     text-align: justify;
