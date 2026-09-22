@@ -9,7 +9,6 @@
     <div class="contact-shell">
         <section class="contact-info-panel">
             <h1>Get in touch</h1>
-            <p>Tell me what you're building and when you need it. I reply within two working days.</p>
 
             <div class="contact-email-box">
                 <span>almadinivan12@gmail.com</span>
