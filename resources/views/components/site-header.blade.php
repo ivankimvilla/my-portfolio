@@ -1,7 +1,5 @@
 @props([
-    'active' => '',
-    'ctaLabel' => "Let's Talk",
-    'ctaHref' => null
+    'active' => ''
 ])
 <nav class="site-nav" aria-label="Main navigation">
   <div class="nav-inner">
@@ -13,7 +11,6 @@
       <a class="{{ $active === 'about' ? 'on' : '' }}" href="{{ route('about') }}" @if ($active === 'about') aria-current="page" @endif>About Me</a>
       <a class="{{ $active === 'works' ? 'on' : '' }}" href="{{ route('works') }}" @if ($active === 'works') aria-current="page" @endif>Works</a>
     </div>
-    <a class="btn btn-small nav-cta" href="{{ $ctaHref ?? route('home') . '#contact' }}">{{ $ctaLabel }} <span aria-hidden="true">→</span></a>
     <button class="nav-toggle" type="button" aria-controls="site-links" aria-expanded="false" aria-label="Open navigation">☰</button>
   </div>
 </nav>

@@ -4,8 +4,6 @@
     'pageCss' => null,
     'pageJs' => null,
     'active' => '',
-    'ctaLabel' => "Let's Talk",
-    'ctaHref' => null,
     'bodyClass' => 'portfolio-page',
     'showHeader' => true,
     'showFooter' => true,
@@ -25,13 +23,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('css/components/site-footer.css') }}">
   @if ($pageCss)
     <link rel="stylesheet" href="{{ asset($pageCss) }}">
   @endif
 </head>
 <body @class([$bodyClass])>
   @if ($showHeader)
-    <x-site-header :active="$active" :cta-label="$ctaLabel" :cta-href="$ctaHref" />
+    <x-site-header :active="$active" />
   @endif
 
   {{ $slot }}

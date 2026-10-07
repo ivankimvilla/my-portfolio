@@ -1,4 +1,4 @@
-<x-layouts.portfolio title="Works — Ivan Kim Almadin" page-css="css/pages/works.css" page-js="js/pages/works.js" active="works" cta-label="Let's Talk" body-class="portfolio-works">
+<x-layouts.portfolio title="Works — Ivan Kim Almadin" page-css="css/pages/works.css" page-js="js/pages/works.js" active="works" body-class="portfolio-works">
 <main class="works-page" id="works">
   <section class="works-hero">
     <div class="works-hero-image" aria-hidden="true"></div>
