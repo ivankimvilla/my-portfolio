@@ -2255,7 +2255,7 @@ body.portfolio-home .footer-copyright {
 body.portfolio-home .home-contact-section {
     position: relative;
     isolation: isolate;
-    min-height: 562px;
+    min-height: 300px;
     overflow: hidden;
     scroll-margin-top: 64px;
     padding: 50px max(24px, calc((100% - 1424px) / 2)) 10px;
@@ -2266,13 +2266,10 @@ body.portfolio-home .home-contact-section {
 body.portfolio-home .contact-landscape {
     position: absolute;
     z-index: -1;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 244px;
-    background-image: linear-gradient(90deg, #031616 0%, #031616 37.5%, #031616d9 49%, #03161600 74%), linear-gradient(0deg, #031616 0%, #03161600 72%), linear-gradient(#03161670, #03161670), url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=85");
-    background-position: center, center, center, right 52%;
-    background-size: cover, cover, cover, min(1000px, 72vw) 244px;
+    inset: 0;
+    background-image: linear-gradient(90deg, #031616b0 0%, #03161670 28%, #03161625 58%, #03161600 100%), linear-gradient(0deg, #031616 0%, #03161600 72%), linear-gradient(#03161670, #03161670), url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=85");
+    background-position: center, center, center, center;
+    background-size: cover, cover, cover, cover;
     background-repeat: no-repeat;
 }
 
@@ -2286,10 +2283,11 @@ body.portfolio-home .contact-shell {
 
 body.portfolio-home .contact-intro {
     display: flex;
-    min-height: 148px;
+    min-height: 100px;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 12px;
+    text-align: center;
 }
 
 body.portfolio-home .contact-overline {
@@ -2313,7 +2311,7 @@ body.portfolio-home .contact-intro h2 {
 
 body.portfolio-home .contact-intro>p:last-child {
     margin: 0;
-    color: #b4bcb9;
+    color: white;
     font-family: 'Arimo', sans-serif;
     font-size: 16px;
     line-height: 1.55;
@@ -2325,23 +2323,12 @@ body.portfolio-home .contact-intro-spacer {
 
 body.portfolio-home .contact-panel {
     display: flex;
-    min-height: 256px;
+    min-height: 200px;
     flex-direction: column;
     gap: 30px;
     padding: 33px 32px 36px;
     border-radius: 9px;
     background: #041718b0;
-}
-
-body.portfolio-home .contact-panel h3 {
-    display: block;
-    margin: 0;
-    color: #f0f1ef;
-    font-family: 'Arimo', sans-serif;
-    font-size: 21px;
-    font-weight: 700;
-    line-height: 1.45;
-    letter-spacing: 0;
 }
 
 body.portfolio-home .contact-methods {
@@ -2356,9 +2343,10 @@ body.portfolio-home .contact-method {
     min-width: 0;
     min-height: 111px;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 11px;
-    padding-left: 20px;
+    padding-left: 0;
+    text-align: center;
 }
 
 body.portfolio-home .contact-method:not(:last-child)::after {
@@ -2436,9 +2424,9 @@ body.portfolio-home .site-footer {
     }
 
     body.portfolio-home .contact-landscape {
-        height: 220px;
+        inset: 0;
         opacity: .72;
-        background-image: linear-gradient(90deg, #031616 0%, #031616c9 22%, #03161655 100%), linear-gradient(0deg, #031616 0%, #03161600 75%), linear-gradient(#03161670, #03161670), url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80");
+        background-image: linear-gradient(90deg, #03161680 0%, #03161645 45%, #03161620 100%), linear-gradient(0deg, #031616 0%, #03161600 75%), linear-gradient(#03161670, #03161670), url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80");
         background-position: center, center, center, 65% center;
         background-size: cover, cover, cover, cover;
     }
@@ -2474,10 +2462,6 @@ body.portfolio-home .site-footer {
         padding: 24px 18px;
     }
 
-    body.portfolio-home .contact-panel h3 {
-        font-size: 18px;
-    }
-
     body.portfolio-home .contact-methods {
         gap: 24px 12px;
     }
@@ -2485,7 +2469,11 @@ body.portfolio-home .site-footer {
     body.portfolio-home .contact-method {
         min-height: 105px;
         gap: 8px;
-        padding-left: 8px;
+        padding-left: 0;
+    }
+
+    body.portfolio-home .contact-method:last-child {
+        grid-column: 1 / -1;
     }
 
     body.portfolio-home .contact-method:nth-child(odd):not(:last-child)::after {

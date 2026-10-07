@@ -23,10 +23,6 @@
           <div><span>Email</span><a href="mailto:almadinivan12@gmail.com">almadinivan12@gmail.com</a></div>
         </article>
         <article>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4m8-4v4M4 10h16"/></svg>
-          <div><span>Focus</span><strong>Full-Stack + AI</strong></div>
-        </article>
-        <article>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg>
           <div><span>Availability</span><strong>Open to work</strong></div>
         </article>

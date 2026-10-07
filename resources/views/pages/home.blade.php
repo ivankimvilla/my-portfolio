@@ -94,8 +94,7 @@
         <p>Have a project in mind, a question, or just want to say hi?<br>Feel free to reach out. I’d love to hear from you.</p>
       </header>
       <div class="contact-intro-spacer" aria-hidden="true"></div>
-      <section class="contact-panel" aria-labelledby="contact-panel-title">
-        <h3 id="contact-panel-title">Contact Information</h3>
+      <section class="contact-panel" aria-label="Contact methods">
         <div class="contact-methods">
           <article class="contact-method">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
