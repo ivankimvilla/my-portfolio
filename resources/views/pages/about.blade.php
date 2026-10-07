@@ -51,19 +51,19 @@
       <div class="about-skill-grid">
         <article class="about-skill-card about-reveal">
           <div class="about-skill-heading"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 9h18M8 9v11"/></svg><h3>Frontend</h3></div>
-          <ul><li><svg><use href="#about-skill-shield"/></svg><span>HTML5</span></li><li><svg><use href="#about-skill-code"/></svg><span>CSS3</span></li><li><svg><use href="#about-skill-file"/></svg><span>JavaScript</span></li><li><svg><use href="#about-skill-gear"/></svg><span>Vue.js</span></li></ul>
+          <ul><li><svg><use href="#about-skill-shield"/></svg><span>HTML5</span></li><li><svg><use href="#about-skill-code"/></svg><span>CSS3</span></li><li><svg><use href="#about-skill-file"/></svg><span>JavaScript</span></li></ul>
         </article>
         <article class="about-skill-card about-reveal">
           <div class="about-skill-heading"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="7" rx="1"/><rect x="4" y="14" width="16" height="7" rx="1"/><path d="M8 6.5h.01M8 17.5h.01"/></svg><h3>Backend</h3></div>
-          <ul><li><svg><use href="#about-skill-shield"/></svg><span>PHP</span></li><li><svg><use href="#about-skill-code"/></svg><span>Laravel</span></li><li><svg><use href="#about-skill-file"/></svg><span>MySQL</span></li><li><svg><use href="#about-skill-gear"/></svg><span>Node.js</span></li><li><svg><use href="#about-skill-nodes"/></svg><span>Express.js</span></li><li><svg><use href="#about-skill-triangle"/></svg><span>REST API</span></li></ul>
+          <ul><li><svg><use href="#about-skill-shield"/></svg><span>PHP</span></li><li><svg><use href="#about-skill-code"/></svg><span>Laravel</span></li><li><svg><use href="#about-skill-file"/></svg><span>MySQL</span></li><li><svg><use href="#about-skill-triangle"/></svg><span>REST API</span></li></ul>
         </article>
         <article class="about-skill-card about-reveal">
           <div class="about-skill-heading"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3h4a3 3 0 0 1 0 6h-4V3Zm0 6h4a3 3 0 0 1 0 6h-4V9Zm0 6h4a3 3 0 1 1-3 3v-3Zm0-12H8a3 3 0 0 0 0 6h4V3Zm0 6H8a3 3 0 0 0 0 6h4V9Zm0 6H9a3 3 0 1 0 3 3v-3Z"/></svg><h3>UI/UX Design</h3></div>
-          <ul><li><svg><use href="#about-skill-shield"/></svg><span>Figma</span></li><li><svg><use href="#about-skill-code"/></svg><span>Adobe Photoshop</span></li><li><svg><use href="#about-skill-file"/></svg><span>Adobe Illustrator</span></li><li><svg><use href="#about-skill-gear"/></svg><span>Wireframing</span></li><li><svg><use href="#about-skill-nodes"/></svg><span>Prototyping</span></li><li><svg><use href="#about-skill-triangle"/></svg><span>Usability Testing</span></li></ul>
+          <ul><li><svg><use href="#about-skill-shield"/></svg><span>Figma</span></li><li><svg><use href="#about-skill-code"/></svg><span>Adobe Photoshop</span></li><li><svg><use href="#about-skill-file"/></svg><span>Adobe Illustrator</span></li><li><svg><use href="#about-skill-gear"/></svg><span>Wireframing</span></li><li><svg><use href="#about-skill-nodes"/></svg><span>Prototyping</span></li></ul>
         </article>
         <article class="about-skill-card about-reveal">
           <div class="about-skill-heading"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3m6 0h4"/></svg><h3>Tools &amp; Others</h3></div>
-          <ul><li><svg><use href="#about-skill-shield"/></svg><span>Git</span></li><li><svg><use href="#about-skill-code"/></svg><span>GitHub</span></li><li><svg><use href="#about-skill-file"/></svg><span>VS Code</span></li><li><svg><use href="#about-skill-gear"/></svg><span>Postman</span></li><li><svg><use href="#about-skill-triangle"/></svg><span>Figma</span></li></ul>
+          <ul><li><svg><use href="#about-skill-shield"/></svg><span>Git</span></li><li><svg><use href="#about-skill-code"/></svg><span>GitHub</span></li><li><svg><use href="#about-skill-file"/></svg><span>VS Code</span></li><li><svg><use href="#about-skill-triangle"/></svg><span>Figma</span></li></ul>
         </article>
         <article class="about-skill-card about-reveal">
           <div class="about-skill-heading"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 4.5-9 4.5-9-4.5L12 3Zm-9 9 9 4.5 9-4.5m-18 5 9 4.5 9-4.5"/></svg><h3>AI / AI-Assisted Development</h3></div>

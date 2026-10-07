@@ -563,24 +563,31 @@ body.portfolio-admin .admin-sidebar {
 body.portfolio-admin .admin-logo {
     display: flex;
     align-items: center;
-    gap: 10px;
     margin: 0 10px 8px;
-    font: 700 18px Sora, sans-serif;
-    letter-spacing: .14em;
+    color: #fff;
+    font: 700 32px/1 'Arimo', sans-serif;
+    letter-spacing: 0;
 }
 
-body.portfolio-admin .admin-logo::before {
-    display: block;
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #4f9a3a, #9be05f);
-    content: "IK";
-    color: var(--dark);
-    font-size: 12px;
-    line-height: 34px;
-    text-align: center;
-    letter-spacing: 0;
+body.portfolio-admin .admin-logout-form {
+    margin-top: auto;
+}
+
+body.portfolio-admin .admin-logout-button {
+    width: 100%;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: #bdc9c0;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+body.portfolio-admin .admin-logout-button:hover {
+    background: #ffffff12;
+    color: #fff;
 }
 
 body.portfolio-admin .admin-sidebar nav {
@@ -799,6 +806,141 @@ body.portfolio-admin .admin-actions button {
     background: transparent;
     color: #4b564f;
     cursor: pointer;
+}
+
+body.portfolio-admin-login {
+    display: grid;
+    min-height: 100vh;
+    place-items: center;
+    padding: 24px;
+    background: #0d2119;
+    color: #18231c;
+    font-family: 'Arimo', sans-serif;
+}
+
+body.portfolio-admin-login * {
+    box-sizing: border-box;
+}
+
+body.portfolio-admin-login .admin-login-shell {
+    width: min(100%, 410px);
+}
+
+body.portfolio-admin-login .admin-login-brand {
+    display: inline-block;
+    margin: 0 0 24px 3px;
+    color: #fff;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+}
+
+body.portfolio-admin-login .admin-login-card {
+    padding: 32px;
+    border: 1px solid #e2e7e0;
+    border-radius: 8px;
+    background: #f7f9f6;
+}
+
+body.portfolio-admin-login .admin-login-eyebrow {
+    margin: 0 0 8px;
+    color: #376b31;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+body.portfolio-admin-login .admin-login-card h1 {
+    margin: 0;
+    color: #18231c;
+    font-size: 28px;
+    line-height: 1.2;
+}
+
+body.portfolio-admin-login .admin-login-description {
+    margin: 8px 0 22px;
+    color: #657168;
+    font-size: 14px;
+}
+
+body.portfolio-admin-login .admin-login-error {
+    margin: 0 0 16px;
+    padding: 10px 12px;
+    border: 1px solid #edc5c1;
+    border-radius: 5px;
+    background: #fff1ef;
+    color: #8b302b;
+    font-size: 13px;
+}
+
+body.portfolio-admin-login .admin-login-form {
+    display: grid;
+    gap: 15px;
+}
+
+body.portfolio-admin-login .admin-login-form label {
+    display: grid;
+    gap: 6px;
+    color: #344239;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+body.portfolio-admin-login .admin-login-form input[type="email"],
+body.portfolio-admin-login .admin-login-form input[type="password"] {
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 12px;
+    border: 1px solid #cfd8d1;
+    border-radius: 5px;
+    background: #fff;
+    color: #18231c;
+    font: 14px 'Arimo', sans-serif;
+}
+
+body.portfolio-admin-login .admin-login-form input:focus-visible {
+    outline: 2px solid #4f8b3e;
+    outline-offset: 2px;
+}
+
+body.portfolio-admin-login .admin-login-remember {
+    display: flex !important;
+    align-items: center;
+    gap: 8px !important;
+    font-weight: 400 !important;
+}
+
+body.portfolio-admin-login .admin-login-remember input {
+    accent-color: #376b31;
+}
+
+body.portfolio-admin-login .admin-login-submit {
+    min-height: 42px;
+    margin-top: 3px;
+    border: 0;
+    border-radius: 5px;
+    background: #376b31;
+    color: #fff;
+    font: 700 14px 'Arimo', sans-serif;
+    cursor: pointer;
+}
+
+body.portfolio-admin-login .admin-login-submit:hover {
+    background: #2c5828;
+}
+
+body.portfolio-admin-login .admin-login-back {
+    display: inline-block;
+    margin: 18px 0 0 3px;
+    color: #d1ddd3;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+body.portfolio-admin-login .admin-login-back:hover {
+    color: #fff;
 }
 
 body.portfolio-admin .admin-actions button:hover {
