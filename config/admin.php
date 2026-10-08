@@ -2,5 +2,5 @@
 
 return [
     'name' => env('ADMIN_NAME', 'Portfolio Admin'),
-    'email' => 'admin@example.com',
+    'email' => env('ADMIN_EMAIL', 'admin@example.com'),
 ];

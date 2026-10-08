@@ -30,7 +30,7 @@ php artisan migrate
 php artisan db:seed --class=AdminUserSeeder --force
 ```
 
-The email and development password are defined in `database/seeders/AdminUserSeeder.php`. This seeder refuses to run in production. Sign in at `/admin/login`.
+The seeder uses the `ADMIN_EMAIL` value (default `admin@example.com`) and a bootstrap password defined in `database/seeders/AdminUserSeeder.php`. It only sets that password when creating a new account; existing passwords are left unchanged. Sign in at `/admin/login` and change the bootstrap password immediately in Account Settings.
 
 ## Learning Laravel
 

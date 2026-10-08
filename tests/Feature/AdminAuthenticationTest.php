@@ -38,15 +38,17 @@ test('the configured admin can sign in and sign out', function () {
     $this->assertGuest();
 });
 
-test('database seeder creates the configured development admin who can sign in', function () {
+test('database seeder creates the admin who can sign in with the bootstrap password', function () {
+    config(['admin.email' => 'admin@example.com']);
+
     $this->seed(AdminUserSeeder::class);
 
-    $admin = User::where('email', AdminUserSeeder::ADMIN_EMAIL)->firstOrFail();
+    $admin = User::where('email', 'admin@example.com')->firstOrFail();
     expect($admin->is_admin)->toBeTrue();
 
     $this->post(route('admin.login.submit'), [
-        'email' => AdminUserSeeder::ADMIN_EMAIL,
-        'password' => AdminUserSeeder::ADMIN_PASSWORD,
+        'email' => 'admin@example.com',
+        'password' => AdminUserSeeder::BOOTSTRAP_PASSWORD,
     ])->assertRedirect(route('admin'));
 
     $this->assertAuthenticatedAs($admin);

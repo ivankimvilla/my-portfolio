@@ -8,24 +8,26 @@ use RuntimeException;
 
 class AdminUserSeeder extends Seeder
 {
-    public const ADMIN_EMAIL = 'admin@example.com';
-    public const ADMIN_PASSWORD = 'R8v!qN4#Lz2@Wm7$Kp9x';
+    public const BOOTSTRAP_PASSWORD = 'K9v!R2s@L7q#M4x$P8dW6n';
 
     public function run(): void
     {
-        if (app()->environment('production')) {
-            throw new RuntimeException('The development admin seeder cannot run in production.');
+        $email = strtolower(trim((string) config('admin.email')));
+
+        if ($email === '') {
+            throw new RuntimeException('Set ADMIN_EMAIL before seeding the admin account.');
         }
 
-        User::updateOrCreate(
-            ['email' => self::ADMIN_EMAIL],
-            [
-                'name' => config('admin.name', 'Portfolio Admin'),
-                'password' => self::ADMIN_PASSWORD,
-                'is_admin' => true,
-            ],
-        );
+        $user = User::firstOrNew(['email' => $email]);
 
-        $this->command?->info('Development admin account seeded.');
+        if (! $user->exists) {
+            $user->name = config('admin.name', 'Portfolio Admin');
+            $user->password = self::BOOTSTRAP_PASSWORD;
+        }
+
+        $user->is_admin = true;
+        $user->save();
+
+        $this->command?->info("Admin account {$email} is ready. Change the bootstrap password after signing in.");
     }
 }
