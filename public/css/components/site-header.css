@@ -1,0 +1,186 @@
+body.portfolio-home .site-nav,
+body.portfolio-about .site-nav,
+body.portfolio-works .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid #ffffff12;
+    background: #0a1610e6;
+    color: white;
+    backdrop-filter: blur(12px);
+}
+
+body.portfolio-home .site-nav .nav-inner,
+body.portfolio-about .site-nav .nav-inner,
+body.portfolio-works .site-nav .nav-inner {
+    display: flex;
+    height: 64px;
+    max-width: 1184px;
+    margin: auto;
+    padding: 0 32px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+body.portfolio-home .site-nav .logo,
+body.portfolio-about .site-nav .logo,
+body.portfolio-works .site-nav .logo {
+    display: inline-flex;
+    align-items: center;
+    color: white;
+    font-family: Sora, Inter, system-ui, sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+}
+
+body.portfolio-home .site-nav .logo-mark,
+body.portfolio-about .site-nav .logo-mark,
+body.portfolio-works .site-nav .logo-mark {
+    width: 34px;
+    height: 34px;
+    flex: none;
+}
+
+body.portfolio-home .site-nav .nav-links,
+body.portfolio-about .site-nav .nav-links,
+body.portfolio-works .site-nav .nav-links {
+    display: flex;
+    gap: 6px;
+}
+
+body.portfolio-home .site-nav .nav-links a,
+body.portfolio-about .site-nav .nav-links a,
+body.portfolio-works .site-nav .nav-links a {
+    position: relative;
+    padding: 8px 14px;
+    color: #f0f1ef;
+    font-size: 13px;
+    font-weight: 600;
+    transition: color .2s;
+}
+
+body.portfolio-home .site-nav .nav-links a:hover,
+body.portfolio-about .site-nav .nav-links a:hover,
+body.portfolio-works .site-nav .nav-links a:hover {
+    color: white;
+}
+
+body.portfolio-home .site-nav .nav-links a.on,
+body.portfolio-about .site-nav .nav-links a.on,
+body.portfolio-works .site-nav .nav-links a.on {
+    color: #a4d39f;
+}
+
+body.portfolio-home .site-nav .nav-links a.on::after,
+body.portfolio-about .site-nav .nav-links a.on::after,
+body.portfolio-works .site-nav .nav-links a.on::after {
+    position: absolute;
+    right: 14px;
+    bottom: 3px;
+    left: 14px;
+    height: 2px;
+    border-radius: 2px;
+    background: #85bf83;
+    content: "";
+}
+
+body.portfolio-home .site-nav .nav-cta,
+body.portfolio-about .site-nav .nav-cta,
+body.portfolio-works .site-nav .nav-cta {
+    min-height: 40px;
+    padding: 10px 16px;
+    border: 1px solid #85bf83;
+    border-radius: 10px;
+    background: transparent;
+    color: #a4d39f;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: none;
+}
+
+body.portfolio-home .site-nav .nav-cta:hover,
+body.portfolio-about .site-nav .nav-cta:hover,
+body.portfolio-works .site-nav .nav-cta:hover {
+    border-color: #a4d39f;
+    background: #85bf8318;
+    box-shadow: none;
+}
+
+body.portfolio-home .site-nav .nav-cta:active,
+body.portfolio-about .site-nav .nav-cta:active,
+body.portfolio-works .site-nav .nav-cta:active {
+    transform: translateY(1px);
+    border-color: #a4d39f;
+    background: #a4d39f;
+    color: #102017;
+}
+
+body.portfolio-home .site-nav .nav-cta span,
+body.portfolio-about .site-nav .nav-cta span,
+body.portfolio-works .site-nav .nav-cta span {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+body.portfolio-home .site-nav .nav-toggle,
+body.portfolio-about .site-nav .nav-toggle,
+body.portfolio-works .site-nav .nav-toggle {
+    display: none;
+    border: 0;
+    background: transparent;
+    color: white;
+    font-size: 22px;
+}
+
+@media (max-width: 820px) {
+
+    body.portfolio-home .site-nav .nav-inner,
+    body.portfolio-about .site-nav .nav-inner,
+    body.portfolio-works .site-nav .nav-inner {
+        padding-inline: 20px;
+    }
+
+    body.portfolio-home .site-nav .nav-links,
+    body.portfolio-home .site-nav .nav-cta,
+    body.portfolio-about .site-nav .nav-links,
+    body.portfolio-about .site-nav .nav-cta,
+    body.portfolio-works .site-nav .nav-links,
+    body.portfolio-works .site-nav .nav-cta {
+        display: none;
+    }
+
+    body.portfolio-home .site-nav .nav-toggle,
+    body.portfolio-about .site-nav .nav-toggle,
+    body.portfolio-works .site-nav .nav-toggle {
+        display: block;
+    }
+
+    body.portfolio-home .site-nav.menu-open .nav-links,
+    body.portfolio-about .site-nav.menu-open .nav-links,
+    body.portfolio-works .site-nav.menu-open .nav-links {
+        position: absolute;
+        top: 64px;
+        right: 12px;
+        left: 12px;
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+        border-radius: 9px;
+        background: #0a1610f5;
+    }
+
+    body.portfolio-home .site-nav.menu-open .nav-links {
+        gap: 3px;
+        border: 1px solid #ffffff20;
+    }
+
+    body.portfolio-home .site-nav.menu-open .nav-links a,
+    body.portfolio-about .site-nav.menu-open .nav-links a,
+    body.portfolio-works .site-nav.menu-open .nav-links a {
+        padding: 10px 12px;
+    }
+}

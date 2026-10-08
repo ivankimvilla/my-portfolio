@@ -21,6 +21,17 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Admin Access
+
+Create the database tables and development admin account with:
+
+```bash
+php artisan migrate
+php artisan db:seed --class=AdminUserSeeder --force
+```
+
+The email and development password are defined in `database/seeders/AdminUserSeeder.php`. This seeder refuses to run in production. Sign in at `/admin/login`.
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.

@@ -1,0 +1,153 @@
+body.portfolio-admin-login {
+    display: grid;
+    min-height: 100vh;
+    place-items: center;
+    padding: 24px;
+    background: #0d2119;
+    color: #18231c;
+    font-family: 'Arimo', sans-serif;
+}
+
+body.portfolio-admin-login * {
+    box-sizing: border-box;
+}
+
+body.portfolio-admin-login .admin-login-shell {
+    position: relative;
+    width: min(100%, 410px);
+    padding-top: 44px;
+}
+
+body.portfolio-admin-login .admin-login-card {
+    padding: 32px;
+    border: 1px solid #e2e7e0;
+    border-radius: 8px;
+    background: #f7f9f6;
+}
+
+body.portfolio-admin-login .admin-login-card h1 {
+    margin: 0;
+    color: #18231c;
+    font-size: 28px;
+    line-height: 1.2;
+    text-align: center;
+}
+
+body.portfolio-admin-login .admin-login-description {
+    margin: 8px 0 22px;
+    color: #657168;
+    font-size: 14px;
+    text-align: center;
+}
+
+body.portfolio-admin-login .admin-login-error {
+    margin: 0 0 16px;
+    padding: 10px 12px;
+    border: 1px solid #edc5c1;
+    border-radius: 5px;
+    background: #fff1ef;
+    color: #8b302b;
+    font-size: 13px;
+}
+
+body.portfolio-admin-login .admin-login-form {
+    display: grid;
+    gap: 15px;
+}
+
+body.portfolio-admin-login .admin-login-form label {
+    display: grid;
+    gap: 6px;
+    color: #344239;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+body.portfolio-admin-login .admin-login-form input[type="email"],
+body.portfolio-admin-login .admin-password-wrap input {
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 12px;
+    border: 1px solid #cfd8d1;
+    border-radius: 5px;
+    background: #fff;
+    color: #18231c;
+    font: 14px 'Arimo', sans-serif;
+}
+
+body.portfolio-admin-login .admin-password-wrap {
+    position: relative;
+}
+
+body.portfolio-admin-login .admin-password-wrap input {
+    padding-right: 40px;
+}
+
+body.portfolio-admin-login .admin-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    display: grid;
+    width: 22px;
+    height: 22px;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: #4f8b3e;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+body.portfolio-admin-login .admin-password-toggle svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+body.portfolio-admin-login .admin-login-form input:focus-visible {
+    outline: 2px solid #4f8b3e;
+    outline-offset: 2px;
+}
+
+body.portfolio-admin-login .admin-login-remember {
+    display: flex !important;
+    align-items: center;
+    gap: 8px !important;
+    font-weight: 400 !important;
+}
+
+body.portfolio-admin-login .admin-login-remember input {
+    accent-color: #376b31;
+}
+
+body.portfolio-admin-login .admin-login-submit {
+    min-height: 42px;
+    margin-top: 3px;
+    border: 0;
+    border-radius: 5px;
+    background: #376b31;
+    color: #fff;
+    font: 700 14px 'Arimo', sans-serif;
+    cursor: pointer;
+}
+
+body.portfolio-admin-login .admin-login-submit:hover {
+    background: #2c5828;
+}
+
+body.portfolio-admin-login .admin-login-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #d1ddd3;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+body.portfolio-admin-login .admin-login-back:hover {
+    color: #fff;
+}

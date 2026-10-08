@@ -552,9 +552,14 @@ body.portfolio-admin .admin-dashboard {
 }
 
 body.portfolio-admin .admin-sidebar {
+    position: sticky;
+    top: 0;
+    align-self: start;
     display: flex;
+    height: 100vh;
     flex-direction: column;
     gap: 28px;
+    overflow: hidden;
     padding: 24px 14px;
     background: var(--dark);
     color: white;
@@ -716,6 +721,254 @@ body.portfolio-admin .admin-table tbody tr:hover td {
     background: #fafcf8;
 }
 
+body.portfolio-admin .admin-work-image {
+    display: block;
+    width: 64px;
+    height: 44px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+body.portfolio-admin .admin-work-slug {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+body.portfolio-admin .work-status {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+body.portfolio-admin .work-status--published {
+    background: #e5f3e1;
+    color: #376b31;
+}
+
+body.portfolio-admin .work-status--draft {
+    background: #eef0ed;
+    color: #59655d;
+}
+
+body.portfolio-admin .admin-action-link {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border-radius: 8px;
+    color: #4b564f;
+}
+
+body.portfolio-admin .admin-actions form {
+    display: flex;
+}
+
+body.portfolio-admin .admin-empty {
+    padding: 32px;
+    color: var(--muted);
+    text-align: center;
+}
+
+body.portfolio-admin .admin-notice {
+    margin: 20px 0 0;
+    padding: 11px 14px;
+    border: 1px solid #c7e2be;
+    border-radius: 7px;
+    background: #f0f8ed;
+    color: #376b31;
+}
+
+body.portfolio-admin .admin-pagination {
+    margin-top: 18px;
+}
+
+body.portfolio-admin .work-admin-form {
+    position: relative;
+    display: grid;
+    gap: 22px;
+    max-width: 880px;
+    margin: 24px auto 0;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+}
+
+body.portfolio-admin .work-admin-form--create,
+body.portfolio-admin .work-admin-form--edit {
+    padding-top: 62px;
+}
+
+body.portfolio-admin .work-form-close {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border-radius: 6px;
+    color: #59655d;
+}
+
+body.portfolio-admin .work-form-close:hover {
+    background: #eef1ec;
+    color: var(--ink);
+}
+
+body.portfolio-admin .work-form-close svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+}
+
+body.portfolio-admin .work-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
+}
+
+body.portfolio-admin .work-form-grid label,
+body.portfolio-admin .work-image-field {
+    display: grid;
+    gap: 7px;
+    color: #344239;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+body.portfolio-admin .work-form-wide {
+    grid-column: 1 / -1;
+}
+
+body.portfolio-admin .work-form-grid input,
+body.portfolio-admin .work-form-grid textarea,
+body.portfolio-admin .work-form-grid select,
+body.portfolio-admin .work-image-field input[type="file"] {
+    width: 100%;
+    min-height: 40px;
+    padding: 9px 11px;
+    border: 1px solid #d5dbd5;
+    border-radius: 6px;
+    background: #fff;
+    color: var(--ink);
+    font: 13px Inter, sans-serif;
+}
+
+body.portfolio-admin .work-form-grid textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+body.portfolio-admin .work-form-grid input:focus,
+body.portfolio-admin .work-form-grid textarea:focus,
+body.portfolio-admin .work-form-grid select:focus {
+    border-color: var(--green);
+    outline: 2px solid #4f9a3a22;
+}
+
+body.portfolio-admin .field-optional {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 400;
+}
+
+body.portfolio-admin .work-image-field small {
+    color: var(--muted);
+    font-weight: 400;
+}
+
+body.portfolio-admin .work-image-preview {
+    width: min(100%, 360px);
+    max-height: 210px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+body.portfolio-admin .work-image-preview[hidden] {
+    display: none;
+}
+
+body.portfolio-admin .work-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+body.portfolio-admin .account-settings-form {
+    max-width: 720px;
+}
+
+body.portfolio-admin .account-settings-form .work-form-grid {
+    gap: 20px;
+}
+
+body.portfolio-admin .admin-password-field {
+    position: relative;
+    display: block;
+}
+
+body.portfolio-admin .admin-password-field input {
+    padding-right: 44px;
+}
+
+body.portfolio-admin .admin-settings-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--green);
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+body.portfolio-admin .admin-settings-password-toggle:hover {
+    background: #4f9a3a12;
+}
+
+body.portfolio-admin .admin-settings-password-toggle svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+body.portfolio-admin .admin-validation-errors {
+    padding: 12px 15px;
+    border: 1px solid #edc5c1;
+    border-radius: 6px;
+    background: #fff1ef;
+    color: #8b302b;
+    font-size: 12px;
+}
+
+body.portfolio-admin .admin-validation-errors p {
+    margin: 0 0 5px;
+    font-weight: 700;
+}
+
+body.portfolio-admin .admin-validation-errors ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
 body.portfolio-admin .admin-thumb {
     position: relative;
     width: 56px;
@@ -806,141 +1059,6 @@ body.portfolio-admin .admin-actions button {
     background: transparent;
     color: #4b564f;
     cursor: pointer;
-}
-
-body.portfolio-admin-login {
-    display: grid;
-    min-height: 100vh;
-    place-items: center;
-    padding: 24px;
-    background: #0d2119;
-    color: #18231c;
-    font-family: 'Arimo', sans-serif;
-}
-
-body.portfolio-admin-login * {
-    box-sizing: border-box;
-}
-
-body.portfolio-admin-login .admin-login-shell {
-    width: min(100%, 410px);
-}
-
-body.portfolio-admin-login .admin-login-brand {
-    display: inline-block;
-    margin: 0 0 24px 3px;
-    color: #fff;
-    font-size: 38px;
-    font-weight: 700;
-    line-height: 1;
-    text-decoration: none;
-}
-
-body.portfolio-admin-login .admin-login-card {
-    padding: 32px;
-    border: 1px solid #e2e7e0;
-    border-radius: 8px;
-    background: #f7f9f6;
-}
-
-body.portfolio-admin-login .admin-login-eyebrow {
-    margin: 0 0 8px;
-    color: #376b31;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-}
-
-body.portfolio-admin-login .admin-login-card h1 {
-    margin: 0;
-    color: #18231c;
-    font-size: 28px;
-    line-height: 1.2;
-}
-
-body.portfolio-admin-login .admin-login-description {
-    margin: 8px 0 22px;
-    color: #657168;
-    font-size: 14px;
-}
-
-body.portfolio-admin-login .admin-login-error {
-    margin: 0 0 16px;
-    padding: 10px 12px;
-    border: 1px solid #edc5c1;
-    border-radius: 5px;
-    background: #fff1ef;
-    color: #8b302b;
-    font-size: 13px;
-}
-
-body.portfolio-admin-login .admin-login-form {
-    display: grid;
-    gap: 15px;
-}
-
-body.portfolio-admin-login .admin-login-form label {
-    display: grid;
-    gap: 6px;
-    color: #344239;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-body.portfolio-admin-login .admin-login-form input[type="email"],
-body.portfolio-admin-login .admin-login-form input[type="password"] {
-    width: 100%;
-    min-height: 42px;
-    padding: 10px 12px;
-    border: 1px solid #cfd8d1;
-    border-radius: 5px;
-    background: #fff;
-    color: #18231c;
-    font: 14px 'Arimo', sans-serif;
-}
-
-body.portfolio-admin-login .admin-login-form input:focus-visible {
-    outline: 2px solid #4f8b3e;
-    outline-offset: 2px;
-}
-
-body.portfolio-admin-login .admin-login-remember {
-    display: flex !important;
-    align-items: center;
-    gap: 8px !important;
-    font-weight: 400 !important;
-}
-
-body.portfolio-admin-login .admin-login-remember input {
-    accent-color: #376b31;
-}
-
-body.portfolio-admin-login .admin-login-submit {
-    min-height: 42px;
-    margin-top: 3px;
-    border: 0;
-    border-radius: 5px;
-    background: #376b31;
-    color: #fff;
-    font: 700 14px 'Arimo', sans-serif;
-    cursor: pointer;
-}
-
-body.portfolio-admin-login .admin-login-submit:hover {
-    background: #2c5828;
-}
-
-body.portfolio-admin-login .admin-login-back {
-    display: inline-block;
-    margin: 18px 0 0 3px;
-    color: #d1ddd3;
-    font-size: 13px;
-    text-decoration: none;
-}
-
-body.portfolio-admin-login .admin-login-back:hover {
-    color: #fff;
 }
 
 body.portfolio-admin .admin-actions button:hover {
@@ -1152,9 +1270,12 @@ body.portfolio-admin .toast.show {
     }
 
     body.portfolio-admin .admin-sidebar {
+        position: static;
+        height: auto;
         flex-direction: row;
         align-items: center;
         gap: 18px;
+        overflow: visible;
         padding: 12px 20px;
     }
 
@@ -1196,6 +1317,18 @@ body.portfolio-admin .toast.show {
         padding: 20px 13px;
     }
 
+    body.portfolio-admin .work-admin-form {
+        padding: 16px;
+    }
+
+    body.portfolio-admin .work-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    body.portfolio-admin .work-form-wide {
+        grid-column: auto;
+    }
+
     body.portfolio-admin .admin-heading {
         align-items: flex-start;
     }
@@ -1213,13 +1346,6 @@ body.portfolio-admin .toast.show {
         padding: 22px 17px;
     }
 
-    body.portfolio-admin #work-form {
-        grid-template-columns: 1fr;
-    }
-
-    body.portfolio-admin #work-form>* {
-        grid-column: 1 / -1;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {

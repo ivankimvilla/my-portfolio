@@ -22,16 +22,13 @@ class AdminAuthController extends Controller
         ]);
 
         $email = strtolower(trim($credentials['email']));
-        $adminEmail = strtolower(trim((string) config('admin.email')));
 
-        if (
-            $adminEmail === ''
-            || ! hash_equals($adminEmail, $email)
-            || ! Auth::attempt([
-                'email' => $email,
-                'password' => $credentials['password'],
-            ], $request->boolean('remember'))
-        ) {
+        if (! Auth::attempt([
+            'email' => $email,
+            'password' => $credentials['password'],
+        ], $request->boolean('remember')) || ! Auth::user()?->is_admin) {
+            Auth::logout();
+
             return back()
                 ->withErrors(['email' => 'These credentials do not match our records.'])
                 ->onlyInput('email');

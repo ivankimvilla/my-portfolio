@@ -27,6 +27,9 @@
   @if ($pageCss)
     <link rel="stylesheet" href="{{ asset($pageCss) }}">
   @endif
+  @if ($showHeader)
+    <link rel="stylesheet" href="{{ asset('css/components/site-header.css') }}">
+  @endif
 </head>
 <body @class([$bodyClass])>
   @if ($showHeader)

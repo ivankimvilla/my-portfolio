@@ -10,13 +10,7 @@ class EnsureAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $adminEmail = strtolower(trim((string) config('admin.email')));
-        $userEmail = strtolower((string) $request->user()?->email);
-
-        abort_unless(
-            $adminEmail !== '' && hash_equals($adminEmail, $userEmail),
-            403,
-        );
+        abort_unless($request->user()?->is_admin, 403);
 
         return $next($request);
     }
