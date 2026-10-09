@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Models\Work;
+use App\Models\WorkImage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -62,12 +63,14 @@ test('admin can create, update, and delete a work with an uploaded image', funct
         'project_url' => 'https://example.com/project',
         'sort_order' => 4,
         'image' => $image,
+        'gallery_images' => [fakePngUpload(), fakePngUpload(), fakePngUpload()],
     ])->assertRedirect(route('admin.works.index'))
         ->assertSessionHas('status', 'Work created.');
 
     $work = Work::where('slug', 'new-portfolio-project')->firstOrFail();
     expect($work->image_mime_type)->toBe('image/png')
         ->and($work->image_blob)->not->toBeEmpty()
+        ->and($work->galleryImages()->count())->toBe(3)
         ->and($work->status)->toBe('published')
         ->and($work->full_description)->toBe('The short summary.')
         ->and($work->tools)->toBe(['Laravel', 'MySQL']);
@@ -217,6 +220,24 @@ test('published work detail is available by slug and drafts are not public', fun
     $this->get(route('works.show', $draft))->assertNotFound();
 });
 
+test('work detail labels tools and does not repeat the summary as the full description', function () {
+    $description = 'A repeated project description.';
+    $work = makeWork([
+        'title' => 'Repeated Detail',
+        'slug' => 'repeated-detail',
+        'short_description' => $description,
+        'full_description' => $description,
+        'tools' => ['Figma'],
+    ]);
+
+    $response = $this->get(route('works.show', $work))
+        ->assertOk()
+        ->assertSee('Tech:')
+        ->assertSee('<span>Figma</span>', false);
+
+    expect(substr_count($response->getContent(), $description))->toBe(1);
+});
+
 test('image endpoint returns stored bytes with mime and cache headers', function () {
     $work = makeWork();
 
@@ -231,6 +252,39 @@ test('image endpoint returns stored bytes with mime and cache headers', function
     $this->withHeaders(['If-None-Match' => $etag])
         ->get(route('works.image', $work))
         ->assertNotModified();
+});
+
+test('work details show supplementary images and serve them with publication access rules', function () {
+    $work = makeWork();
+    $galleryImage = $work->galleryImages()->create([
+        'image_blob' => 'gallery-image-data',
+        'image_mime_type' => 'image/png',
+        'sort_order' => 0,
+    ]);
+
+    $this->get(route('works.show', $work))
+        ->assertOk()
+        ->assertSee(route('works.gallery-image', [$work, $galleryImage]), false);
+
+    $this->get(route('works.gallery-image', [$work, $galleryImage]))
+        ->assertOk()
+        ->assertContent('gallery-image-data')
+        ->assertHeader('Cache-Control', 'max-age=86400, must-revalidate, public');
+
+    $draft = makeWork(['title' => 'Private Gallery', 'slug' => 'private-gallery', 'status' => 'draft']);
+    $draftImage = $draft->galleryImages()->create([
+        'image_blob' => 'private-gallery-data',
+        'image_mime_type' => 'image/png',
+        'sort_order' => 0,
+    ]);
+
+    $this->get(route('works.gallery-image', [$draft, $draftImage]))->assertNotFound();
+
+    signInAsConfiguredAdmin();
+    $this->get(route('works.gallery-image', [$draft, $draftImage]))
+        ->assertOk()
+        ->assertContent('private-gallery-data')
+        ->assertHeader('Cache-Control', 'no-cache, private');
 });
 
 test('draft images are available only to the configured admin with private caching', function () {

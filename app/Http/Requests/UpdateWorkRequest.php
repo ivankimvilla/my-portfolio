@@ -20,6 +20,8 @@ class UpdateWorkRequest extends FormRequest
             'tools' => ['nullable', 'string', 'max:1000'],
             'project_url' => ['nullable', 'url', 'max:2048'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'gallery_images' => ['sometimes', 'array', 'max:3'],
+            'gallery_images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'sort_order' => ['required', 'integer', 'min:0', 'max:4294967295'],
         ];
     }

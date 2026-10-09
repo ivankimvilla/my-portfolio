@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Works\WorkImageService;
 use App\Models\Work;
+use App\Models\WorkImage;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,6 +46,8 @@ class PublicWorkController extends Controller
     {
         abort_unless($work->status === 'published', 404);
 
+        $work->load('galleryImages');
+
         return view('pages.work-detail', compact('work'));
     }
 
@@ -53,5 +56,12 @@ class PublicWorkController extends Controller
         abort_unless($work->status === 'published' || $request->user()?->is_admin, 404);
 
         return $images->response($work, $request, $work->status === 'published');
+    }
+
+    public function galleryImage(Work $work, WorkImage $galleryImage, Request $request, WorkImageService $images): Response
+    {
+        abort_unless($work->status === 'published' || $request->user()?->is_admin, 404);
+
+        return $images->galleryResponse($work, $galleryImage, $request, $work->status === 'published');
     }
 }

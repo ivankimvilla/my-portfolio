@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Work extends Model
 {
@@ -71,6 +72,11 @@ class Work extends Model
     public function scopePublished(Builder $query): void
     {
         $query->where('status', 'published');
+    }
+
+    public function galleryImages(): HasMany
+    {
+        return $this->hasMany(WorkImage::class)->orderBy('sort_order');
     }
 
     public function getRouteKeyName(): string

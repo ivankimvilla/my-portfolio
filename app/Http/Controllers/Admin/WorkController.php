@@ -31,7 +31,7 @@ class WorkController extends Controller
 
     public function store(StoreWorkRequest $request, WorkImageService $images): RedirectResponse
     {
-        $attributes = $request->safe()->except(['image', 'tools']);
+        $attributes = $request->safe()->except(['image', 'gallery_images', 'tools']);
         $work = new Work($attributes);
         $work->status = 'published';
         $work->slug = $this->uniqueSlug($attributes['title']);
@@ -39,6 +39,7 @@ class WorkController extends Controller
         $work->tools = $this->parseTools($request->validated('tools'));
         $images->attach($work, $request->file('image'));
         $work->save();
+        $images->attachGallery($work, $request->file('gallery_images', []));
 
         return redirect()
             ->route('admin.works.index')
@@ -47,12 +48,14 @@ class WorkController extends Controller
 
     public function edit(Work $work): View
     {
+        $work->load('galleryImages');
+
         return view('admin.works.edit', compact('work'));
     }
 
     public function update(UpdateWorkRequest $request, Work $work, WorkImageService $images): RedirectResponse
     {
-        $attributes = $request->safe()->except(['image', 'tools']);
+        $attributes = $request->safe()->except(['image', 'gallery_images', 'tools']);
         $descriptionTracksSummary = $work->full_description === $work->short_description;
 
         $work->fill($attributes);
@@ -71,6 +74,7 @@ class WorkController extends Controller
         }
 
         $work->save();
+        $images->attachGallery($work, $request->file('gallery_images', []));
 
         return redirect()
             ->route('admin.works.index')

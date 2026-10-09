@@ -52,6 +52,19 @@
     <small>JPG, PNG, or WebP. Maximum file size: 2 MB.</small>
   </div>
 
+  <div class="work-image-field">
+    <label for="work-gallery-images">Additional project images <span class="field-optional">Up to 3 at a time</span></label>
+    @if ($work->exists && $work->galleryImages->isNotEmpty())
+      <div class="work-gallery-image-previews">
+        @foreach ($work->galleryImages as $index => $galleryImage)
+          <img src="{{ route('works.gallery-image', [$work, $galleryImage]) }}" alt="Saved project image {{ $index + 2 }}">
+        @endforeach
+      </div>
+    @endif
+    <input id="work-gallery-images" name="gallery_images[]" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" multiple>
+    <small>JPG, PNG, or WebP. Maximum file size: 2 MB per image.</small>
+  </div>
+
   <div class="work-form-actions">
     <a class="btn btn-light" href="{{ route('admin.works.index') }}">Cancel</a>
     <button class="btn" type="submit">{{ $work->exists ? 'Save Changes' : 'Create Work' }}</button>

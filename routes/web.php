@@ -11,6 +11,7 @@ Route::get('/', HomeController::class)->name('home');
 Route::view('/about', 'pages.about')->name('about');
 Route::get('/works', [PublicWorkController::class, 'index'])->name('works');
 Route::get('/works/{work}/image', [PublicWorkController::class, 'image'])->name('works.image');
+Route::get('/works/{work}/images/{galleryImage}', [PublicWorkController::class, 'galleryImage'])->name('works.gallery-image');
 Route::get('/works/{work}', [PublicWorkController::class, 'show'])->name('works.show');
 Route::middleware('guest')->group(function () {
 	Route::get('/admin/login', [AdminAuthController::class, 'create'])->name('login');

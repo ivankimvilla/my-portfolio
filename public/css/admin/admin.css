@@ -896,6 +896,19 @@ body.portfolio-admin .work-image-preview[hidden] {
     display: none;
 }
 
+body.portfolio-admin .work-gallery-image-previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+body.portfolio-admin .work-gallery-image-previews img {
+    width: 100px;
+    aspect-ratio: 4 / 3;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
 body.portfolio-admin .work-form-actions {
     display: flex;
     justify-content: flex-end;
