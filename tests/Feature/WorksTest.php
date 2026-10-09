@@ -180,7 +180,7 @@ test('work cards show category title description and tools in order', function (
 
     $this->get(route('works'))
         ->assertOk()
-        ->assertSeeInOrder(['Reference Category', 'Reference Project', 'Reference project summary.', 'Tech:', 'Laravel, MySQL'])
+        ->assertSeeInOrder(['Reference Category', 'Reference Project', 'Reference project summary.', 'Tech:', '<span class="work-tool">Laravel</span>', '<span class="work-tool">MySQL</span>'], false)
         ->assertSee('href="'.route('works.show', $work).'"', false);
 });
 

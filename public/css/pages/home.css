@@ -786,6 +786,10 @@ body.portfolio-home {
     }
 
     .work-tools {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 6px;
         margin: 5px 5px 4px;
         color: var(--muted);
         font-size: 11px;
@@ -795,6 +799,20 @@ body.portfolio-home {
     .work-tools strong {
         color: var(--ink);
         font-weight: 600;
+    }
+
+    .work-tool-list {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .work-tool {
+        padding: 1px 7px;
+        border-radius: 4px;
+        background: #eeeff1;
+        color: #111111;
+        font-size: 10px;
     }
 
     .tag-list {

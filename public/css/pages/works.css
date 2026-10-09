@@ -507,6 +507,10 @@ body.portfolio-works {
     }
 
     .work-tools {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 6px;
         margin: 5px 0 0;
         color: #aeb8b4;
         font-size: 11px;
@@ -518,6 +522,20 @@ body.portfolio-works {
         font-weight: 500;
     }
 
+    .work-tool-list {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .work-tool {
+        padding: 1px 7px;
+        border-radius: 4px;
+        background: #e3e3e3;
+        color: #111111;
+        font-size: 10px;
+    }
+
     .tag-list {
         display: flex;
         flex-wrap: wrap;
@@ -526,7 +544,11 @@ body.portfolio-works {
         color: #aeb8b4;
 
         span {
-            color: inherit;
+            padding: 1px 7px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            background: #e5e7eb;
+            color: #111111;
             font-size: 10px;
         }
 
