@@ -2,13 +2,29 @@
 
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\Admin\AccountSettingsController;
+use App\Http\Controllers\Admin\CvController;
 use App\Http\Controllers\Admin\WorkController as AdminWorkController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PublicWorkController;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
-Route::view('/about', 'pages.about')->name('about');
+Route::get('/about', static fn () => view('pages.about', [
+	'cvAvailable' => Storage::disk('public')->exists('cv/resume.pdf'),
+]))->name('about');
+Route::get('/cv/view', static function () {
+	abort_unless(Storage::disk('public')->exists('cv/resume.pdf'), 404);
+
+	return Storage::disk('public')->response('cv/resume.pdf', 'Ivan-Kim-Almadin-CV.pdf', [
+		'Content-Type' => 'application/pdf',
+	], 'inline');
+})->name('cv.view');
+Route::get('/cv/download', static function () {
+	abort_unless(Storage::disk('public')->exists('cv/resume.pdf'), 404);
+
+	return Storage::disk('public')->download('cv/resume.pdf', 'Ivan-Kim-Almadin-CV.pdf');
+})->name('cv.download');
 Route::get('/works', [PublicWorkController::class, 'index'])->name('works');
 Route::get('/works/{work}/image', [PublicWorkController::class, 'image'])->name('works.image');
 Route::get('/works/{work}/images/{galleryImage}', [PublicWorkController::class, 'galleryImage'])->name('works.gallery-image');
@@ -24,6 +40,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 	Route::get('/admin', [AdminWorkController::class, 'index'])->name('admin');
 	Route::get('/admin/account-settings', [AccountSettingsController::class, 'edit'])->name('admin.account-settings.edit');
 	Route::put('/admin/account-settings', [AccountSettingsController::class, 'update'])->name('admin.account-settings.update');
+	Route::get('/admin/cv', [CvController::class, 'edit'])->name('admin.cv.edit');
+	Route::put('/admin/cv', [CvController::class, 'update'])->name('admin.cv.update');
 	Route::resource('/admin/works', AdminWorkController::class)
 		->except(['show'])
 		->names('admin.works');

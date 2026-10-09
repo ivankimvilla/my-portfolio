@@ -44,6 +44,18 @@
           <p class="about-role" style="--i:2">Full Stack Developer &amp; UI/UX Designer</p>
           <p class="about-description" style="--i:3">I'm an IT graduate with experience in full-stack web development, AI integration, and AI agent pipelines. I enjoy building modern web applications and creating user-friendly designs that solve real problems.</p>
           <p class="about-description" style="--i:4">I use modern technologies and AI tools to work efficiently, learn quickly, and deliver useful results.</p>
+          @if ($cvAvailable)
+            <div class="about-cv-actions">
+              <a class="about-cv-download" href="{{ route('cv.download') }}" download>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3"/></svg>
+                Download CV
+              </a>
+              <a class="about-cv-view" href="{{ route('cv.view') }}" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                View CV
+              </a>
+            </div>
+          @endif
         </div>
       </div>
 

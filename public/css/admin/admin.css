@@ -919,6 +919,61 @@ body.portfolio-admin .account-settings-form {
     max-width: 720px;
 }
 
+body.portfolio-admin .cv-upload-status {
+    display: grid;
+    gap: 5px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+body.portfolio-admin .cv-upload-status strong {
+    color: var(--text);
+    font-size: 13px;
+}
+
+body.portfolio-admin .cv-preview {
+    max-width: 720px;
+    margin: 20px auto 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+}
+
+body.portfolio-admin .cv-preview header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+body.portfolio-admin .cv-preview h2 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 14px;
+}
+
+body.portfolio-admin .cv-preview a {
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+body.portfolio-admin .cv-preview a:hover {
+    text-decoration: underline;
+}
+
+body.portfolio-admin .cv-preview iframe {
+    display: block;
+    width: 100%;
+    height: min(76vh, 820px);
+    min-height: 520px;
+    border: 0;
+    background: #f5f6f4;
+}
+
 body.portfolio-admin .account-settings-form .work-form-grid {
     gap: 20px;
 }

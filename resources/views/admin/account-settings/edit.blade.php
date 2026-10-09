@@ -4,6 +4,7 @@
       <a class="admin-logo" href="{{ route('admin') }}" aria-label="Works management"><span>IK</span></a>
       <nav aria-label="Admin navigation">
         <a href="{{ route('admin') }}"><span aria-hidden="true">▦</span> Works</a>
+        <a href="{{ route('admin.cv.edit') }}"><span aria-hidden="true">⇩</span> CV</a>
         <a class="selected" href="{{ route('admin.account-settings.edit') }}"><span aria-hidden="true">⚙</span> Account settings</a>
       </nav>
       <form class="admin-logout-form" method="POST" action="{{ route('admin.logout') }}">@csrf<button class="admin-logout-button" type="submit">Sign out</button></form>

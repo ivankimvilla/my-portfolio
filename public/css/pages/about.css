@@ -336,6 +336,58 @@ body.portfolio-about {
         line-height: 1.6;
     }
 
+    .about-cv-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 22px;
+    }
+
+    .about-cv-download,
+    .about-cv-view {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 11px;
+        border: 1px solid var(--green-light);
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        transition: background-color .2s, transform .2s;
+
+        &:hover {
+            transform: translateY(-2px);
+        }
+
+        svg {
+            width: 15px;
+            height: 15px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    }
+
+    .about-cv-download {
+        background: var(--green);
+        color: white;
+
+        &:hover {
+            background: #5cab45;
+        }
+    }
+
+    .about-cv-view {
+        background: transparent;
+        color: var(--accent);
+
+        &:hover {
+            background: #8ad05a14;
+        }
+    }
+
     .about-details {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
