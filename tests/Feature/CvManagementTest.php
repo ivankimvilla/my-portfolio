@@ -1,15 +1,14 @@
 <?php
 
 use App\Models\User;
+use App\Models\Cv;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
     config(['admin.email' => 'admin@example.com']);
-    Storage::fake('public');
 });
 
 function signInAsCvAdmin(): User
@@ -35,7 +34,12 @@ test('admin can upload a cv which appears with view and download actions on the 
     ])->assertRedirect(route('admin.cv.edit'))
         ->assertSessionHas('status', 'CV uploaded successfully.');
 
-    Storage::disk('public')->assertExists('cv/resume.pdf');
+    $this->assertDatabaseHas('cvs', [
+        'id' => 1,
+        'file_name' => 'resume.pdf',
+        'mime_type' => 'application/pdf',
+    ]);
+    $this->assertSame('%PDF-1.4 CV content', Cv::query()->firstOrFail()->file_blob);
     $this->get(route('admin.cv.edit'))
         ->assertOk()
         ->assertSee('Current CV')
@@ -68,7 +72,7 @@ test('admin cv upload accepts only pdf files up to 10 mb', function () {
         'cv' => UploadedFile::fake()->create('resume.pdf', 10_241, 'application/pdf'),
     ])->assertSessionHasErrors('cv');
 
-    Storage::disk('public')->assertMissing('cv/resume.pdf');
+    $this->assertDatabaseCount('cvs', 0);
 });
 
 test('cv download returns not found until a cv has been uploaded', function () {

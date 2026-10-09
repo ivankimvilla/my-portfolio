@@ -6,24 +6,30 @@ use App\Http\Controllers\Admin\CvController;
 use App\Http\Controllers\Admin\WorkController as AdminWorkController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PublicWorkController;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Cv;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/about', static fn () => view('pages.about', [
-	'cvAvailable' => Storage::disk('public')->exists('cv/resume.pdf'),
+	'cvAvailable' => Cv::query()->exists(),
 ]))->name('about');
 Route::get('/cv/view', static function () {
-	abort_unless(Storage::disk('public')->exists('cv/resume.pdf'), 404);
+	$cv = Cv::query()->first();
+	abort_unless($cv, 404);
 
-	return Storage::disk('public')->response('cv/resume.pdf', 'Ivan-Kim-Almadin-CV.pdf', [
-		'Content-Type' => 'application/pdf',
-	], 'inline');
+	return response($cv->file_blob, 200, [
+		'Content-Type' => $cv->mime_type,
+		'Content-Disposition' => 'inline; filename=Ivan-Kim-Almadin-CV.pdf',
+	]);
 })->name('cv.view');
 Route::get('/cv/download', static function () {
-	abort_unless(Storage::disk('public')->exists('cv/resume.pdf'), 404);
+	$cv = Cv::query()->first();
+	abort_unless($cv, 404);
 
-	return Storage::disk('public')->download('cv/resume.pdf', 'Ivan-Kim-Almadin-CV.pdf');
+	return response($cv->file_blob, 200, [
+		'Content-Type' => $cv->mime_type,
+		'Content-Disposition' => 'attachment; filename=Ivan-Kim-Almadin-CV.pdf',
+	]);
 })->name('cv.download');
 Route::get('/works', [PublicWorkController::class, 'index'])->name('works');
 Route::get('/works/{work}/image', [PublicWorkController::class, 'image'])->name('works.image');
