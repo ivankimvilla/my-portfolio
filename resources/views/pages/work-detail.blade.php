@@ -21,7 +21,7 @@
     @if ($work->galleryImages->isNotEmpty())
       <div class="work-detail-gallery" aria-label="More project images">
         @foreach ($work->galleryImages as $index => $galleryImage)
-          <figure><img src="{{ route('works.gallery-image', [$work, $galleryImage]) }}" alt="{{ $work->title }} image {{ $index + 2 }}" loading="lazy"></figure>
+          <figure><img src="{{ route('works.gallery-image', [$work, $galleryImage]) }}" alt="{{ $work->title }} image {{ $index + 2 }}" width="1200" height="900" loading="lazy"></figure>
         @endforeach
       </div>
     @endif

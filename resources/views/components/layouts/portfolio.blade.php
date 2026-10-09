@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/components/site-footer.css') }}">
   @if ($pageCss)
-    <link rel="stylesheet" href="{{ asset($pageCss) }}">
+    <link rel="stylesheet" href="{{ asset($pageCss) }}?v={{ filemtime(public_path($pageCss)) }}">
   @endif
   @if ($showHeader)
     <link rel="stylesheet" href="{{ asset('css/components/site-header.css') }}">

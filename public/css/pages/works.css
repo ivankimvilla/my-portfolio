@@ -805,7 +805,8 @@ body.portfolio-works .work-detail-image img {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
 }
 
 body.portfolio-works .work-detail-gallery {
@@ -828,7 +829,9 @@ body.portfolio-works .work-detail-gallery img {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    aspect-ratio: 4 / 3;
+    object-fit: contain;
+    object-position: center;
 }
 
 body.portfolio-works .work-detail-content h1 {

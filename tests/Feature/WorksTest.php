@@ -264,7 +264,8 @@ test('work details show supplementary images and serve them with publication acc
 
     $this->get(route('works.show', $work))
         ->assertOk()
-        ->assertSee(route('works.gallery-image', [$work, $galleryImage]), false);
+        ->assertSee(route('works.gallery-image', [$work, $galleryImage]), false)
+        ->assertSee('width="1200" height="900" loading="lazy"', false);
 
     $this->get(route('works.gallery-image', [$work, $galleryImage]))
         ->assertOk()
